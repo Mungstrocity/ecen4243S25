@@ -90,7 +90,8 @@ module riscvsingle (input  logic        clk, reset,
    logic [1:0] 				ResultSrc;  // separated from ImmSrc declaration - KM
    logic [2:0]        ImmSrc;     // 3-bit - KM
    logic [2:0] 				ALUControl;
-   
+  
+
    controller c (Instr[6:0], Instr[14:12], Instr[30], Zero,
 		 ResultSrc, MemWrite, PCSrc,
 		 ALUSrc, RegWrite, Jump,
@@ -211,7 +212,7 @@ module datapath (input  logic        clk, reset,
    // ALU logic
    mux2 #(32)  srcbmux (WriteData, ImmExt, ALUSrc, SrcB);
    alu  alu (SrcA, SrcB, ALUControl, ALUResult, Zero);
-   mux4 #(32) resultmux (ALUResult, ReadData, PCPlus4, immext, ResultSrc, Result);  //Updated to MUX4 added immext as input KM
+   mux4 #(32) resultmux (ALUResult, ReadData, PCPlus4, ImmExt, ResultSrc, Result);  //Updated to MUX4 added immext as input KM
 
 endmodule // datapath
 
