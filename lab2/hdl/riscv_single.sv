@@ -58,14 +58,9 @@ module testbench();
      end
 
    // check results
-   always @(negedge clk)module mux3 #(parameter WIDTH = 8)
-   (input  logic [WIDTH-1:0] d0, d1, d2,
-    input logic [1:0] 	     s,
-    output logic [WIDTH-1:0] y);
+   always @(negedge clk)
    
-  assign y = s[1] ? d2 : (s[0] ? d1 : d0);
-   
-endmodule // mux3
+
      begin
 	if(MemWrite) begin
            if(DataAdr === 100 & WriteData === 25) begin
@@ -285,7 +280,7 @@ module mux3 #(parameter WIDTH = 8)
 endmodule // mux3
 
 module mux4 #(parameter WIDTH = 8)                //FINISH IMPLEMENTING MUX4
-   (input  logic [WIDTH-1:0] d0, d1, d2, d3
+   (input  logic [WIDTH-1:0] d0, d1, d2, d3,
     input logic [1:0] 	     s,
     output logic [WIDTH-1:0] y);
    
