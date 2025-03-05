@@ -1,0 +1,22 @@
+Ensure You Are in the Correct Directory:
+cd /path/to/your/local/repository
+
+Fetch Updates from Upstream:
+git fetch upstream
+
+Rebase Your Branch onto the Upstream Main Branch:
+git checkout KMJW_lab_Mondays
+git rebase upstream/main
+
+Resolve Any Conflicts:
+If there are any conflicts, resolve them and continue the rebase.
+git add .
+git rebase --continue
+
+Push the Rebased Branch to Your Fork:
+git push -f myfork KMJW_lab_Mondays
+
+By following these steps, you will ensure that your branch is up-to-date
+with the latest changes from the original repository while preserving your
+own changes. This process will help you keep your fork synchronized with
+the upstream repository.
