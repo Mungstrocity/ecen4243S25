@@ -114,7 +114,7 @@ module controller (input  logic [6:0] op,
 		   output logic       RegWrite, Jump,
 		   output logic [2:0] ImmSrc,           //3-bit - KM
 		   output logic [2:0] ALUControl);
-   
+   //some change//
    logic [1:0] 			      ALUOp;
    logic 			      Branch;
    
