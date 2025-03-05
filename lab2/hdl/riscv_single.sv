@@ -58,7 +58,14 @@ module testbench();
      end
 
    // check results
-   always @(negedge clk)
+   always @(negedge clk)module mux3 #(parameter WIDTH = 8)
+   (input  logic [WIDTH-1:0] d0, d1, d2,
+    input logic [1:0] 	     s,
+    output logic [WIDTH-1:0] y);
+   
+  assign y = s[1] ? d2 : (s[0] ? d1 : d0);
+   
+endmodule // mux3
      begin
 	if(MemWrite) begin
            if(DataAdr === 100 & WriteData === 25) begin
@@ -80,7 +87,8 @@ module riscvsingle (input  logic        clk, reset,
 		    input  logic [31:0] ReadData);
    
    logic 				ALUSrc, RegWrite, Jump, Zero;
-   logic [1:0] 				ResultSrc, ImmSrc;
+   logic [1:0] 				ResultSrc;  // separated from ImmSrc declaration - KM
+   logic [2:0]        ImmSrc;     // 3-bit - KM
    logic [2:0] 				ALUControl;
    
    controller c (Instr[6:0], Instr[14:12], Instr[30], Zero,
@@ -103,7 +111,7 @@ module controller (input  logic [6:0] op,
 		   output logic       MemWrite,
 		   output logic       PCSrc, ALUSrc,
 		   output logic       RegWrite, Jump,
-		   output logic [1:0] ImmSrc,
+		   output logic [2:0] ImmSrc,           //3-bit - KM
 		   output logic [2:0] ALUControl);
    
    logic [1:0] 			      ALUOp;
@@ -121,10 +129,10 @@ module maindec (input  logic [6:0] op,
 		output logic 	   MemWrite,
 		output logic 	   Branch, ALUSrc,
 		output logic 	   RegWrite, Jump,
-		output logic [1:0] ImmSrc,
+		output logic [2:0] ImmSrc,       //3-bit - KM
 		output logic [1:0] ALUOp);
    
-   logic [10:0] 		   controls;
+   logic [11:0] 		   controls;
    
    assign {RegWrite, ImmSrc, ALUSrc, MemWrite,
 	   ResultSrc, Branch, ALUOp, Jump} = controls;
@@ -132,13 +140,14 @@ module maindec (input  logic [6:0] op,
    always_comb
      case(op)
        // RegWrite_ImmSrc_ALUSrc_MemWrite_ResultSrc_Branch_ALUOp_Jump
-       7'b0000011: controls = 11'b1_00_1_0_01_0_00_0; // lw
-       7'b0100011: controls = 11'b0_01_1_1_00_0_00_0; // sw
-       7'b0110011: controls = 11'b1_xx_0_0_00_0_10_0; // R–type
-       7'b1100011: controls = 11'b0_10_0_0_00_1_01_0; // beq
-       7'b0010011: controls = 11'b1_00_1_0_00_0_10_0; // I–type ALU
-       7'b1101111: controls = 11'b1_11_0_0_10_0_00_1; // jal
-       default: controls = 11'bx_xx_x_x_xx_x_xx_x; // ???
+       7'b0000011: controls = 12'b1_000_1_0_01_0_00_0; // lw             ///CHECK IF LW IS CORRECT debug   //Changed all ImmSrc to 3-bit - KM
+       7'b0100011: controls = 12'b0_001_1_1_00_0_00_0; // sw
+       7'b0110011: controls = 12'b1_xxx_0_0_00_0_10_0; // R–type
+       7'b1100011: controls = 12'b0_010_0_0_00_1_01_0; // beq
+       7'b0010011: controls = 12'b1_000_1_0_00_0_10_0; // I–type ALU
+       7'b1101111: controls = 12'b1_011_0_0_10_0_00_1; // jal
+       7'b0110111: controls = 12'b1_100_1_0_00_0_00_0; // lui        //ResutlSrc = 11 for lui //IGNOR=> //guess ALUop ResultsSrc       //Added lui - KM   //WE HAVE TO either circumvent the ALU for lui operation or get regfile to always output 0 for lui operation.
+       default: controls = 12'bx_xxx_x_x_xx_x_xx_x; // ???
      endcase // case (op)
    
 endmodule // maindec
@@ -164,6 +173,9 @@ module aludec (input  logic       opb5,
 		  3'b010: ALUControl = 3'b101; // slt, slti
 		  3'b110: ALUControl = 3'b011; // or, ori
 		  3'b111: ALUControl = 3'b010; // and, andi
+      3'b100: ALUControl = 3'b100; // xor, xori    /// ADDED KM
+
+
 		  default: ALUControl = 3'bxxx; // ???
 		endcase // case (funct3)       
      endcase // case (ALUOp)
@@ -174,7 +186,7 @@ module datapath (input  logic        clk, reset,
 		 input  logic [1:0]  ResultSrc,
 		 input  logic 	     PCSrc, ALUSrc,
 		 input  logic 	     RegWrite,
-		 input  logic [1:0]  ImmSrc,
+		 input  logic [2:0]  ImmSrc,      //3-bit - KM
 		 input  logic [2:0]  ALUControl,
 		 output logic 	     Zero,
 		 output logic [31:0] PC,
@@ -199,7 +211,7 @@ module datapath (input  logic        clk, reset,
    // ALU logic
    mux2 #(32)  srcbmux (WriteData, ImmExt, ALUSrc, SrcB);
    alu  alu (SrcA, SrcB, ALUControl, ALUResult, Zero);
-   mux3 #(32) resultmux (ALUResult, ReadData, PCPlus4,ResultSrc, Result);
+   mux4 #(32) resultmux (ALUResult, ReadData, PCPlus4, immext, ResultSrc, Result);  //Updated to MUX4 added immext as input KM
 
 endmodule // datapath
 
@@ -211,20 +223,22 @@ module adder (input  logic [31:0] a, b,
 endmodule
 
 module extend (input  logic [31:7] instr,
-	       input  logic [1:0]  immsrc,
+	       input  logic [2:0]  immsrc,      //3-bit instead of 2 - KM
 	       output logic [31:0] immext);
    
    always_comb
      case(immsrc)
        // I−type
-       2'b00:  immext = {{20{instr[31]}}, instr[31:20]};
+       2'b000:  immext = {{20{instr[31]}}, instr[31:20]};
        // S−type (stores)
-       2'b01:  immext = {{20{instr[31]}}, instr[31:25], instr[11:7]};
+       2'b001:  immext = {{20{instr[31]}}, instr[31:25], instr[11:7]};
        // B−type (branches)
-       2'b10:  immext = {{20{instr[31]}}, instr[7], instr[30:25], instr[11:8], 1'b0};       
+       2'b010:  immext = {{20{instr[31]}}, instr[7], instr[30:25], instr[11:8], 1'b0};       
        // J−type (jal)
-       2'b11:  immext = {{12{instr[31]}}, instr[19:12], instr[20], instr[30:21], 1'b0};
-       default: immext = 32'bx; // undefined
+       2'b011:  immext = {{12{instr[31]}}, instr[19:12], instr[20], instr[30:21], 1'b0};
+       // U-Type (uppers)
+       2'b100:  immext = {instr[31:12], {12'b0}};    //lui //Added U-Type - KM
+       default: immext = 32'bx; // undefined 
      endcase // case (immsrc)
    
 endmodule // extend
@@ -269,6 +283,15 @@ module mux3 #(parameter WIDTH = 8)
    
 endmodule // mux3
 
+module mux4 #(parameter WIDTH = 8)                //FINISH IMPLEMENTING MUX4
+   (input  logic [WIDTH-1:0] d0, d1, d2, d3
+    input logic [1:0] 	     s,
+    output logic [WIDTH-1:0] y);
+   
+  assign y = s[1] ? d2 : (s[0] ? d1 : d0);     //Update Logic  KM
+   
+endmodule // mux4
+
 module top (input  logic        clk, reset,
 	    output logic [31:0] WriteData, DataAdr,
 	    output logic 	MemWrite);
@@ -286,7 +309,7 @@ endmodule // top
 module imem (input  logic [31:0] a,
 	     output logic [31:0] rd);
    
-   logic [31:0] 		 RAM[63:0];
+   logic [31:0] 		 RAM[1023:0];
    
    assign rd = RAM[a[31:2]]; // word aligned
    
@@ -324,7 +347,9 @@ module alu (input  logic [31:0] a, b,
        3'b001:  result = sum;         // subtract
        3'b010:  result = a & b;       // and
        3'b011:  result = a | b;       // or
-       3'b101:  result = sum[31] ^ v; // slt       
+       3'b101:  result = sum[31] ^ v; // slt 
+       3'b100:  result = a ^ b; //xor, xori  //ADDED
+      //do not put lui in ALU, circumvent ALU for lui instruction           //lui      //lui always returns 0 - KM     
        default: result = 32'bx;
      endcase
 
