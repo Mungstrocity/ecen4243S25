@@ -1,45 +1,80 @@
+# //  Questa Sim-64
+# //  Version 2023.4 win64 Oct  9 2023
+# //
+# //  Copyright 1991-2023 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  QuestaSim and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
 # do riscv_single.do
-# ** Warning: (vdel-134) Unable to remove locked optimized design "_opt".  Locker is jstine@sakuya.ecen.okstate.edu.
-# ** Warning: (vlib-34) Library already exists at "work".
-# Errors: 0, Warnings: 1
-# QuestaSim-64 vlog 2024.3_2 Compiler 2024.11 Nov 25 2024
-# Start time: 16:36:47 on Mar 03,2025
-# vlog riscv_single.sv 
+# Error 133: Unable to remove directory "C:/Users/jaret/OneDrive - Oklahoma A and M System/Current Classes/Computer Architecture/Labs/ecen4243S25/lab2/hdl/work/_dbcontainer/#64_opt".
+# Error 133: Unable to remove directory "C:/Users/jaret/OneDrive - Oklahoma A and M System/Current Classes/Computer Architecture/Labs/ecen4243S25/lab2/hdl/work/_dbcontainer".
+# Error 133: Unable to remove directory "C:/Users/jaret/OneDrive - Oklahoma A and M System/Current Classes/Computer Architecture/Labs/ecen4243S25/lab2/hdl/work".
+# QuestaSim-64 vlog 2023.4 Compiler 2023.10 Oct  9 2023
+# Start time: 15:51:31 on Mar 05,2025
+# vlog -reportprogress 300 riscv_single.sv 
 # -- Compiling module testbench
 # -- Compiling module riscvsingle
 # -- Compiling module controller
 # -- Compiling module maindec
-# ** Warning: riscv_single.sv(136): (vlog-2600) [RDGN] - Redundant digits in numeric literal.
-# ** Warning: riscv_single.sv(137): (vlog-2600) [RDGN] - Redundant digits in numeric literal.
-# ** Warning: riscv_single.sv(138): (vlog-2600) [RDGN] - Redundant digits in numeric literal.
-# ** Warning: riscv_single.sv(139): (vlog-2600) [RDGN] - Redundant digits in numeric literal.
-# ** Warning: riscv_single.sv(140): (vlog-2600) [RDGN] - Redundant digits in numeric literal.
-# ** Warning: riscv_single.sv(141): (vlog-2600) [RDGN] - Redundant digits in numeric literal.
-# ** Warning: riscv_single.sv(142): (vlog-2600) [RDGN] - Redundant digits in numeric literal.
-# ** Warning: riscv_single.sv(143): (vlog-2600) [RDGN] - Redundant digits in numeric literal.
 # -- Compiling module aludec
 # -- Compiling module datapath
 # -- Compiling module adder
 # -- Compiling module extend
-# ** Warning: riscv_single.sv(225): (vlog-2600) [RDGN] - Redundant digits in numeric literal.
-# ** Warning: riscv_single.sv(227): (vlog-2600) [RDGN] - Redundant digits in numeric literal.
-# ** Warning: riscv_single.sv(229): (vlog-2600) [RDGN] - Redundant digits in numeric literal.
-# ** Warning: riscv_single.sv(231): (vlog-2600) [RDGN] - Redundant digits in numeric literal.
-# ** Warning: riscv_single.sv(233): (vlog-2600) [RDGN] - Redundant digits in numeric literal.
 # -- Compiling module flopr
 # -- Compiling module flopenr
 # -- Compiling module mux2
 # -- Compiling module mux3
+# -- Compiling module mux4
 # -- Compiling module top
 # -- Compiling module imem
 # -- Compiling module dmem
 # -- Compiling module alu
-# ** Error: (vlog-13057) riscv_single.sv(336): near "[end of file]": Expecting numeric digits.
 # -- Compiling module regfile
-# End time: 16:36:47 on Mar 03,2025, Elapsed time: 0:00:00
-# Errors: 1, Warnings: 13
-# ** Error: /opt/questasim/linux_x86_64/vlog failed.
-# Error in macro ./riscv_single.do line 30
-# /opt/questasim/linux_x86_64/vlog failed.
-#     while executing
-# "vlog riscv_single.sv"
+# 
+# Top level modules:
+# 	testbench
+# 	flopenr
+# 	mux3
+# End time: 15:51:31 on Mar 05,2025, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vsim -debugdb -voptargs="+acc" work.testbench 
+# Start time: 15:51:31 on Mar 05,2025
+# ** Note: (vsim-3812) Design is being optimized...
+# ** Note: (vsim-8611) Generating debug db.
+# ** Warning: (vopt-10587) Some optimizations are turned off because the +acc switch is in effect. This will cause your simulation to run slowly. Please use -access/-debug to maintain needed visibility.
+# ** Note: (vopt-4301) Memory core inferred for signal 'RAM' width=32, depth=256, type=RAM at location riscv_single.sv:315
+# ** Note: (vsim-12126) Error and warning message counts have been restored: Errors=0, Warnings=1.
+# Loading sv_std.std
+# Loading work.testbench(fast)
+# Loading work.top(fast)
+# Loading work.riscvsingle(fast)
+# Loading work.controller(fast)
+# Loading work.maindec(fast)
+# Loading work.aludec(fast)
+# Loading work.datapath(fast)
+# Loading work.flopr(fast)
+# Loading work.adder(fast)
+# Loading work.mux2(fast)
+# Loading work.regfile(fast)
+# Loading work.extend(fast)
+# Loading work.alu(fast)
+# Loading work.mux4(fast)
+# Loading work.imem(fast)
+# Loading work.dmem(fast)
+# ** Warning: (vsim-3015) [PCDPC] - Port size (32) does not match connection size (1) for port 'd3'. The port definition is at: riscv_single.sv(280).
+#    Time: 0 ns  Iteration: 0  Instance: /testbench/dut/rv32single/dp/resultmux File: riscv_single.sv Line: 207
+# ** Note: (vsim-8900) Creating design debug database vsim.dbg.
+# ** Error: (vsim-8357) Internal debugDB error id:ct1  ret:1 table context_tbl already exists
+# Simulation succeeded
+# ** Note: $stop    : riscv_single.sv(66)
+#    Time: 195 ns  Iteration: 1  Instance: /testbench
+# Break in Module testbench at riscv_single.sv line 66
+# Debug data file does not match loaded design.
+# Debug data file does not match loaded design.

@@ -1,0 +1,8 @@
+Headless
+vsim -do <filename.do> -c
+vsim -do riscv_single.do -c
+
+GUI
+vsim -do <filename.do>
+vsim -do riscv_single.do
+
