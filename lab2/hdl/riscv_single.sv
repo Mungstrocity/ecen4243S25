@@ -27,49 +27,49 @@
 
 module testbench();
 
-logic        clk;
-logic        reset;
+  logic        clk;
+  logic        reset;
 
-logic [31:0] WriteData;
-logic [31:0] DataAdr;
-logic        MemWrite;
+  logic [31:0] WriteData;
+  logic [31:0] DataAdr;
+  logic        MemWrite;
 
-// instantiate device to be tested
-top dut(clk, reset, WriteData, DataAdr, MemWrite);
+  // instantiate device to be tested
+  top dut(clk, reset, WriteData, DataAdr, MemWrite);
 
-initial
-  begin
-    string memfilename;
-      memfilename = {"../riscvtest/riscvtest.memfile"};
-      $readmemh(memfilename, dut.imem.RAM);
-  end
+  initial
+    begin
+      string memfilename;
+        memfilename = {"../riscvtest/riscvtest.memfile"};
+        $readmemh(memfilename, dut.imem.RAM);
+    end
 
 
 // initialize test
-initial
-  begin
-    reset <= 1; # 22; reset <= 0;
-  end
+  initial
+    begin
+      reset <= 1; # 22; reset <= 0;
+    end
 
-// generate clock to sequence tests
-always
-  begin
-    clk <= 1; # 5; clk <= 0; # 5;
-  end
+  // generate clock to sequence tests
+  always
+    begin
+      clk <= 1; # 5; clk <= 0; # 5;
+    end
 
-// check results
-always @(negedge clk)
-  begin
-    if(MemWrite) begin
-      if(DataAdr === 100 & WriteData === 25) begin
-        $display("Simulation succeeded");
-        $stop;
-      end else if (DataAdr !== 96) begin
-        $display("Simulation failed");
-        $stop;
+  // check results
+  always @(negedge clk)
+    begin
+      if(MemWrite) begin
+        if(DataAdr === 100 & WriteData === 25) begin
+          $display("Simulation succeeded");
+          $stop;
+        end else if (DataAdr !== 96) begin
+          $display("Simulation failed");
+          $stop;
+        end
       end
     end
-  end
 endmodule // testbench
 
 module riscvsingle (input  logic        clk, reset,
@@ -84,15 +84,15 @@ module riscvsingle (input  logic        clk, reset,
   logic [2:0]        ImmSrc;     // 3-bit - KM
   logic [2:0] 				ALUControl;
 
-controller c (Instr[6:0], Instr[14:12], Instr[30], Zero,
-  ResultSrc, MemWrite, PCSrc,
-  ALUSrc, RegWrite, Jump,
-  ImmSrc, ALUControl);
-datapath dp (clk, reset, ResultSrc, PCSrc,
-  ALUSrc, RegWrite,
-  ImmSrc, ALUControl,
-  Zero, PC, Instr,
-  ALUResult, WriteData, ReadData);
+  controller c (Instr[6:0], Instr[14:12], Instr[30], Zero,
+    ResultSrc, MemWrite, PCSrc,
+    ALUSrc, RegWrite, Jump,
+    ImmSrc, ALUControl);
+  datapath dp (clk, reset, ResultSrc, PCSrc,
+    ALUSrc, RegWrite,
+    ImmSrc, ALUControl,
+    Zero, PC, Instr,
+    ALUResult, WriteData, ReadData);
 
 endmodule // riscvsingle
 
@@ -209,7 +209,7 @@ endmodule // datapath
 module adder (input  logic [31:0] a, b,
             output logic [31:0] y);
 
-assign y = a + b;
+  assign y = a + b;
 
 endmodule
 
@@ -292,8 +292,8 @@ module mux4 #(parameter WIDTH = 8)                //FINISH IMPLEMENTING MUX4
 endmodule // mux4
 
 module top (input  logic        clk, reset,
-      output logic [31:0] WriteData, DataAdr,
-      output logic 	MemWrite);
+            output logic [31:0] WriteData, DataAdr,
+            output logic 	MemWrite);
 
   logic [31:0] 		PC, Instr, ReadData;
 

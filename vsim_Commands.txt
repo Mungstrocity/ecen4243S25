@@ -6,3 +6,13 @@ GUI
 vsim -do <filename.do>
 vsim -do riscv_single.do
 
+
+Issues:
+Certain errors can be fixed by deleting the work file. If your design can't compile try this.
+In the directory where you run your *.d0 file, if no work file exists, one is generated when
+you run the commands above. Delete this folder. It won't break anything. The .do file deletes
+everytime it runs and the file is already there.
+
+Schematic won't load:
+    Delete the debug file, vsim.dbg
+
