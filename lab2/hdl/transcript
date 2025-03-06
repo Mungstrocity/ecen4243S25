@@ -13,8 +13,15 @@
 # //  18 U.S.C. Section 1905.
 # //
 # do riscv_single.do
+# Error 133: Unable to remove directory "C:/Users/jaret/OneDrive - Oklahoma A and M System/Current Classes/Computer Architecture/Labs/ecen4243S25/lab2/hdl/work/@_opt/_data".
+# Error 133: Unable to remove directory "C:/Users/jaret/OneDrive - Oklahoma A and M System/Current Classes/Computer Architecture/Labs/ecen4243S25/lab2/hdl/work/@_opt".
+# Error 133: Unable to remove directory "C:/Users/jaret/OneDrive - Oklahoma A and M System/Current Classes/Computer Architecture/Labs/ecen4243S25/lab2/hdl/work/_dbcontainer/#64_opt".
+# Error 133: Unable to remove directory "C:/Users/jaret/OneDrive - Oklahoma A and M System/Current Classes/Computer Architecture/Labs/ecen4243S25/lab2/hdl/work/_dbcontainer".
+# Error 133: Unable to remove directory "C:/Users/jaret/OneDrive - Oklahoma A and M System/Current Classes/Computer Architecture/Labs/ecen4243S25/lab2/hdl/work/_temp".
+# Error 133: Unable to remove directory "C:/Users/jaret/OneDrive - Oklahoma A and M System/Current Classes/Computer Architecture/Labs/ecen4243S25/lab2/hdl/work/_tempmsg".
+# Error 133: Unable to remove directory "C:/Users/jaret/OneDrive - Oklahoma A and M System/Current Classes/Computer Architecture/Labs/ecen4243S25/lab2/hdl/work".
 # QuestaSim-64 vlog 2023.4 Compiler 2023.10 Oct  9 2023
-# Start time: 18:03:24 on Mar 05,2025
+# Start time: 18:18:28 on Mar 05,2025
 # vlog -reportprogress 300 riscv_single.sv 
 # -- Compiling module testbench
 # -- Compiling module riscvsingle
@@ -39,38 +46,22 @@
 # 	testbench
 # 	flopenr
 # 	mux3
-# End time: 18:03:24 on Mar 05,2025, Elapsed time: 0:00:00
+# End time: 18:18:29 on Mar 05,2025, Elapsed time: 0:00:01
 # Errors: 0, Warnings: 0
 # vsim -debugdb -voptargs="+acc" work.testbench 
-# Start time: 18:03:24 on Mar 05,2025
+# Start time: 18:18:29 on Mar 05,2025
 # ** Note: (vsim-3812) Design is being optimized...
 # ** Note: (vsim-8611) Generating debug db.
 # ** Warning: (vopt-10587) Some optimizations are turned off because the +acc switch is in effect. This will cause your simulation to run slowly. Please use -access/-debug to maintain needed visibility.
-# ** Note: (vopt-4301) Memory core inferred for signal 'RAM' width=32, depth=256, type=RAM at location riscv_single.sv:321
-# ** Note: (vsim-12126) Error and warning message counts have been restored: Errors=0, Warnings=1.
-# Loading sv_std.std
-# Loading work.testbench(fast)
-# Loading work.top(fast)
-# Loading work.riscvsingle(fast)
-# Loading work.controller(fast)
-# Loading work.maindec(fast)
-# Loading work.aludec(fast)
-# Loading work.datapath(fast)
-# Loading work.flopr(fast)
-# Loading work.adder(fast)
-# Loading work.mux2(fast)
-# Loading work.regfile(fast)
-# Loading work.extend(fast)
-# Loading work.alu(fast)
-# Loading work.mux4(fast)
-# Loading work.imem(fast)
-# Loading work.dmem(fast)
-# ** Warning: (vsim-3015) [PCDPC] - Port size (32) does not match connection size (1) for port 'd3'. The port definition is at: riscv_single.sv(279).
-#    Time: 0 ns  Iteration: 0  Instance: /testbench/dut/rv32single/dp/resultmux File: riscv_single.sv Line: 205
-# ** Note: (vsim-8900) Creating design debug database vsim.dbg.
-# Simulation succeeded
-# ** Note: $stop    : riscv_single.sv(66)
-#    Time: 195 ns  Iteration: 1  Instance: /testbench
-# Break in Module testbench at riscv_single.sv line 66
-# End time: 18:10:12 on Mar 05,2025, Elapsed time: 0:06:48
-# Errors: 0, Warnings: 2
+# ** Error: (vopt-7) Failed to open  file "C:/Users/jaret/OneDrive - Oklahoma A and M System/Current Classes/Computer Architecture/Labs/ecen4243S25/lab2/hdl/work/@_opt/_deps" in read mode.
+# File exists. (errno = EEXIST)
+# ** Warning: (vopt-56) Problem with optimized design dependency file "C:/Users/jaret/OneDrive - Oklahoma A and M System/Current Classes/Computer Architecture/Labs/ecen4243S25/lab2/hdl/work/@_opt/_deps" - file open failed.
+# No such file or directory. (errno = ENOENT)
+# ** Fatal: (vopt-8) Problem while reading dependency file "_deps".
+# No such file or directory. (errno = ENOENT)
+# Vopt Compiler exiting
+# ** Note: (vsim-12126) Error and warning message counts have been restored: Errors=2, Warnings=2.
+# Error loading design
+# Error: Error loading design
+#        Pausing macro execution
+# MACRO ./riscv_single.do PAUSED at line 33
