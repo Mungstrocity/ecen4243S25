@@ -13,6 +13,9 @@ In the directory where you run your *.d0 file, if no work file exists, one is ge
 you run the commands above. Delete this folder. It won't break anything. The .do file deletes
 everytime it runs and the file is already there.
 
+You can also delete the transcript file. This is another generated file. It has no extension
+but it is a markup file that is replaced on the next run.
+
 Schematic won't load:
     Delete the debug file, vsim.dbg
 
