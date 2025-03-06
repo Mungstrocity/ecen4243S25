@@ -6,8 +6,6 @@ GUI
 vsim -do <filename.do>
 vsim -do riscv_single.do
 
-<<<<<<< HEAD
-
 Issues:
 Certain errors can be fixed by deleting the work file. If your design can't compile try this.
 In the directory where you run your *.d0 file, if no work file exists, one is generated when
@@ -20,5 +18,6 @@ but it is a markup file that is replaced on the next run.
 Schematic won't load:
     Delete the debug file, vsim.dbg
 
-=======
->>>>>>> f5f1efc (Added mux4 logic to riscv_single.sv)
+Schematic won't load:
+    Delete the debug file, vsim.dbg
+
