@@ -78,7 +78,7 @@ module riscvsingle (input  logic        clk, reset,
 		    output logic 	MemWrite,
 		    output logic [31:0] ALUResult, WriteData,
 		    input  logic [31:0] ReadData);
-   
+  
    logic 				ALUSrc, RegWrite, Jump, Zero;
    logic [1:0] 				ResultSrc, ImmSrc;
    logic [2:0] 				ALUControl;
