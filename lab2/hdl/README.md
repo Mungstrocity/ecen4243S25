@@ -9,6 +9,9 @@ or
 
 vsim -do riscv_single.do
 
+# XOR
+## update ALU encoding
+
 
 
 
