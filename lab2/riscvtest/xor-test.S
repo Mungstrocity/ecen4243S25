@@ -9,11 +9,11 @@
 __start:
 
     # Generate pseudo-random values using arithmetic operations
-    addi t0, zero, -1    # t0 = 0xFFFFFFFF (-1 in signed representation)
-    addi t1, zero, 3     # t1 = 3 (small nonzero value)
-    add t0, t0, t1       # t0 = 0xFFFFFFFF + 3 = 0x00000002 
-    sub t1, t0, t1       # t1 = t0 - 3 (introduces variation)
-    xor t1, t1, t0       # Further scramble t1 with XOR
+    addi t0, zero, -1    # t0 = -1; 0xFFFFFFFF (-1 in signed representation)
+    addi t1, zero, 3     # t1 =  3;  (small nonzero value)
+    add t0, t0, t1       # t0 =  2; 1 + 3 = 2, 0xFFFFFFFF + 3 = 0x00000002 
+    sub t1, t0, t1       # t1 = -1; t0 - 3 (introduces variation) 2 - 3 = -1
+    xor t1, t1, t0       # t1 = -3; Further scramble t1 with XOR
 
     # Perform XOR test
     xor t2, t0, t1       # t2 = t0 \oplus t1
