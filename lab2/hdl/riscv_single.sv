@@ -34,15 +34,15 @@
 
 module testbench();
 
-  logic        clk;
-  logic        reset;
+   logic        clk;
+   logic        reset;
 
-  logic [31:0] WriteData;
-  logic [31:0] DataAdr;
-  logic        MemWrite;
+   logic [31:0] WriteData;
+   logic [31:0] DataAdr;
+   logic        MemWrite;
 
-  // instantiate device to be tested
-  top dut(clk, reset, WriteData, DataAdr, MemWrite);
+   // instantiate device to be tested
+   top dut(clk, reset, WriteData, DataAdr, MemWrite);
 
    initial
      begin
@@ -70,56 +70,55 @@ initial
       $readmemh(memfilename, dut.imem.RAM);
   end
 
+   
+   // initialize test
+   initial
+     begin
+	reset <= 1; # 22; reset <= 0;
+     end
 
-// initialize test
-  initial
-    begin
-      reset <= 1; # 22; reset <= 0;
-    end
+   // generate clock to sequence tests
+   always
+     begin
+	clk <= 1; # 5; clk <= 0; # 5;
+     end
 
-  // generate clock to sequence tests
-  always
-    begin
-      clk <= 1; # 5; clk <= 0; # 5;
-    end
-
-  // check results
-  always @(negedge clk)
-    begin
-      if(MemWrite) begin
-        if(DataAdr === 100 & WriteData === 25) begin
-          $display("Simulation succeeded");
-          $stop;
-        end else if (DataAdr !== 96) begin
-          $display("Simulation failed");
-          $stop;
-        end
-      end
-    end
+   // check results
+   always @(negedge clk)
+     begin
+	if(MemWrite) begin
+           if(DataAdr === 100 & WriteData === 25) begin
+              $display("Simulation succeeded");
+              $stop;
+           end else if (DataAdr !== 96) begin
+              $display("Simulation failed");
+              $stop;
+           end
+	end
+     end
 endmodule // testbench
 
 module riscvsingle (input  logic        clk, reset,
-      output logic [31:0] PC,
-      input  logic [31:0] Instr,
-      output logic 	MemWrite,
-      output logic [31:0] ALUResult, WriteData,
-      input  logic [31:0] ReadData);
-
-  logic 				ALUSrc, RegWrite, Jump, Zero;
-  logic [1:0] 				ResultSrc;  // separated from ImmSrc declaration - KM
-  logic [2:0]        ImmSrc;     // 3-bit - KM
-  logic [2:0] 				ALUControl;
-
-  controller c (Instr[6:0], Instr[14:12], Instr[30], Zero,
-    ResultSrc, MemWrite, PCSrc,
-    ALUSrc, RegWrite, Jump,
-    ImmSrc, ALUControl);
-  datapath dp (clk, reset, ResultSrc, PCSrc,
-    ALUSrc, RegWrite,
-    ImmSrc, ALUControl,
-    Zero, PC, Instr,
-    ALUResult, WriteData, ReadData);
-
+		    output logic [31:0] PC,
+		    input  logic [31:0] Instr,
+		    output logic 	MemWrite,
+		    output logic [31:0] ALUResult, WriteData,
+		    input  logic [31:0] ReadData);
+  
+   logic 				ALUSrc, RegWrite, Jump, Zero;
+   logic [1:0] 				ResultSrc, ImmSrc;
+   logic [2:0] 				ALUControl;
+   
+   controller c (Instr[6:0], Instr[14:12], Instr[30], Zero,
+		 ResultSrc, MemWrite, PCSrc,
+		 ALUSrc, RegWrite, Jump,
+		 ImmSrc, ALUControl);
+   datapath dp (clk, reset, ResultSrc, PCSrc,
+		ALUSrc, RegWrite,
+		ImmSrc, ALUControl,
+		Zero, PC, Instr,
+		ALUResult, WriteData, ReadData);
+   
 endmodule // riscvsingle
 
 module controller (input  logic [6:0] op,
@@ -266,10 +265,10 @@ module datapath (input  logic        clk, reset,
 endmodule // datapath
 
 module adder (input  logic [31:0] a, b,
-            output logic [31:0] y);
-
-  assign y = a + b;
-
+	      output logic [31:0] y);
+   
+   assign y = a + b;
+   
 endmodule
 
 module extend (input  logic [31:7] instr,
@@ -303,44 +302,43 @@ module extend (input  logic [31:7] instr,
 endmodule // extend
 
 module flopr #(parameter WIDTH = 8)
-  (input  logic             clk, reset,
-  input logic [WIDTH-1:0]  d,
-  output logic [WIDTH-1:0] q);
-
-  always_ff @(posedge clk, posedge reset)
-    if (reset) q <= 0;
-    else  q <= d;
-
+   (input  logic             clk, reset,
+    input logic [WIDTH-1:0]  d,
+    output logic [WIDTH-1:0] q);
+   
+   always_ff @(posedge clk, posedge reset)
+     if (reset) q <= 0;
+     else  q <= d;
+   
 endmodule // flopr
 
 module flopenr #(parameter WIDTH = 8)
-  (input  logic             clk, reset, en,
-  input logic [WIDTH-1:0]  d,
-  output logic [WIDTH-1:0] q);
-
-  always_ff @(posedge clk, posedge reset)
-    if (reset)  q <= 0;
-    else if (en) q <= d;
-
+   (input  logic             clk, reset, en,
+    input logic [WIDTH-1:0]  d,
+    output logic [WIDTH-1:0] q);
+   
+   always_ff @(posedge clk, posedge reset)
+     if (reset)  q <= 0;
+     else if (en) q <= d;
+   
 endmodule // flopenr
 
 module mux2 #(parameter WIDTH = 8)
-  (input  logic [WIDTH-1:0] d0, d1,
-  input logic 	     s,
-  output logic [WIDTH-1:0] y);
-
+   (input  logic [WIDTH-1:0] d0, d1,
+    input logic 	     s,
+    output logic [WIDTH-1:0] y);
+   
   assign y = s ? d1 : d0;
-
+   
 endmodule // mux2
 
 module mux3 #(parameter WIDTH = 8)
-    (input  logic [WIDTH-1:0] d0, d1, d2,
+   (input  logic [WIDTH-1:0] d0, d1, d2,
     input logic [1:0] 	     s,
     output logic [WIDTH-1:0] y);
-
+   
   assign y = s[1] ? d2 : (s[0] ? d1 : d0);
-  //if bit 1, d2 if true, else if bit 0, d1 if true else d0
-
+   
 endmodule // mux3
 
 module mux4 #(parameter WIDTH = 8)
@@ -377,17 +375,17 @@ module mux4 #(parameter WIDTH = 8)                //FINISH IMPLEMENTING MUX4
 endmodule // mux4
 
 module top (input  logic        clk, reset,
-            output logic [31:0] WriteData, DataAdr,
-            output logic 	MemWrite);
-
-  logic [31:0] 		PC, Instr, ReadData;
-
-  // instantiate processor and memories
-  riscvsingle rv32single (clk, reset, PC, Instr, MemWrite, DataAdr,
-                          WriteData, ReadData);
-  imem imem (PC, Instr);
-  dmem dmem (clk, MemWrite, DataAdr, WriteData, ReadData);
-
+	    output logic [31:0] WriteData, DataAdr,
+	    output logic 	MemWrite);
+   
+   logic [31:0] 		PC, Instr, ReadData;
+   
+   // instantiate processor and memories
+   riscvsingle rv32single (clk, reset, PC, Instr, MemWrite, DataAdr,
+			   WriteData, ReadData);
+   imem imem (PC, Instr);
+   dmem dmem (clk, MemWrite, DataAdr, WriteData, ReadData);
+   
 endmodule // top
 
 module imem (input  logic [31:0] a,
@@ -401,30 +399,30 @@ module imem (input  logic [31:0] a,
 endmodule // imem
 
 module dmem (input  logic        clk, we,
-            input  logic [31:0] a, wd,
-            output logic [31:0] rd);
-
-  logic [31:0] 		 RAM[255:0];
-
-  assign rd = RAM[a[31:2]]; // word aligned
-  always_ff @(posedge clk)
-    if (we) RAM[a[31:2]] <= wd;
-
+	     input  logic [31:0] a, wd,
+	     output logic [31:0] rd);
+   
+   logic [31:0] 		 RAM[255:0];
+   
+   assign rd = RAM[a[31:2]]; // word aligned
+   always_ff @(posedge clk)
+     if (we) RAM[a[31:2]] <= wd;
+   
 endmodule // dmem
 
 module alu (input  logic [31:0] a, b,
-         input  logic [2:0] 	alucontrol,
-         output logic [31:0] result,
-         output logic 	zero);
+            input  logic [2:0] 	alucontrol,
+            output logic [31:0] result,
+            output logic 	zero);
 
-  logic [31:0] 	       condinvb, sum;
-  logic 		       v;              // overflow
-  logic 		       isAddSub;       // true when is add or subtract operation
+   logic [31:0] 	       condinvb, sum;
+   logic 		       v;              // overflow
+   logic 		       isAddSub;       // true when is add or subtract operation
 
-  assign condinvb = alucontrol[0] ? ~b : b;
-  assign sum = a + condinvb + alucontrol[0];
-  assign isAddSub = ~alucontrol[2] & ~alucontrol[1] |
-                    ~alucontrol[1] & alucontrol[0];   
+   assign condinvb = alucontrol[0] ? ~b : b;
+   assign sum = a + condinvb + alucontrol[0];
+   assign isAddSub = ~alucontrol[2] & ~alucontrol[1] |
+                     ~alucontrol[1] & alucontrol[0];   
 
    always_comb
      case (alucontrol)
@@ -443,22 +441,22 @@ module alu (input  logic [31:0] a, b,
 endmodule // alu
 
 module regfile (input  logic        clk, 
-                input  logic 	    we3, 
-                input  logic [4:0]  a1, a2, a3, 
-                input  logic [31:0] wd3, 
-                output logic [31:0] rd1, rd2);
+		input  logic 	    we3, 
+		input  logic [4:0]  a1, a2, a3, 
+		input  logic [31:0] wd3, 
+		output logic [31:0] rd1, rd2);
 
-  logic [31:0] 		    rf[31:0];
+   logic [31:0] 		    rf[31:0];
 
-  // three ported register file
-  // read two ports combinationally (A1/RD1, A2/RD2)
-  // write third port on rising edge of clock (A3/WD3/WE3)
-  // register 0 hardwired to 0
+   // three ported register file
+   // read two ports combinationally (A1/RD1, A2/RD2)
+   // write third port on rising edge of clock (A3/WD3/WE3)
+   // register 0 hardwired to 0
 
-  always_ff @(posedge clk)
-    if (we3) rf[a3] <= wd3;	
+   always_ff @(posedge clk)
+     if (we3) rf[a3] <= wd3;	
 
-  assign rd1 = (a1 != 0) ? rf[a1] : 0;
-  assign rd2 = (a2 != 0) ? rf[a2] : 0;
-
+   assign rd1 = (a1 != 0) ? rf[a1] : 0;
+   assign rd2 = (a2 != 0) ? rf[a2] : 0;
+   
 endmodule // regfile
