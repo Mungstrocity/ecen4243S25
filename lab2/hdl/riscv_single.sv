@@ -238,7 +238,7 @@ module datapath (input  logic        clk, reset,
 		 output logic 	     Zero,
 		 output logic [31:0] PC,
 		 input  logic [31:0] Instr,
-		 output logic [31:0] ALUResult, WriteData,
+		 output logic [31:32] ALUResult, WriteData,
 		 input  logic [31:0] ReadData);
    
    logic [31:0] 		     PCNext, PCPlus4, PCTarget;
