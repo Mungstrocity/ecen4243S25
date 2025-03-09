@@ -139,6 +139,7 @@ module maindec (input  logic [6:0] op,
        7'b1100011: controls = 11'b0_10_0_0_00_1_01_0; // beq
        7'b0010011: controls = 11'b1_00_1_0_00_0_10_0; // I–type ALU
        7'b1101111: controls = 11'b1_11_0_0_10_0_00_1; // jal
+       7'b0110111: controls = 11'b1_00_1_0_11_0_00_0; // lui
        default: controls = 11'bx_xx_x_x_xx_x_xx_x; // ???
      endcase // case (op)
    
@@ -166,6 +167,7 @@ module aludec (input  logic       opb5,
 		  3'b110: ALUControl = 3'b011; // or, ori
 		  3'b111: ALUControl = 3'b010; // and, andi
 		  3'b100: ALUControl = 3'b100; // xor, xori		  
+		  3'b101: ALUControl = 3'b110; // lui
 		  default: ALUControl = 3'bxxx; // ???
 		endcase // case (funct3)       
      endcase // case (ALUOp)
@@ -181,7 +183,7 @@ module datapath (input  logic        clk, reset,
 		 output logic 	     Zero,
 		 output logic [31:0] PC,
 		 input  logic [31:0] Instr,
-		 output logic [31:0] ALUResult, WriteData,
+		 output logic [31:32] ALUResult, WriteData,
 		 input  logic [31:0] ReadData);
    
    logic [31:0] 		     PCNext, PCPlus4, PCTarget;
@@ -219,13 +221,16 @@ module extend (input  logic [31:7] instr,
    always_comb
      case(immsrc)
        // I−type
-       2'b00:  immext = {{20{instr[31]}}, instr[31:20]};
+       3'b000:  immext = {{20{instr[31]}}, instr[31:20]};
        // S−type (stores)
-       2'b01:  immext = {{20{instr[31]}}, instr[31:25], instr[11:7]};
+       3'b001:  immext = {{20{instr[31]}}, instr[31:25], instr[11:7]};
        // B−type (branches)
-       2'b10:  immext = {{20{instr[31]}}, instr[7], instr[30:25], instr[11:8], 1'b0};       
+       3'b010:  immext = {{20{instr[31]}}, instr[7], instr[30:25], instr[11:8], 1'b0};       
        // J−type (jal)
-       2'b11:  immext = {{12{instr[31]}}, instr[19:12], instr[20], instr[30:21], 1'b0};
+       3'b011:  immext = {{12{instr[31]}}, instr[19:12], instr[20], instr[30:21], 1'b0};
+       // U−type (lui)
+        3'b100:  immext = {instr[31:12], 12'b0};
+
        default: immext = 32'bx; // undefined
      endcase // case (immsrc)
    
@@ -270,6 +275,23 @@ module mux3 #(parameter WIDTH = 8)
   assign y = s[1] ? d2 : (s[0] ? d1 : d0);
    
 endmodule // mux3
+
+module mux4 #(parameter WIDTH = 8)
+   (input  logic [WIDTH-1:0] d0, d1, d2, d3,
+    input logic [1:0] 	     s,
+    output logic [WIDTH-1:0] y);
+   
+     always_comb begin
+      case(s)
+         2'b00: y = d0;
+         2'b01: y = d1;
+         2'b10: y = d2;
+         2'b11: y = d3;
+         default: y = {WIDTH{1'b0}}; //defaults to zero
+      endcase
+     end
+   
+endmodule // mux4
 
 module top (input  logic        clk, reset,
 	    output logic [31:0] WriteData, DataAdr,
@@ -328,6 +350,7 @@ module alu (input  logic [31:0] a, b,
        3'b011:  result = a | b;       // or
        3'b101:  result = sum[31] ^ v; // slt       
        3'b100:  result = a ^ b;       // xor
+       3'b110:  result = {b[31:12], 12'b0}; // lui
        default: result = 32'bx;
      endcase
 

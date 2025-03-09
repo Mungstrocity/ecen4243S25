@@ -1,4 +1,4 @@
-TARGET = fir1
+TARGET = lui-test
 
 $(TARGET).objdump: $(TARGET)
 	riscv64-unknown-elf-objdump -S -D $(TARGET) > $(TARGET).objdump

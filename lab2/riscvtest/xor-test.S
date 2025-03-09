@@ -21,3 +21,4 @@ __start:
     # Validate XOR property: A \oplus A = 0
     xor t3, t2, t2       # t3 = t2 \oplus t2 (should be zero)
     add a0, zero, t3     # If t3 = 0, a0 remains 0, ow test fails (a0 \neq 0)
+`
