@@ -183,7 +183,7 @@ module datapath (input  logic        clk, reset,
 		 output logic 	     Zero,
 		 output logic [31:0] PC,
 		 input  logic [31:0] Instr,
-		 output logic [31:32] ALUResult, WriteData,
+		 output logic [31:0] ALUResult, WriteData,
 		 input  logic [31:0] ReadData);
    
    logic [31:0] 		     PCNext, PCPlus4, PCTarget;
@@ -350,7 +350,6 @@ module alu (input  logic [31:0] a, b,
        3'b011:  result = a | b;       // or
        3'b101:  result = sum[31] ^ v; // slt       
        3'b100:  result = a ^ b;       // xor
-       3'b110:  result = {b[31:12], 12'b0}; // lui
        default: result = 32'bx;
      endcase
 
