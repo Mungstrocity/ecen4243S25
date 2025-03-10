@@ -41,7 +41,7 @@ module testbench();
    initial
      begin
 	string memfilename;
-        memfilename = {"../riscvtest/xori-test.memfile"};
+        memfilename = {"../testing/lui.memfile"};
         $readmemh(memfilename, dut.imem.RAM);
      end
 
@@ -81,8 +81,8 @@ module riscvsingle (input  logic        clk, reset,
 		    input  logic [31:0] ReadData);
   
    logic 				ALUSrc, RegWrite, Jump, Zero;
-   logic [1:0] 				ResultSrc, ImmSrc;
-   logic [2:0] 				ALUControl;
+   logic [1:0] 				ResultSrc; 
+   logic [2:0] 				ImmSrc, ALUControl;
    
    controller c (Instr[6:0], Instr[14:12], Instr[30], Zero,
 		 ResultSrc, MemWrite, PCSrc,
@@ -104,7 +104,7 @@ module controller (input  logic [6:0] op,
 		   output logic       MemWrite,
 		   output logic       PCSrc, ALUSrc,
 		   output logic       RegWrite, Jump,
-		   output logic [1:0] ImmSrc,
+		   output logic [2:0] ImmSrc,
 		   output logic [2:0] ALUControl);
    
    logic [1:0] 			      ALUOp;
@@ -122,10 +122,10 @@ module maindec (input  logic [6:0] op,
 		output logic 	   MemWrite,
 		output logic 	   Branch, ALUSrc,
 		output logic 	   RegWrite, Jump,
-		output logic [1:0] ImmSrc,
+		output logic [2:0] ImmSrc,
 		output logic [1:0] ALUOp);
    
-   logic [10:0] 		   controls;
+   logic [11:0] 		   controls;
    
    assign {RegWrite, ImmSrc, ALUSrc, MemWrite,
 	   ResultSrc, Branch, ALUOp, Jump} = controls;
@@ -139,8 +139,8 @@ module maindec (input  logic [6:0] op,
        7'b1100011: controls = 12'b0_010_0_0_00_1_01_0; // beq
        7'b0010011: controls = 12'b1_000_1_0_00_0_10_0; // I–type ALU
        7'b1101111: controls = 12'b1_011_0_0_10_0_00_1; // jal
-       7'b0110111: controls = 12'b1_100_1_0_11_0_00_0; // lui
-       default: controls = 12'bx_x x_x_x_xx_x_xx_x; // ???
+       7'b0110111: controls = 12'b1_000_1_0_11_0_00_0; // lui
+       default: controls = 12'bx_xxx_x_x_xx_x_xx_x; // ???
      endcase // case (op)
    
 endmodule // maindec
@@ -177,12 +177,12 @@ module datapath (input  logic        clk, reset,
 		 input  logic [1:0]  ResultSrc,
 		 input  logic 	     PCSrc, ALUSrc,
 		 input  logic 	     RegWrite,
-		 input  logic [1:0]  ImmSrc,
+		 input  logic [2:0]  ImmSrc,
 		 input  logic [2:0]  ALUControl,
 		 output logic 	     Zero,
 		 output logic [31:0] PC,
 		 input  logic [31:0] Instr,
-		 output logic [31:32] ALUResult, WriteData,
+		 output logic [31:0] ALUResult, WriteData,
 		 input  logic [31:0] ReadData);
    
    logic [31:0] 		     PCNext, PCPlus4, PCTarget;
@@ -202,7 +202,7 @@ module datapath (input  logic        clk, reset,
    // ALU logic
    mux2 #(32)  srcbmux (WriteData, ImmExt, ALUSrc, SrcB);
    alu  alu (SrcA, SrcB, ALUControl, ALUResult, Zero);
-   mux3 #(32) resultmux (ALUResult, ReadData, PCPlus4,ResultSrc, Result);
+   mux4 #(32) resultmux (ALUResult, ReadData, PCPlus4, ImmExt, ResultSrc, Result);
 
 endmodule // datapath
 
@@ -309,7 +309,7 @@ endmodule // top
 module imem (input  logic [31:0] a,
 	     output logic [31:0] rd);
    
-   logic [31:0] 		 RAM[63:0];
+   logic [31:0] 		 RAM[2047:0];
    
    assign rd = RAM[a[31:2]]; // word aligned
    
@@ -349,7 +349,6 @@ module alu (input  logic [31:0] a, b,
        3'b011:  result = a | b;       // or
        3'b101:  result = sum[31] ^ v; // slt       
        3'b100:  result = a ^ b;       // xor
-       3'b110:  result = {b[31:12], 12'b0}; // lui
        default: result = 32'bx;
      endcase
 
