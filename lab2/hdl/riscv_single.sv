@@ -167,7 +167,7 @@ module aludec (input  logic       opb5,
 		  3'b110: ALUControl = 3'b011; // or, ori
 		  3'b111: ALUControl = 3'b010; // and, andi
 		  3'b100: ALUControl = 3'b100; // xor, xori		  
-		  3'b101: ALUControl = 3'b110; // lui
+		  3'b101: ALUControl = 3'b110; // SRAI. SRA 
 		  default: ALUControl = 3'bxxx; // ???
 		endcase // case (funct3)       
      endcase // case (ALUOp)
@@ -350,6 +350,7 @@ module alu (input  logic [31:0] a, b,
        3'b011:  result = a | b;       // or
        3'b101:  result = sum[31] ^ v; // slt       
        3'b100:  result = a ^ b;       // xor
+       3'b110:  result = $signed(a) >>> b[4:0];     //srai         //COULD BE WRONG
        default: result = 32'bx;
      endcase
 
