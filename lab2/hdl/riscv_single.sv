@@ -26,6 +26,12 @@
 //   sw           0100011   010       immediate
 //   jal          1101111   immediate immediate
 
+//Lecture 10 for beq
+//Lecture 9 for bne
+  //Add branch type
+  //assign branch type = 6 way case statement (mux) to determine which branch type.
+  //use comparison flags.pdf on canvas
+
 module testbench();
 
    logic        clk;
@@ -41,7 +47,7 @@ module testbench();
    initial
      begin
 	string memfilename;
-        memfilename = {"../testing/lui.memfile"};
+        memfilename = {"../testing/add.memfile"};
         $readmemh(memfilename, dut.imem.RAM);
      end
 
@@ -49,20 +55,20 @@ module testbench();
    // initialize test
    initial
      begin
-	reset <= 1; # 22; reset <= 0;
+	reset <= 1; # 3; reset <= 0;
      end
 
    // generate clock to sequence tests
    always
      begin
-	clk <= 1; # 5; clk <= 0; # 5;
+	clk <= 1; # 1; clk <= 0; # 1;
      end
 
    // check results
    always @(negedge clk)
      begin
 	if(MemWrite) begin
-           if(DataAdr === 100 & WriteData === 25) begin
+           if(DataAdr === 100 & WriteData === 10) begin
               $display("Simulation succeeded");
               $stop;
            end else if (DataAdr !== 96) begin
@@ -201,6 +207,7 @@ module datapath (input  logic        clk, reset,
 	       Instr[11:7], Result, SrcA, WriteData);
    extend  ext (Instr[31:7], ImmSrc, ImmExt);
    // ALU logic
+   // Add srcamux (SrcA0, 32'h0, ALUSrcA, SrcA) > Add signals above and in datapath, Add whole new column to the controller logic
    mux2 #(32)  srcbmux (WriteData, ImmExt, ALUSrc, SrcB);
    alu  alu (SrcA, SrcB, ALUControl, ALUResult, Zero);
    mux4 #(32) resultmux (ALUResult, ReadData, PCPlus4, ImmExt, ResultSrc, Result);
