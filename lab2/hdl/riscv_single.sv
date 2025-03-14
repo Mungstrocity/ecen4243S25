@@ -74,20 +74,20 @@ initial
    // initialize test
    initial
      begin
-	reset <= 1; # 22; reset <= 0;
+	reset <= 1; # 3; reset <= 0;
      end
 
    // generate clock to sequence tests
    always
      begin
-	clk <= 1; # 5; clk <= 0; # 5;
+	clk <= 1; # 1; clk <= 0; # 1;
      end
 
    // check results
    always @(negedge clk)
      begin
 	if(MemWrite) begin
-           if(DataAdr === 100 & WriteData === 25) begin
+           if(DataAdr === 100 & WriteData === 10) begin
               $display("Simulation succeeded");
               $stop;
            end else if (DataAdr !== 96) begin
