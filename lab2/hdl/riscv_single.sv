@@ -47,7 +47,8 @@ module testbench();
    initial
      begin
 	string memfilename;
-        memfilename = {"../testing/add.memfile"};
+        //memfilename = {"../riscvtest/add-test.memfile"};//riscvtest folder
+        memfilename = {"../testing/lui.memfile"}; //testing folder
         $readmemh(memfilename, dut.imem.RAM);
      end
 
@@ -55,13 +56,13 @@ module testbench();
    // initialize test
    initial
      begin
-	reset <= 1; # 3; reset <= 0;
+	reset <= 1; # 20; reset <= 0;
      end
 
    // generate clock to sequence tests
    always
      begin
-	clk <= 1; # 1; clk <= 0; # 1;
+	clk <= 1; # 5; clk <= 0; # 5;
      end
 initial
   begin
@@ -165,9 +166,9 @@ module maindec (input  logic [6:0] op,
        7'b0100011: controls = 12'b0_001_1_1_00_0_00_0; // sw
        7'b0110011: controls = 12'b1_xxx_0_0_00_0_10_0; // R–type 
        7'b1100011: controls = 12'b0_010_0_0_00_1_01_0; // beq
-       7'b0010011: controls = 12'b1_000_1_0_00_0_10_0; // I–type ALU
+       7'b0010011: controls = 12'b1_000_1_0_00_0_10_0; // I–type ALU / srai
        7'b1101111: controls = 12'b1_011_0_0_10_0_00_1; // jal
-       7'b0110111: controls = 12'b1_000_1_0_11_0_00_0; // lui
+       7'b0110111: controls = 12'b1_100_1_0_11_0_00_0; // lui
        default: controls = 12'bx_xxx_x_x_xx_x_xx_x; // ???
        7'b0000011: controls = 12'b1_000_1_0_01_0_00_0; // lw             ///CHECK IF LW IS CORRECT debug   //Changed all ImmSrc to 3-bit - KM
        7'b0100011: controls = 12'b0_001_1_1_00_0_00_0; // sw
@@ -199,7 +200,7 @@ module aludec (input  logic       opb5,
 		    ALUControl = 3'b001; // sub
 		  else
 		    ALUControl = 3'b000; // add, addi
-		  3'b010: ALUControl = 3'b101; // slt, slti
+		  3'b010: ALUControl = 3'b101; // slt, slti, srai
 		  3'b110: ALUControl = 3'b011; // or, ori
 		  3'b111: ALUControl = 3'b010; // and, andi
 		  3'b100: ALUControl = 3'b100; // xor, xori		  

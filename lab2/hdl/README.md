@@ -9,8 +9,21 @@ or
 
 vsim -do riscv_single.do
 
+opcode   RegWrite   ImmSrc  ALUSrc  MemWrite    ResultSrc   Branch  ALUOp   Jump
+0000011  1          000     1       0           01          0       00      0
+0100011  0          001     1       1           00          0       00      0
+0110011  1          xxx     0       0           00          0       10      0 
+1100011  0          010     0       0           00          1       01      0
+0010011  1          000     1       0           00          0       10      0
+1101111  1          011     0       0           10          0       00      1
+0110111  1          100     1       0           11          0       00      0
+
+
 # XOR
 ## update ALU encoding
+
+# 3.14.2025 - Passed Add test file
+# 3.14.2025 - Passed 2nd add test file
 
 
 
