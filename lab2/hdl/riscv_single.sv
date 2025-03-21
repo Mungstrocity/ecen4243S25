@@ -64,25 +64,6 @@ module testbench();
      begin
 	clk <= 1; # 5; clk <= 0; # 5;
      end
-initial
-  begin
-    string memfilename;
-      memfilename = {"../riscvtest/riscvtest.memfile"};
-      $readmemh(memfilename, dut.imem.RAM);
-  end
-
-   
-   // initialize test
-   initial
-     begin
-	reset <= 1; # 3; reset <= 0;
-     end
-
-   // generate clock to sequence tests
-   always
-     begin
-	clk <= 1; # 1; clk <= 0; # 1;
-     end
 
    // check results
    always @(negedge clk)
@@ -178,11 +159,11 @@ module maindec (input  logic [6:0] op,
        default: controls = 12'bx_xxx_x_x_xx_x_xx_x; // ???
        7'b0000011: controls = 12'b1_000_1_0_01_0_00_0; // lw             ///CHECK IF LW IS CORRECT debug   //Changed all ImmSrc to 3-bit - KM
        7'b0100011: controls = 12'b0_001_1_1_00_0_00_0; // sw
-       7'b0110011: controls = 12'b1_xxx_0_0_00_0_10_0; // R–type
-       7'b1100011: controls = 12'b0_010_0_0_00_1_01_0; // beq
-       7'b0010011: controls = 12'b1_000_1_0_00_0_10_0; // I–type ALU
+       7'b0110011: controls = 12'b1_xxx_0_0_00_0_10_0; // R–type 
+       7'b1100011: controls = 12'b0_010_0_0_00_1_01_0; // beq, bne
+       7'b0010011: controls = 12'b1_000_1_0_00_0_10_0; // I–type ALU / srai
        7'b1101111: controls = 12'b1_011_0_0_10_0_00_1; // jal
-       7'b0110111: controls = 12'b1_100_1_0_00_0_00_0; // lui        //ResutlSrc = 11 for lui //IGNOR=> //guess ALUop ResultsSrc       //Added lui - KM   //WE HAVE TO either circumvent the ALU for lui operation or get regfile to always output 0 for lui operation.
+       7'b0110111: controls = 12'b1_100_1_0_11_0_00_0; // lui
        default: controls = 12'bx_xxx_x_x_xx_x_xx_x; // ???
      endcase // case (op)
    
