@@ -27,8 +27,8 @@ Disassembly of section .text:
 
 80000010 <test02>:
 80000010:	00200593          	li	a1,2
-80000014:	fffff0b7          	lui	ra,0xfffff
-80000018:	4010d093          	srai	ra,ra,0x1
+80000014:	fffff0b7          	lui	ra,0xfffff = 0xfffff
+80000018:	4010d093          	srai	ra,ra,0x1 
 8000001c:	80000e93          	li	t4,-2048
 80000020:	05d09263          	bne	ra,t4,80000064 <fail>
 

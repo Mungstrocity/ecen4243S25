@@ -120,8 +120,14 @@ module controller (input  logic [6:0] op,
    maindec md (op, ResultSrc, MemWrite, Branch,
 	       ALUSrc, RegWrite, Jump, ImmSrc, ALUOp);
    aludec ad (op[5], funct3, funct7b5, ALUOp, ALUControl);
-   assign PCSrc = Branch & (Zero ^ funct3[0]) | Jump;
-   
+   always_comb begin
+    case (funct3)
+      3'b000: PCSrc = Branch & (Zero)           | Jump; // beq
+      3'b001: PCSrc = Branch & (~Zero)          | Jump; // bne
+      default: PCSrc = Jump;
+   endcase 
+  end
+
 endmodule // controller
 
 module maindec (input  logic [6:0] op,
@@ -143,7 +149,7 @@ module maindec (input  logic [6:0] op,
        7'b0000011: controls = 12'b1_000_1_0_01_0_00_0; // lw
        7'b0100011: controls = 12'b0_001_1_1_00_0_00_0; // sw
        7'b0110011: controls = 12'b1_xxx_0_0_00_0_10_0; // R–type 
-       7'b1100011: controls = 12'b0_010_0_0_00_1_01_0; // beq
+       7'b1100011: controls = 12'b0_010_0_0_00_1_01_0; // beq, bne
        7'b0010011: controls = 12'b1_000_1_0_00_0_10_0; // I–type ALU / srai
        7'b1101111: controls = 12'b1_011_0_0_10_0_00_1; // jal
        7'b0110111: controls = 12'b1_100_1_0_11_0_00_0; // lui
