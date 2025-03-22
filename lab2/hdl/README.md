@@ -24,6 +24,14 @@ opcode   RegWrite   ImmSrc  ALUSrc  MemWrite    ResultSrc   Branch  ALUOp   Jump
 
 # 3.14.2025 - Passed Add test file
 # 3.14.2025 - Passed 2nd add test file
+# 3.21.2025 - LUI test passed
+## Removed LUI from ALU logic
+## Added SRAI instruction using >>> operator for arithmetic shift right
+# 3.21.2025 - XOR test passed, no changes needed
+# 3.21.2025 - XORI test passed, no changes needed
+# 3.21.2025 - SRAI test passed, no changes needed
+# 3.21.2025 - SRA test passed, no changes needed
+
 
 
 

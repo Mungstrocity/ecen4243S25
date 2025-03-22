@@ -47,7 +47,7 @@ initial
   begin
 string memfilename;
      //memfilename = {"../riscvtest/add-test.memfile"};//riscvtest folder
-     memfilename = {"../testing/lui.memfile"}; //testing folder
+     memfilename = {"../testing/sra.memfile"}; //testing folder
      $readmemh(memfilename, dut.imem.RAM);
   end
 
@@ -120,11 +120,15 @@ maindec md (op, ResultSrc, MemWrite, Branch,
       ALUSrc, RegWrite, Jump, ImmSrc, ALUOp);
 aludec ad (op[5], funct3, funct7b5, ALUOp, ALUControl);
 always_comb begin
- case (funct3)
-   3'b000: PCSrc = Branch & (Zero)           | Jump; // beq
-   3'b001: PCSrc = Branch & (~Zero)          | Jump; // bne
-   default: PCSrc = Jump;
-endcase 
+  if (op == 7'b1100011) begin //specifically catch branches
+    case (funct3)
+      3'b000: PCSrc = Branch & Zero;      // beq
+      3'b001: PCSrc = Branch & ~Zero;     // bne
+      default: PCSrc = 1'b0;
+    endcase
+  end else begin
+    PCSrc = Jump;
+  end
 end
 
 endmodule // controller
@@ -171,15 +175,13 @@ always_comb
     2'b00: ALUControl = 3'b000; // addition
     2'b01: ALUControl = 3'b001; // subtraction
     default: case(funct3) // R–type or I–type ALU
-   3'b000: if (RtypeSub)
-     ALUControl = 3'b001; // sub
-   else
-     ALUControl = 3'b000; // add, addi
-   3'b010: ALUControl = 3'b101; // slt, slti, srai
+   3'b000: ALUControl = (RtypeSub) ? 3'b001 : 3'b000; // if RtypeSub then subtract else add. Condenses if statement for readability
+   3'b010: ALUControl = 3'b101; // slt, slti
    3'b110: ALUControl = 3'b011; // or, ori
    3'b111: ALUControl = 3'b010; // and, andi
    3'b100: ALUControl = 3'b100; // xor, xori		  
-   3'b101: ALUControl = 3'b110; // lui
+   3'b101: ALUControl = 3'b110; //sra, srai
+   
    default: ALUControl = 3'bxxx; // ???
  endcase // case (funct3)       
   endcase // case (ALUOp)
@@ -363,6 +365,7 @@ always_comb
     3'b011:  result = a | b;       // or
     3'b101:  result = sum[31] ^ v; // slt       
     3'b100:  result = a ^ b;       // xor
+    3'b110:  result = $signed(a) >>> b[4:0]; // sra, includes type cast on a as 'signed' to ensure sign is maintained
     default: result = 32'bx;
   endcase
 
