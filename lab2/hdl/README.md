@@ -31,6 +31,16 @@ opcode   RegWrite   ImmSrc  ALUSrc  MemWrite    ResultSrc   Branch  ALUOp   Jump
 # 3.21.2025 - XORI test passed, no changes needed
 # 3.21.2025 - SRAI test passed, no changes needed
 # 3.21.2025 - SRA test passed, no changes needed
+# 3.21.2025 - AUIPC test passed however, it contains no auic instructions. Troubleshooting JALR got the test to pass so there is tentative success with JALR but not with the AUIPC test.
+## Adjusted success flag logic to check for ECALL instruction and address of ecall.
+### The address will need to be updated manually for each test each time a new test is configured
+## Adjusted PCSrc to 2 bits to allow for jalr condition
+## Added logic for the JALR target address that sets LSB to 0
+## Changed pcmux to a mux3 that takes the JALR target
+# 3.21.2025 - JALR test passed, no changes needed
+## JALR test included AUIPC instructions that executed correctly. File was able to execute up to ecall at the correct success address and stop.
+
+
 
 
 
