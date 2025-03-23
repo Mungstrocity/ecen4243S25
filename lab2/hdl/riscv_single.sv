@@ -48,9 +48,10 @@ top dut(clk, reset, WriteData, DataAdr, MemWrite, Instr, PC);
 initial
   begin
 string memfilename;
-     //memfilename = {"../riscvtest/add-test.memfile"};//riscvtest folder
-     memfilename = {"../testing/jalr.memfile"}; //testing folder
+     memfilename = {"../riscvtest/auipc-test.memfile"};//riscvtest folder
+     //memfilename = {"../testing/sw.memfile"}; //testing folder
      $readmemh(memfilename, dut.imem.RAM);
+     $readmemh(memfilename, dut.dmem.RAM);
   end
 
 
@@ -69,6 +70,7 @@ clk <= 1; # 5; clk <= 0; # 5;
 // check results
 always @(negedge clk)
   begin
+      // Original test, doesn't work with ecall versions of tests
       // if(MemWrite) begin
       //         if(DataAdr === 100 & WriteData === 10) begin
       //            $display("Simulation succeeded");
@@ -79,7 +81,8 @@ always @(negedge clk)
       //         end
       // end
     if (Instr == 32'h00000073) begin // ecall catch
-      if (PC == 32'h000000a0) begin
+      #5 // wait for final write
+      if (PC == 32'h00000274) begin
         $display("Simulation succeeded");
         $stop;
       end else begin
@@ -115,36 +118,35 @@ datapath dp (clk, reset, ResultSrc, PCSrc, ALUSrcA,
 endmodule // riscvsingle
 
 module controller (input  logic [6:0] op,
-    input  logic [2:0] funct3,
-    input  logic       funct7b5,
-    input  logic       Zero,
-    output logic [1:0] ResultSrc, PCSrc,
-    output logic       MemWrite,
-    output logic       ALUSrcA, ALUSrcB,
-    output logic       RegWrite, Jump,
-    output logic [2:0] ImmSrc,
-    output logic [3:0] ALUControl);
+      input  logic [2:0] funct3,
+      input  logic       funct7b5,
+      input  logic       Zero,
+      output logic [1:0] ResultSrc, PCSrc,
+      output logic       MemWrite,
+      output logic       ALUSrcA, ALUSrcB,
+      output logic       RegWrite, Jump,
+      output logic [2:0] ImmSrc,
+      output logic [3:0] ALUControl);
 
-logic [1:0] 			      ALUOp;
-logic 			      Branch;
+  logic [1:0] 			      ALUOp;
+  logic 			            Branch;
 
-maindec md (op, ResultSrc, MemWrite, Branch,
-      ALUSrcA, ALUSrcB, RegWrite, Jump, ImmSrc, ALUOp);
-aludec ad (op[5], funct3, funct7b5, ALUOp, ALUControl);
-always_comb begin
-  case (op) //specifically catch branches
-    7'b1100011: //beq, bne
-      case (funct3)
-        3'b000: PCSrc = (Branch & Zero) ? 2'b01 : 2'b00;      // beq
-        3'b001: PCSrc = (Branch & ~Zero) ? 2'b01 : 2'b00;     // bne
-        default: PCSrc = 2'b00;
-      endcase
-    7'b1101111: PCSrc = 2'b01; //jal
-    7'b1100111: PCSrc = 2'b10;//jalr
-    default: PCSrc = 2'b00;
-  endcase // case (op)
-end
-
+  maindec md (op, ResultSrc, MemWrite, Branch,
+        ALUSrcA, ALUSrcB, RegWrite, Jump, ImmSrc, ALUOp);
+  aludec ad (op[5], funct3, funct7b5, ALUOp, ALUControl);
+  always_comb begin
+    case (op) //specifically catch branches
+      7'b1100011: //beq, bne
+        case (funct3)
+          3'b000: PCSrc = (Branch & Zero) ? 2'b01 : 2'b00;      // beq
+          3'b001: PCSrc = (Branch & ~Zero) ? 2'b01 : 2'b00;     // bne
+          default: PCSrc = 2'b00;
+        endcase
+      7'b1101111: PCSrc = 2'b01; //jal
+      7'b1100111: PCSrc = 2'b10; //jalr
+      default: PCSrc = 2'b00;
+    endcase // case (op)
+  end
 endmodule // controller
 
 module maindec (input  logic [6:0] op,
@@ -164,11 +166,13 @@ assign {RegWrite, ImmSrc, ALUSrcA, ALUSrcB, MemWrite,
 always_comb
   case(op)
     // RegWrite_ImmSrc_ALUSrcA_ALUSrcB_MemWrite_ResultSrc_Branch_ALUOp_Jump
+      // Split ALUSrc to ALUSrcA and ALUSrcB
+
     7'b0000011: controls = 13'b1_000_0_1_0_01_0_00_0; // lw
     7'b0100011: controls = 13'b0_001_0_1_1_00_0_00_0; // sw
-    7'b0110011: controls = 13'b1_xxx_0_0_0_00_0_10_0; // R–type 
+    7'b0110011: controls = 13'b1_xxx_0_0_0_00_0_10_0; // R-type
     7'b1100011: controls = 13'b0_010_0_0_0_00_1_01_0; // beq, bne
-    7'b0010011: controls = 13'b1_000_0_1_0_00_0_10_0; // I–type ALU / srai
+    7'b0010011: controls = 13'b1_000_0_1_0_00_0_10_0; // I-type ALU / srai, srli, slti
     7'b1101111: controls = 13'b1_011_0_0_0_10_0_00_1; // jal
     7'b0110111: controls = 13'b1_100_0_1_0_11_0_00_0; // lui
     7'b0010111: controls = 13'b1_100_1_1_0_00_0_00_0; // auipc
@@ -186,12 +190,12 @@ module aludec (input  logic       opb5,
 
 logic 			  RtypeSub;
 
-assign RtypeSub = funct7b5 & opb5; // TRUE for R–type subtract
+assign RtypeSub = funct7b5 & opb5; // TRUE for R-type subtract
 always_comb
   case(ALUOp)
     2'b00: ALUControl = 4'b000; // addition
     2'b01: ALUControl = 4'b001; // subtraction
-    default: case(funct3) // R–type or I–type ALU
+    default: case(funct3) // R-type or I-type ALU
    3'b000: ALUControl = (RtypeSub) ? 4'b0001 : 4'b0000; // if RtypeSub then subtract else add. Condenses if statement for readability
    3'b010: ALUControl = 4'b0101; // slt, slti
    3'b110: ALUControl = 4'b0011; // or, ori
@@ -203,12 +207,12 @@ always_comb
     else
       ALUControl = 4'b0111; // sll, slli
     end
-   3'b001: ALUControl = 4'b1000; // sll, slli)
+   3'b001: ALUControl = 4'b1000; // sll, slli
    3'b011: ALUControl = 4'b1010; // sltu, sltiu
    
    default: ALUControl = 4'bxxxx; // ???
  endcase // case (funct3)       
-  endcase // case (ALUOp)
+endcase // case (ALUOp)
 
 endmodule // aludec
 
@@ -366,11 +370,16 @@ module dmem (input  logic        clk, we,
     input  logic [31:0] a, wd,
     output logic [31:0] rd);
 
-logic [31:0] 		 RAM[255:0];
+logic [31:0] 		 RAM[16383:0];
 
-assign rd = RAM[a[31:2]]; // word aligned
-always_ff @(posedge clk)
-  if (we) RAM[a[31:2]] <= wd;
+//assign rd = RAM[a[31:2]]; // word aligned
+always_ff @(posedge clk) begin
+  if (we)
+    RAM[a[31:2]] <= wd;
+end
+always_ff @(negedge clk) begin
+  rd <= RAM[a[31:2]];
+end
 
 endmodule // dmem
 
@@ -394,7 +403,8 @@ always_comb
     4'b0001:  result = sum;                    // subtract
     4'b0010:  result = a & b;                  // and
     4'b0011:  result = a | b;                  // or
-    4'b0101:  result = sum[31] ^ v;            // slt       
+    4'b0101:  result = sum[31] ^ v;            // slt, slti
+    4'b1010:  result = a < b;                  // sltu, sltui
     4'b0100:  result = a ^ b;                  // xor
     4'b0110:  result = $signed(a) >>> b[4:0];  // sra, srai, includes type cast on a as 'signed' to ensure sign is maintained
     4'b0111:  result = a >> b[4:0];            // srl, srli
