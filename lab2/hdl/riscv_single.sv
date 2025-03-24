@@ -49,7 +49,7 @@ initial
   begin
 string memfilename;
      //memfilename = {"../riscvtest/auipc-test.memfile"};//riscvtest folder
-     memfilename = {"../testing/sh.memfile"}; //testing folder
+     memfilename = {"../testing/bltu.memfile"}; //testing folder
      $readmemh(memfilename, dut.imem.RAM);
      $readmemh(memfilename, dut.dmem.RAM);
   end
@@ -110,27 +110,27 @@ logic [2:0]         funct3;
 
 assign funct3 = Instr[14:12];
 
-controller c (Instr[6:0], Instr[14:12], Instr[30], Zero,
-  ResultSrc, PCSrc, MemWrite,
-  ALUSrcA, ALUSrcB, RegWrite, Jump,
-  ImmSrc, ALUControl);
+controller c (Instr[6:0], Instr[14:12], Instr[30],
+  Zero, Less, Carryout, ResultSrc, PCSrc, MemWrite,
+  ALUSrcA, ALUSrcB, RegWrite, Jump, ImmSrc,
+   ALUControl);
+
 datapath dp (clk, reset, funct3, ResultSrc, PCSrc, ALUSrcA,
- ALUSrcB, RegWrite,
- ImmSrc, ALUControl,
- Zero, PC, Instr,
- ALUResult, WriteData, StoreData, ReadData);
+  ALUSrcB, RegWrite, ImmSrc, ALUControl,
+  Zero, Less, Carryout, PC, Instr,
+  ALUResult, WriteData, StoreData, ReadData);
 
 endmodule // riscvsingle
 
 module controller (input  logic [6:0] op,
       input  logic [2:0] funct3,
       input  logic       funct7b5,
-      input  logic       Zero,
+      input  logic       Zero, Less, Carryout,
       output logic [1:0] ResultSrc, PCSrc,
       output logic       MemWrite,
       output logic       ALUSrcA, ALUSrcB,
       output logic       RegWrite, Jump,
-      output logic [2:0] ImmSrc,
+      output logic [2:0] ImmSrc, 
       output logic [3:0] ALUControl);
 
   logic [1:0] 			      ALUOp;
@@ -143,8 +143,12 @@ module controller (input  logic [6:0] op,
     case (op) //specifically catch branches
       7'b1100011: //beq, bne
         case (funct3)
-          3'b000: PCSrc = (Branch & Zero) ? 2'b01 : 2'b00;      // beq
-          3'b001: PCSrc = (Branch & ~Zero) ? 2'b01 : 2'b00;     // bne
+          3'b000: PCSrc = (Branch & Zero) ? 2'b01 : 2'b00;       // beq
+          3'b001: PCSrc = (Branch & ~Zero) ? 2'b01 : 2'b00;      // bne
+          3'b100: PCSrc = (Branch & Less) ? 2'b01 : 2'b00;       // bne
+          3'b101: PCSrc = (Branch & ~Less) ? 2'b01 : 2'b00;      // bge
+          3'b110: PCSrc = (Branch & Carryout) ? 2'b01 : 2'b00;   // bltu
+          3'b111: PCSrc = (Branch & ~Carryout) ? 2'b01 : 2'b00;  // bgeu
           default: PCSrc = 2'b00;
         endcase
       7'b1101111: PCSrc = 2'b01; //jal
@@ -228,7 +232,7 @@ module datapath (input  logic        clk, reset,
   input  logic 	      RegWrite,
   input  logic [2:0]  ImmSrc,
   input  logic [3:0]  ALUControl,
-  output logic 	      Zero,
+  output logic 	      Zero, Less, Carryout,
   output logic [31:0] PC,
   input  logic [31:0] Instr,
   output logic [31:0] ALUResult, WriteData, StoreData,
@@ -260,41 +264,41 @@ extend  ext (Instr[31:7], ImmSrc, ImmExt);
 mux2 #(32) srcamux (SrcA, PC, ALUSrcA, SrcAIn); // adding new mux for auipc instruction
 mux2 #(32)  srcbmux (WriteData, ImmExt, ALUSrcB, SrcBIn);
 
-alu  alu (SrcAIn, SrcBIn, ALUControl, ALUResult, Zero);
+alu  alu (SrcAIn, SrcBIn, ALUControl, ALUResult, Zero, Less, Carryout);
 
   // load/store logic
-assign LoadOffset = ALUResult[1:0];
-always_comb begin
-  case (funct3)
-    3'b000: case(LoadOffset) // lb
-      2'b00: LoadData = {{24{ReadData[7]}}, ReadData[7:0]}; //bit 1
-      2'b01: LoadData = {{24{ReadData[15]}}, ReadData[15:8]}; //bit 2
-      2'b10: LoadData = {{24{ReadData[23]}}, ReadData[23:16]}; //bit 3
-      2'b11: LoadData = {{24{ReadData[31]}}, ReadData[31:24]}; //bit 4
+  assign LoadOffset = ALUResult[1:0];
+  always_comb begin
+    case (funct3)
+      3'b000: case(LoadOffset) // lb
+        2'b00: LoadData = {{24{ReadData[7]}}, ReadData[7:0]}; //bit 1
+        2'b01: LoadData = {{24{ReadData[15]}}, ReadData[15:8]}; //bit 2
+        2'b10: LoadData = {{24{ReadData[23]}}, ReadData[23:16]}; //bit 3
+        2'b11: LoadData = {{24{ReadData[31]}}, ReadData[31:24]}; //bit 4
+        default: LoadData = 32'bx;
+      endcase
+      3'b001: case(LoadOffset) // lh
+        2'b00: LoadData = {{16{ReadData[15]}}, ReadData[15:0]}; // lh bytes 1 and 2
+        2'b10: LoadData = {{16{ReadData[31]}}, ReadData[31:16]}; // lh bytes 3 and 4
+        default: LoadData = 32'bx;
+      endcase
+      3'b010: LoadData = ReadData;         // lw
+      3'b100: case(LoadOffset) //lbu
+        2'b00: LoadData = {24'b0, ReadData[7:0]};     
+        2'b01: LoadData = {24'b0, ReadData[15:8]}; 
+        2'b10: LoadData = {24'b0, ReadData[23:16]}; 
+        2'b11: LoadData = {24'b0, ReadData[31:24]}; 
+        default: LoadData = 32'bx;
+      endcase
+      3'b101: case(LoadOffset)
+        2'b00: LoadData = {16'b0, ReadData[15:0]};     
+        2'b10: LoadData = {16'b0, ReadData[31:16]};
+      endcase              // lhu
       default: LoadData = 32'bx;
     endcase
-    3'b001: case(LoadOffset) // lh
-      2'b00: LoadData = {{16{ReadData[15]}}, ReadData[15:0]}; // lh bytes 1 and 2
-      2'b10: LoadData = {{16{ReadData[31]}}, ReadData[31:16]}; // lh bytes 3 and 4
-      default: LoadData = 32'bx;
-    endcase
-    3'b010: LoadData = ReadData;                             // lw
-    3'b100: case(LoadOffset) //lbu
-      2'b00: LoadData = {24'b0, ReadData[7:0]};     
-      2'b01: LoadData = {24'b0, ReadData[15:8]}; 
-      2'b10: LoadData = {24'b0, ReadData[23:16]}; 
-      2'b11: LoadData = {24'b0, ReadData[31:24]}; 
-      default: LoadData = 32'bx;
-    endcase
-    3'b101: case(LoadOffset)
-      2'b00: LoadData = {16'b0, ReadData[15:0]};     
-      2'b10: LoadData = {16'b0, ReadData[31:16]};
-    endcase              // lhu
-    default: LoadData = 32'bx;
-  endcase
-end 
+  end 
 
-// Store Logic
+  // Store Logic
   assign StoreOffset = ALUResult[1:0];
   always_comb begin
     case (funct3)
@@ -448,7 +452,7 @@ endmodule // dmem
 module alu (input  logic [31:0] a, b,
          input  logic [3:0] 	alucontrol,
          output logic [31:0] result,
-         output logic 	zero);
+         output logic 	zero, less, carryout);
 
 logic [31:0] 	       condinvb, sum;
 logic 		       v;              // overflow
@@ -457,7 +461,10 @@ logic 		       isAddSub;       // true when is add or subtract operation
 assign condinvb = alucontrol[0] ? ~b : b;
 assign sum = a + condinvb + alucontrol[0];
 assign isAddSub = ~alucontrol[2] & ~alucontrol[1] |
-                  ~alucontrol[1] & alucontrol[0];   
+                  ~alucontrol[1] & alucontrol[0];
+
+assign less = $signed(a) < $signed(b);
+assign carryout = ~a[31] & b[31] | ~(a[31] ^ b[31]) & result[31];
 
 always_comb
   case (alucontrol)

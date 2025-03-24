@@ -75,6 +75,14 @@ opcode   RegWrite   ImmSrc  ALUSrc  MemWrite    ResultSrc   Branch  ALUOp   Jump
 # 3.23.2025 SH passed
 ## applied same logic to with 16 bit shifts for half word
 
+# 3.23.2025 BGE passed
+## Created case for each type of branch
+## Added Arithmetic logic for less and carryout signals
+## Passed signals to controller for comparisons
+# 3.23.2025 BGEU passed, no additional changes
+# 3.23.2025 BLT passed, no additional changes
+# 3.23.2025 BLTU passed, no additional changes
+
 
 
 
