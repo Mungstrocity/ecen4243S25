@@ -43,13 +43,13 @@ logic [31:0] Instr;
 logic [31:0] PC;
 
 // instantiate device to be tested
-top dut(clk, reset, WriteData, DataAdr, MemWrite, Instr, PC);
+top dut(clk, reset, WriteData, DataAdr, StoreData, MemWrite, Instr, PC);
 
 initial
   begin
 string memfilename;
-     memfilename = {"../riscvtest/auipc-test.memfile"};//riscvtest folder
-     //memfilename = {"../testing/sw.memfile"}; //testing folder
+     //memfilename = {"../riscvtest/auipc-test.memfile"};//riscvtest folder
+     memfilename = {"../testing/sh.memfile"}; //testing folder
      $readmemh(memfilename, dut.imem.RAM);
      $readmemh(memfilename, dut.dmem.RAM);
   end
@@ -80,6 +80,8 @@ always @(negedge clk)
       //            $stop;
       //         end
       // end
+    $display("TB PC = %h", PC);
+    $display("TB Instr = %h", Instr);
     if (Instr == 32'h00000073) begin // ecall catch
       #5 // wait for final write
       if (PC == 32'h00000274) begin
@@ -97,23 +99,26 @@ module riscvsingle (input  logic        clk, reset,
      output logic [31:0] PC,
      input  logic [31:0] Instr,
      output logic 	MemWrite,
-     output logic [31:0] ALUResult, WriteData,
+     output logic [31:0] ALUResult, WriteData, StoreData,
      input  logic [31:0] ReadData);
 
 logic 				ALUSrcA, ALUSrcB, RegWrite, Jump, Zero;
 logic [1:0] 				ResultSrc, PCSrc; 
 logic [2:0] 				ImmSrc;
 logic [3:0]         ALUControl;
+logic [2:0]         funct3;
+
+assign funct3 = Instr[14:12];
 
 controller c (Instr[6:0], Instr[14:12], Instr[30], Zero,
   ResultSrc, PCSrc, MemWrite,
   ALUSrcA, ALUSrcB, RegWrite, Jump,
   ImmSrc, ALUControl);
-datapath dp (clk, reset, ResultSrc, PCSrc, ALUSrcA,
+datapath dp (clk, reset, funct3, ResultSrc, PCSrc, ALUSrcA,
  ALUSrcB, RegWrite,
  ImmSrc, ALUControl,
  Zero, PC, Instr,
- ALUResult, WriteData, ReadData);
+ ALUResult, WriteData, StoreData, ReadData);
 
 endmodule // riscvsingle
 
@@ -217,6 +222,7 @@ endcase // case (ALUOp)
 endmodule // aludec
 
 module datapath (input  logic        clk, reset,
+  input  logic [2:0]  funct3,
   input  logic [1:0]  ResultSrc, PCSrc,
   input  logic 	      ALUSrcA, ALUSrcB,  //adding new mux for auipc instruction
   input  logic 	      RegWrite,
@@ -225,7 +231,7 @@ module datapath (input  logic        clk, reset,
   output logic 	      Zero,
   output logic [31:0] PC,
   input  logic [31:0] Instr,
-  output logic [31:0] ALUResult, WriteData,
+  output logic [31:0] ALUResult, WriteData, StoreData,
   input  logic [31:0] ReadData);
 
 logic [31:0] 		     PCNext, PCPlus4, PCTarget;
@@ -234,6 +240,9 @@ logic [31:0] 		     SrcA, SrcB, SrcAIn, SrcBIn;
 logic [31:0] 		     Result;
 logic [31:0] 		     JalrTarget;
 logic [31:0] 		     TempJalrTarget;
+logic [31:0] 		     LoadData;
+logic [1:0] 		     LoadOffset;
+logic [1:0] 		     StoreOffset;
 
 assign TempJalrTarget = SrcA + ImmExt;              // jalr target address, 
 assign JalrTarget = {TempJalrTarget[31:1], 1'b0}; 
@@ -252,7 +261,59 @@ mux2 #(32) srcamux (SrcA, PC, ALUSrcA, SrcAIn); // adding new mux for auipc inst
 mux2 #(32)  srcbmux (WriteData, ImmExt, ALUSrcB, SrcBIn);
 
 alu  alu (SrcAIn, SrcBIn, ALUControl, ALUResult, Zero);
-mux4 #(32) resultmux (ALUResult, ReadData, PCPlus4, ImmExt, ResultSrc, Result);
+
+  // load/store logic
+assign LoadOffset = ALUResult[1:0];
+always_comb begin
+  case (funct3)
+    3'b000: case(LoadOffset) // lb
+      2'b00: LoadData = {{24{ReadData[7]}}, ReadData[7:0]}; //bit 1
+      2'b01: LoadData = {{24{ReadData[15]}}, ReadData[15:8]}; //bit 2
+      2'b10: LoadData = {{24{ReadData[23]}}, ReadData[23:16]}; //bit 3
+      2'b11: LoadData = {{24{ReadData[31]}}, ReadData[31:24]}; //bit 4
+      default: LoadData = 32'bx;
+    endcase
+    3'b001: case(LoadOffset) // lh
+      2'b00: LoadData = {{16{ReadData[15]}}, ReadData[15:0]}; // lh bytes 1 and 2
+      2'b10: LoadData = {{16{ReadData[31]}}, ReadData[31:16]}; // lh bytes 3 and 4
+      default: LoadData = 32'bx;
+    endcase
+    3'b010: LoadData = ReadData;                             // lw
+    3'b100: case(LoadOffset) //lbu
+      2'b00: LoadData = {24'b0, ReadData[7:0]};     
+      2'b01: LoadData = {24'b0, ReadData[15:8]}; 
+      2'b10: LoadData = {24'b0, ReadData[23:16]}; 
+      2'b11: LoadData = {24'b0, ReadData[31:24]}; 
+      default: LoadData = 32'bx;
+    endcase
+    3'b101: case(LoadOffset)
+      2'b00: LoadData = {16'b0, ReadData[15:0]};     
+      2'b10: LoadData = {16'b0, ReadData[31:16]};
+    endcase              // lhu
+    default: LoadData = 32'bx;
+  endcase
+end 
+
+// Store Logic
+  assign StoreOffset = ALUResult[1:0];
+  always_comb begin
+    case (funct3)
+      3'b000: case(StoreOffset) // sb
+        2'b00: StoreData = (ReadData & 32'hffffff00) | WriteData[7:0];   //byte 0
+        2'b01: StoreData = (ReadData & 32'hffff00ff) | WriteData[7:0] << 8;  //byte 1
+        2'b10: StoreData = (ReadData & 32'hff00ffff) | WriteData[7:0] << 16; //byte 2
+        2'b11: StoreData = (ReadData & 32'h00ffffff) | WriteData[7:0] << 24; //byte 3
+        default: StoreData = 32'bx;
+      endcase
+      3'b001: case(StoreOffset) // sh
+        2'b00: StoreData = (ReadData & 32'hffff0000) | WriteData[15:0];       // lh bytes 1 and 2
+        2'b10: StoreData = (ReadData & 32'h0000ffff) | WriteData[15:0] << 16; // lh bytes 3 and 4
+        default: StoreData = 32'bx;
+      endcase
+    endcase
+  end
+
+mux4 #(32) resultmux (ALUResult, LoadData, PCPlus4, ImmExt, ResultSrc, Result);
 
 endmodule // datapath
 
@@ -267,21 +328,21 @@ module extend (input  logic [31:7] instr,
       input  logic [2:0]  immsrc,
       output logic [31:0] immext);
 
-always_comb
-  case(immsrc)
-    // I−type
-    3'b000:  immext = {{20{instr[31]}}, instr[31:20]};
-    // S−type (stores)
-    3'b001:  immext = {{20{instr[31]}}, instr[31:25], instr[11:7]};
-    // B−type (branches)
-    3'b010:  immext = {{20{instr[31]}}, instr[7], instr[30:25], instr[11:8], 1'b0};       
-    // J−type (jal)
-    3'b011:  immext = {{12{instr[31]}}, instr[19:12], instr[20], instr[30:21], 1'b0};
-    // U−type (lui)
-     3'b100:  immext = {instr[31:12], 12'b0};
+  always_comb
+    case(immsrc)
+      // I−type
+      3'b000:  immext = {{20{instr[31]}}, instr[31:20]};
+      // S−type (stores)
+      3'b001:  immext = {{20{instr[31]}}, instr[31:25], instr[11:7]};
+      // B−type (branches)
+      3'b010:  immext = {{20{instr[31]}}, instr[7], instr[30:25], instr[11:8], 1'b0};       
+      // J−type (jal)
+      3'b011:  immext = {{12{instr[31]}}, instr[19:12], instr[20], instr[30:21], 1'b0};
+      // U−type (lui)
+      3'b100:  immext = {instr[31:12], 12'b0};
 
-    default: immext = 32'bx; // undefined
-  endcase // case (immsrc)
+      default: immext = 32'bx; // undefined
+    endcase // case (immsrc)
 
 endmodule // extend
 
@@ -343,7 +404,7 @@ module mux4 #(parameter WIDTH = 8)
 endmodule // mux4
 
 module top (input  logic        clk, reset,
-   output logic [31:0] WriteData, DataAdr,
+   output logic [31:0] WriteData, DataAdr, StoreData,
    output logic 	MemWrite,
    output logic [31:0] Instr, PC);
 
@@ -351,9 +412,9 @@ logic [31:0] 		ReadData;
 
 // instantiate processor and memories
 riscvsingle rv32single (clk, reset, PC, Instr, MemWrite, DataAdr,
-      WriteData, ReadData);
+      WriteData, StoreData, ReadData);
 imem imem (PC, Instr);
-dmem dmem (clk, MemWrite, DataAdr, WriteData, ReadData);
+dmem dmem (clk, MemWrite, DataAdr, StoreData, ReadData);
 
 endmodule // top
 
@@ -366,7 +427,7 @@ assign rd = RAM[a[31:2]]; // word aligned
 
 endmodule // imem
 
-module dmem (input  logic        clk, we,
+module dmem (input  logic  clk, we,
     input  logic [31:0] a, wd,
     output logic [31:0] rd);
 
@@ -379,6 +440,7 @@ always_ff @(posedge clk) begin
 end
 always_ff @(negedge clk) begin
   rd <= RAM[a[31:2]];
+  //$display("DMEM READ @ %h = %h", a, RAM[a[31:2]]);
 end
 
 endmodule // dmem

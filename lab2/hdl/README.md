@@ -62,6 +62,19 @@ opcode   RegWrite   ImmSrc  ALUSrc  MemWrite    ResultSrc   Branch  ALUOp   Jump
 ## Race condition happening with write/read happening on the pos clock edge in the dmem module. This leads to x29 != x30 and break conditions.
 ### Set read to occur on the neg edge allowing write time to complete and retested lw and sw. Both were successful.
 
+# 3.23.2025 - LB passed
+## Implemented case statements in datapath to handle load logic based on funct3 then offset bit from ALUResult
+# 3.23.2025 - LBU passed
+## Expanded case statement to cover LBU same as LB but with no sign extension
+# 3.23.2025 - LH passed
+## Adjusted offset logic. 00 loads lower 2 bytes, 10 (instead of 01) load upper 2 bytes
+# 3.23.2025 - LHU passed, same update applied to logic
+
+# 3.23.2025 SB passed
+## created case statement to retain current memory data and only overwite the byte indicated by the control bits a[1:0]
+# 3.23.2025 SH passed
+## applied same logic to with 16 bit shifts for half word
+
 
 
 
