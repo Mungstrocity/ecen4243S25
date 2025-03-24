@@ -83,13 +83,6 @@ opcode   RegWrite   ImmSrc  ALUSrc  MemWrite    ResultSrc   Branch  ALUOp   Jump
 # 3.23.2025 BLT passed, no additional changes
 # 3.23.2025 BLTU passed, no additional changes
 
-
-
-
-
-
-
-
-
-
-
+# 3.23.2025 riscvtest passed
+# 3.23.2025 test_hw passed
+# 3.23.2025 test_hw2 passed

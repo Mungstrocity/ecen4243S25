@@ -48,8 +48,8 @@ top dut(clk, reset, WriteData, DataAdr, StoreData, MemWrite, Instr, PC);
 initial
   begin
 string memfilename;
-     //memfilename = {"../riscvtest/auipc-test.memfile"};//riscvtest folder
-     memfilename = {"../testing/bltu.memfile"}; //testing folder
+     memfilename = {"../riscvtest/test_hw2.memfile"};//riscvtest folder
+     //memfilename = {"../testing/bltu.memfile"}; //testing folder
      $readmemh(memfilename, dut.imem.RAM);
      $readmemh(memfilename, dut.dmem.RAM);
   end
