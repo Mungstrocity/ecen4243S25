@@ -1,115 +1,153 @@
 #-----------------------------------------------------------
-# Vivado v2020.2 (64-bit)
-# SW Build 3064766 on Wed Nov 18 09:12:47 MST 2020
-# IP Build 3064653 on Wed Nov 18 14:17:31 MST 2020
-# Start of session at: Wed Mar  1 15:48:40 2023
-# Process ID: 312725
-# Current directory: /home/ross/repos/ELVIS/lab2/lab2.runs/design_1_top_0_0_synth_1
+# Vivado v2023.2 (64-bit)
+# SW Build 4029153 on Fri Oct 13 20:13:54 MDT 2023
+# IP Build 4028589 on Sat Oct 14 00:45:43 MDT 2023
+# SharedData Build 4025554 on Tue Oct 10 17:18:54 MDT 2023
+# Start of session at: Mon Mar 24 15:27:29 2025
+# Process ID: 500517
+# Current directory: /home/09-comp-arch-m/ecen4243S25/lab2/lab2/lab2.runs/design_1_top_0_0_synth_1
 # Command line: vivado -log design_1_top_0_0.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source design_1_top_0_0.tcl
-# Log file: /home/ross/repos/ELVIS/lab2/lab2.runs/design_1_top_0_0_synth_1/design_1_top_0_0.vds
-# Journal file: /home/ross/repos/ELVIS/lab2/lab2.runs/design_1_top_0_0_synth_1/vivado.jou
+# Log file: /home/09-comp-arch-m/ecen4243S25/lab2/lab2/lab2.runs/design_1_top_0_0_synth_1/design_1_top_0_0.vds
+# Journal file: /home/09-comp-arch-m/ecen4243S25/lab2/lab2/lab2.runs/design_1_top_0_0_synth_1/vivado.jou
+# Running On: CEAT-ENDV350-09L, OS: Linux, CPU Frequency: 2251.812 MHz, CPU Physical cores: 14, Host memory: 16437 MB
 #-----------------------------------------------------------
 source design_1_top_0_0.tcl -notrace
 INFO: [IP_Flow 19-234] Refreshing IP repositories
-INFO: [IP_Flow 19-1700] Loaded user IP repository '/home/ross/repos/ELVIS/lab2/lab2.ipdefs/ip_repo_BAK_0_0_0'.
-INFO: [IP_Flow 19-2313] Loaded Vivado IP repository '/opt/Xilinx/Vivado/2020.2/data/ip'.
-Command: synth_design -top design_1_top_0_0 -part xc7z020clg484-1 -mode out_of_context
+INFO: [IP_Flow 19-1700] Loaded user IP repository '/home/09-comp-arch-m/ecen4243S25/lab2/lab2/lab2.ipdefs/ip_repo_BAK_0_0_0'.
+INFO: [IP_Flow 19-2313] Loaded Vivado IP repository '/opt/Xilinx/Vivado/2023.2/data/ip'.
+INFO: [IP_Flow 19-6924] IPCACHE: Running cache check for IP inst: design_1_top_0_0
+Command: synth_design -top design_1_top_0_0 -part xc7z020clg484-1 -incremental_mode off -mode out_of_context
 Starting synth_design
-WARNING: [IP_Flow 19-3571] IP 'design_1_top_0_0' is restricted:
-* Module reference is stale and needs refreshing.
 Attempting to get a license for feature 'Synthesis' and/or device 'xc7z020'
 INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xc7z020'
 INFO: [Device 21-403] Loading part xc7z020clg484-1
 INFO: [Synth 8-7079] Multithreading enabled for synth_design using a maximum of 4 processes.
 INFO: [Synth 8-7078] Launching helper process for spawning children vivado processes
-INFO: [Synth 8-7075] Helper process launched with PID 312809
-WARNING: [Synth 8-2292] literal value truncated to fit in 11 bits [/home/ross/repos/ELVIS/lab2/src/riscv_single.sv:140]
-WARNING: [Synth 8-2292] literal value truncated to fit in 11 bits [/home/ross/repos/ELVIS/lab2/src/riscv_single.sv:141]
-WARNING: [Synth 8-2292] literal value truncated to fit in 11 bits [/home/ross/repos/ELVIS/lab2/src/riscv_single.sv:146]
+INFO: [Synth 8-7075] Helper process launched with PID 500540
 ---------------------------------------------------------------------------------
-Starting RTL Elaboration : Time (s): cpu = 00:00:01 ; elapsed = 00:00:01 . Memory (MB): peak = 2386.000 ; gain = 0.000 ; free physical = 33255 ; free virtual = 47614
+Starting RTL Elaboration : Time (s): cpu = 00:00:02 ; elapsed = 00:00:02 . Memory (MB): peak = 2049.000 ; gain = 403.715 ; free physical = 4048 ; free virtual = 10355
 ---------------------------------------------------------------------------------
-INFO: [Synth 8-6157] synthesizing module 'design_1_top_0_0' [/home/ross/repos/ELVIS/lab2/lab2.srcs/sources_1/bd/design_1/ip/design_1_top_0_0/synth/design_1_top_0_0.v:58]
-INFO: [Synth 8-6157] synthesizing module 'top' [/home/ross/repos/ELVIS/lab2/src/top.v:2]
-INFO: [Synth 8-6157] synthesizing module 'riscvsingle' [/home/ross/repos/ELVIS/lab2/src/riscv_single.sv:75]
-INFO: [Synth 8-6157] synthesizing module 'controller' [/home/ross/repos/ELVIS/lab2/src/riscv_single.sv:101]
-INFO: [Synth 8-6157] synthesizing module 'maindec' [/home/ross/repos/ELVIS/lab2/src/riscv_single.sv:123]
-INFO: [Synth 8-6155] done synthesizing module 'maindec' (1#1) [/home/ross/repos/ELVIS/lab2/src/riscv_single.sv:123]
-INFO: [Synth 8-6157] synthesizing module 'aludec' [/home/ross/repos/ELVIS/lab2/src/riscv_single.sv:151]
-INFO: [Synth 8-6155] done synthesizing module 'aludec' (2#1) [/home/ross/repos/ELVIS/lab2/src/riscv_single.sv:151]
-INFO: [Synth 8-6155] done synthesizing module 'controller' (3#1) [/home/ross/repos/ELVIS/lab2/src/riscv_single.sv:101]
-INFO: [Synth 8-6157] synthesizing module 'datapath' [/home/ross/repos/ELVIS/lab2/src/riscv_single.sv:178]
-INFO: [Synth 8-6157] synthesizing module 'flopenr' [/home/ross/repos/ELVIS/lab2/src/riscv_single.sv:249]
+INFO: [Synth 8-11241] undeclared symbol 'Less', assumed default net type 'wire' [/home/09-comp-arch-m/Desktop/riscv_single.sv:53]
+INFO: [Synth 8-11241] undeclared symbol 'Carryout', assumed default net type 'wire' [/home/09-comp-arch-m/Desktop/riscv_single.sv:53]
+INFO: [Synth 8-6157] synthesizing module 'design_1_top_0_0' [/home/09-comp-arch-m/ecen4243S25/lab2/lab2/lab2.gen/sources_1/bd/design_1/ip/design_1_top_0_0/synth/design_1_top_0_0.v:53]
+INFO: [Synth 8-6157] synthesizing module 'top' [/home/09-comp-arch-m/ecen4243S25/lab2/lab2/src/top.v:2]
+INFO: [Synth 8-6157] synthesizing module 'riscvsingle' [/home/09-comp-arch-m/Desktop/riscv_single.sv:35]
+INFO: [Synth 8-6157] synthesizing module 'controller' [/home/09-comp-arch-m/Desktop/riscv_single.sv:64]
+INFO: [Synth 8-6157] synthesizing module 'maindec' [/home/09-comp-arch-m/Desktop/riscv_single.sv:101]
+INFO: [Synth 8-6155] done synthesizing module 'maindec' (0#1) [/home/09-comp-arch-m/Desktop/riscv_single.sv:101]
+WARNING: [Synth 8-7071] port 'MemStrobe' of module 'maindec' is unconnected for instance 'md' [/home/09-comp-arch-m/Desktop/riscv_single.sv:79]
+WARNING: [Synth 8-7023] instance 'md' of module 'maindec' has 11 connections declared, but only 10 given [/home/09-comp-arch-m/Desktop/riscv_single.sv:79]
+INFO: [Synth 8-6157] synthesizing module 'aludec' [/home/09-comp-arch-m/Desktop/riscv_single.sv:135]
+INFO: [Synth 8-226] default block is never used [/home/09-comp-arch-m/Desktop/riscv_single.sv:148]
+INFO: [Synth 8-6155] done synthesizing module 'aludec' (0#1) [/home/09-comp-arch-m/Desktop/riscv_single.sv:135]
+INFO: [Synth 8-6155] done synthesizing module 'controller' (0#1) [/home/09-comp-arch-m/Desktop/riscv_single.sv:64]
+WARNING: [Synth 8-7071] port 'MemStrobe' of module 'controller' is unconnected for instance 'c' [/home/09-comp-arch-m/Desktop/riscv_single.sv:52]
+WARNING: [Synth 8-7023] instance 'c' of module 'controller' has 16 connections declared, but only 15 given [/home/09-comp-arch-m/Desktop/riscv_single.sv:52]
+INFO: [Synth 8-6157] synthesizing module 'datapath' [/home/09-comp-arch-m/Desktop/riscv_single.sv:169]
+INFO: [Synth 8-6157] synthesizing module 'flopenr' [/home/09-comp-arch-m/Desktop/riscv_single.sv:306]
 	Parameter WIDTH bound to: 32 - type: integer 
-INFO: [Synth 8-6155] done synthesizing module 'flopenr' (4#1) [/home/ross/repos/ELVIS/lab2/src/riscv_single.sv:249]
-INFO: [Synth 8-6157] synthesizing module 'adder' [/home/ross/repos/ELVIS/lab2/src/riscv_single.sv:212]
-INFO: [Synth 8-6155] done synthesizing module 'adder' (5#1) [/home/ross/repos/ELVIS/lab2/src/riscv_single.sv:212]
-INFO: [Synth 8-6157] synthesizing module 'mux2' [/home/ross/repos/ELVIS/lab2/src/riscv_single.sv:260]
+INFO: [Synth 8-6155] done synthesizing module 'flopenr' (0#1) [/home/09-comp-arch-m/Desktop/riscv_single.sv:306]
+WARNING: [Synth 8-689] width (32) of port connection 'en' does not match port width (1) of module 'flopenr' [/home/09-comp-arch-m/Desktop/riscv_single.sv:196]
+INFO: [Synth 8-6157] synthesizing module 'adder' [/home/09-comp-arch-m/Desktop/riscv_single.sv:266]
+INFO: [Synth 8-6155] done synthesizing module 'adder' (0#1) [/home/09-comp-arch-m/Desktop/riscv_single.sv:266]
+INFO: [Synth 8-6157] synthesizing module 'mux3' [/home/09-comp-arch-m/Desktop/riscv_single.sv:326]
 	Parameter WIDTH bound to: 32 - type: integer 
-INFO: [Synth 8-6155] done synthesizing module 'mux2' (6#1) [/home/ross/repos/ELVIS/lab2/src/riscv_single.sv:260]
-INFO: [Synth 8-6157] synthesizing module 'regfile' [/home/ross/repos/ELVIS/lab2/src/riscv_single.sv:347]
-INFO: [Synth 8-6155] done synthesizing module 'regfile' (7#1) [/home/ross/repos/ELVIS/lab2/src/riscv_single.sv:347]
-INFO: [Synth 8-6157] synthesizing module 'extend' [/home/ross/repos/ELVIS/lab2/src/riscv_single.sv:219]
-INFO: [Synth 8-226] default block is never used [/home/ross/repos/ELVIS/lab2/src/riscv_single.sv:224]
-INFO: [Synth 8-6155] done synthesizing module 'extend' (8#1) [/home/ross/repos/ELVIS/lab2/src/riscv_single.sv:219]
-INFO: [Synth 8-6157] synthesizing module 'alu' [/home/ross/repos/ELVIS/lab2/src/riscv_single.sv:318]
-INFO: [Synth 8-6155] done synthesizing module 'alu' (9#1) [/home/ross/repos/ELVIS/lab2/src/riscv_single.sv:318]
-INFO: [Synth 8-6157] synthesizing module 'mux3' [/home/ross/repos/ELVIS/lab2/src/riscv_single.sv:269]
+INFO: [Synth 8-6155] done synthesizing module 'mux3' (0#1) [/home/09-comp-arch-m/Desktop/riscv_single.sv:326]
+INFO: [Synth 8-6157] synthesizing module 'regfile' [/home/09-comp-arch-m/Desktop/riscv_single.sv:405]
+INFO: [Synth 8-6155] done synthesizing module 'regfile' (0#1) [/home/09-comp-arch-m/Desktop/riscv_single.sv:405]
+INFO: [Synth 8-6157] synthesizing module 'extend' [/home/09-comp-arch-m/Desktop/riscv_single.sv:273]
+INFO: [Synth 8-6155] done synthesizing module 'extend' (0#1) [/home/09-comp-arch-m/Desktop/riscv_single.sv:273]
+INFO: [Synth 8-6157] synthesizing module 'mux2' [/home/09-comp-arch-m/Desktop/riscv_single.sv:317]
 	Parameter WIDTH bound to: 32 - type: integer 
-INFO: [Synth 8-6155] done synthesizing module 'mux3' (10#1) [/home/ross/repos/ELVIS/lab2/src/riscv_single.sv:269]
-INFO: [Synth 8-6155] done synthesizing module 'datapath' (11#1) [/home/ross/repos/ELVIS/lab2/src/riscv_single.sv:178]
-INFO: [Synth 8-6155] done synthesizing module 'riscvsingle' (12#1) [/home/ross/repos/ELVIS/lab2/src/riscv_single.sv:75]
-INFO: [Synth 8-6157] synthesizing module 'imem' [/home/ross/repos/ELVIS/lab2/src/imem.sv:1]
-INFO: [Synth 8-3876] $readmem data file 'memfile.dat' is read successfully [/home/ross/repos/ELVIS/lab2/src/imem.sv:6]
-INFO: [Synth 8-6155] done synthesizing module 'imem' (13#1) [/home/ross/repos/ELVIS/lab2/src/imem.sv:1]
-INFO: [Synth 8-6157] synthesizing module 'MemControl' [/home/ross/repos/ELVIS/lab2/src/memcontroller.sv:1]
-INFO: [Synth 8-6155] done synthesizing module 'MemControl' (14#1) [/home/ross/repos/ELVIS/lab2/src/memcontroller.sv:1]
-INFO: [Synth 8-6071] Mark debug on the nets applies keep_hierarchy on instance 'memcontrol'. This will prevent further optimization [/home/ross/repos/ELVIS/lab2/src/top.v:30]
-INFO: [Synth 8-6071] Mark debug on the nets applies keep_hierarchy on instance 'riscvsingle'. This will prevent further optimization [/home/ross/repos/ELVIS/lab2/src/top.v:18]
-INFO: [Synth 8-6071] Mark debug on the nets applies keep_hierarchy on instance 'imem'. This will prevent further optimization [/home/ross/repos/ELVIS/lab2/src/top.v:28]
-INFO: [Synth 8-6155] done synthesizing module 'top' (15#1) [/home/ross/repos/ELVIS/lab2/src/top.v:2]
-INFO: [Synth 8-6155] done synthesizing module 'design_1_top_0_0' (16#1) [/home/ross/repos/ELVIS/lab2/lab2.srcs/sources_1/bd/design_1/ip/design_1_top_0_0/synth/design_1_top_0_0.v:58]
+INFO: [Synth 8-6155] done synthesizing module 'mux2' (0#1) [/home/09-comp-arch-m/Desktop/riscv_single.sv:317]
+INFO: [Synth 8-6157] synthesizing module 'alu' [/home/09-comp-arch-m/Desktop/riscv_single.sv:368]
+INFO: [Synth 8-6155] done synthesizing module 'alu' (0#1) [/home/09-comp-arch-m/Desktop/riscv_single.sv:368]
+INFO: [Synth 8-226] default block is never used [/home/09-comp-arch-m/Desktop/riscv_single.sv:215]
+INFO: [Synth 8-226] default block is never used [/home/09-comp-arch-m/Desktop/riscv_single.sv:228]
+INFO: [Synth 8-155] case statement is not full and has no default [/home/09-comp-arch-m/Desktop/riscv_single.sv:235]
+INFO: [Synth 8-226] default block is never used [/home/09-comp-arch-m/Desktop/riscv_single.sv:247]
+INFO: [Synth 8-155] case statement is not full and has no default [/home/09-comp-arch-m/Desktop/riscv_single.sv:246]
+INFO: [Synth 8-6157] synthesizing module 'mux4' [/home/09-comp-arch-m/Desktop/riscv_single.sv:335]
+	Parameter WIDTH bound to: 32 - type: integer 
+INFO: [Synth 8-226] default block is never used [/home/09-comp-arch-m/Desktop/riscv_single.sv:341]
+INFO: [Synth 8-6155] done synthesizing module 'mux4' (0#1) [/home/09-comp-arch-m/Desktop/riscv_single.sv:335]
+INFO: [Synth 8-6155] done synthesizing module 'datapath' (0#1) [/home/09-comp-arch-m/Desktop/riscv_single.sv:169]
+INFO: [Synth 8-6155] done synthesizing module 'riscvsingle' (0#1) [/home/09-comp-arch-m/Desktop/riscv_single.sv:35]
+WARNING: [Synth 8-7071] port 'StoreData' of module 'riscvsingle' is unconnected for instance 'riscvsingle' [/home/09-comp-arch-m/ecen4243S25/lab2/lab2/src/top.v:18]
+WARNING: [Synth 8-7023] instance 'riscvsingle' of module 'riscvsingle' has 11 connections declared, but only 10 given [/home/09-comp-arch-m/ecen4243S25/lab2/lab2/src/top.v:18]
+INFO: [Synth 8-6157] synthesizing module 'imem' [/home/09-comp-arch-m/ecen4243S25/lab2/lab2/src/imem.sv:1]
+INFO: [Synth 8-3876] $readmem data file 'memfile.dat' is read successfully [/home/09-comp-arch-m/ecen4243S25/lab2/lab2/src/imem.sv:6]
+INFO: [Synth 8-6155] done synthesizing module 'imem' (0#1) [/home/09-comp-arch-m/ecen4243S25/lab2/lab2/src/imem.sv:1]
+INFO: [Synth 8-6157] synthesizing module 'MemControl' [/home/09-comp-arch-m/ecen4243S25/lab2/lab2/src/memcontroller.sv:1]
+INFO: [Synth 8-6155] done synthesizing module 'MemControl' (0#1) [/home/09-comp-arch-m/ecen4243S25/lab2/lab2/src/memcontroller.sv:1]
+INFO: [Synth 8-6155] done synthesizing module 'top' (0#1) [/home/09-comp-arch-m/ecen4243S25/lab2/lab2/src/top.v:2]
+INFO: [Synth 8-6155] done synthesizing module 'design_1_top_0_0' (0#1) [/home/09-comp-arch-m/ecen4243S25/lab2/lab2/lab2.gen/sources_1/bd/design_1/ip/design_1_top_0_0/synth/design_1_top_0_0.v:53]
+WARNING: [Synth 8-3848] Net MemStrobe in module/entity controller does not have driver. [/home/09-comp-arch-m/Desktop/riscv_single.sv:74]
+WARNING: [Synth 8-87] always_comb on 'LoadData_reg' did not result in combinational logic [/home/09-comp-arch-m/Desktop/riscv_single.sv:216]
+WARNING: [Synth 8-87] always_comb on 'StoreData_reg' did not result in combinational logic [/home/09-comp-arch-m/Desktop/riscv_single.sv:248]
+WARNING: [Synth 8-3848] Net PCReady in module/entity datapath does not have driver. [/home/09-comp-arch-m/Desktop/riscv_single.sv:182]
+WARNING: [Synth 8-3848] Net MemStrobe in module/entity riscvsingle does not have driver. [/home/09-comp-arch-m/Desktop/riscv_single.sv:41]
+WARNING: [Synth 8-3848] Net PCReady in module/entity riscvsingle does not have driver. [/home/09-comp-arch-m/Desktop/riscv_single.sv:42]
+INFO: [Synth 8-6071] Mark debug on the nets applies keep_hierarchy on instance 'inst'. This will prevent further optimization [/home/09-comp-arch-m/ecen4243S25/lab2/lab2/lab2.gen/sources_1/bd/design_1/ip/design_1_top_0_0/synth/design_1_top_0_0.v:82]
+INFO: [Synth 8-6071] Mark debug on the nets applies keep_hierarchy on instance 'memcontrol'. This will prevent further optimization [/home/09-comp-arch-m/ecen4243S25/lab2/lab2/src/top.v:30]
+INFO: [Synth 8-6071] Mark debug on the nets applies keep_hierarchy on instance 'riscvsingle'. This will prevent further optimization [/home/09-comp-arch-m/ecen4243S25/lab2/lab2/src/top.v:18]
+INFO: [Synth 8-6071] Mark debug on the nets applies keep_hierarchy on instance 'imem'. This will prevent further optimization [/home/09-comp-arch-m/ecen4243S25/lab2/lab2/src/top.v:28]
+WARNING: [Synth 8-7129] Port a[1] in module imem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port a[0] in module imem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Instr[6] in module datapath is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Instr[5] in module datapath is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Instr[4] in module datapath is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Instr[3] in module datapath is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Instr[2] in module datapath is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Instr[1] in module datapath is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Instr[0] in module datapath is either unconnected or has no load
+WARNING: [Synth 8-7129] Port MemStrobe in module controller is either unconnected or has no load
+WARNING: [Synth 8-7129] Port MemStrobe in module riscvsingle is either unconnected or has no load
+WARNING: [Synth 8-7129] Port PCReady in module riscvsingle is either unconnected or has no load
 ---------------------------------------------------------------------------------
-Finished RTL Elaboration : Time (s): cpu = 00:00:02 ; elapsed = 00:00:02 . Memory (MB): peak = 2386.000 ; gain = 0.000 ; free physical = 33209 ; free virtual = 47570
+Finished RTL Elaboration : Time (s): cpu = 00:00:02 ; elapsed = 00:00:03 . Memory (MB): peak = 2130.969 ; gain = 485.684 ; free physical = 3943 ; free virtual = 10250
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Handling Custom Attributes
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Handling Custom Attributes : Time (s): cpu = 00:00:02 ; elapsed = 00:00:02 . Memory (MB): peak = 2386.000 ; gain = 0.000 ; free physical = 33206 ; free virtual = 47566
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:02 ; elapsed = 00:00:03 . Memory (MB): peak = 2142.844 ; gain = 497.559 ; free physical = 3941 ; free virtual = 10248
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:02 ; elapsed = 00:00:02 . Memory (MB): peak = 2386.000 ; gain = 0.000 ; free physical = 33206 ; free virtual = 47566
+Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:02 ; elapsed = 00:00:03 . Memory (MB): peak = 2142.844 ; gain = 497.559 ; free physical = 3941 ; free virtual = 10248
 ---------------------------------------------------------------------------------
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2386.000 ; gain = 0.000 ; free physical = 33201 ; free virtual = 47561
+Netlist sorting complete. Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00 . Memory (MB): peak = 2142.844 ; gain = 0.000 ; free physical = 3941 ; free virtual = 10248
 INFO: [Project 1-570] Preparing netlist for logic optimization
 
 Processing XDC Constraints
 Initializing timing engine
 Completed Processing XDC Constraints
 
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2497.773 ; gain = 0.000 ; free physical = 33872 ; free virtual = 48231
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2286.594 ; gain = 0.000 ; free physical = 3933 ; free virtual = 10241
 INFO: [Project 1-111] Unisim Transformation Summary:
 No Unisim elements were transformed.
 
-Constraint Validation Runtime : Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00.01 . Memory (MB): peak = 2497.773 ; gain = 0.000 ; free physical = 33871 ; free virtual = 48231
+Constraint Validation Runtime : Time (s): cpu = 00:00:00.02 ; elapsed = 00:00:00.01 . Memory (MB): peak = 2286.629 ; gain = 0.000 ; free physical = 3933 ; free virtual = 10241
+INFO: [Designutils 20-5008] Incremental synthesis strategy off
 ---------------------------------------------------------------------------------
-Finished Constraint Validation : Time (s): cpu = 00:00:04 ; elapsed = 00:00:04 . Memory (MB): peak = 2497.773 ; gain = 111.773 ; free physical = 33931 ; free virtual = 48290
+Finished Constraint Validation : Time (s): cpu = 00:00:05 ; elapsed = 00:00:05 . Memory (MB): peak = 2286.629 ; gain = 641.344 ; free physical = 3940 ; free virtual = 10248
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Loading Part and Timing Information
 ---------------------------------------------------------------------------------
 Loading part: xc7z020clg484-1
 ---------------------------------------------------------------------------------
-Finished Loading Part and Timing Information : Time (s): cpu = 00:00:04 ; elapsed = 00:00:04 . Memory (MB): peak = 2497.773 ; gain = 111.773 ; free physical = 33931 ; free virtual = 48290
+Finished Loading Part and Timing Information : Time (s): cpu = 00:00:05 ; elapsed = 00:00:05 . Memory (MB): peak = 2286.629 ; gain = 641.344 ; free physical = 3940 ; free virtual = 10248
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Applying 'set_property' XDC Constraints
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:04 ; elapsed = 00:00:04 . Memory (MB): peak = 2497.773 ; gain = 111.773 ; free physical = 33931 ; free virtual = 48290
+Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:05 ; elapsed = 00:00:05 . Memory (MB): peak = 2286.629 ; gain = 641.344 ; free physical = 3940 ; free virtual = 10248
 ---------------------------------------------------------------------------------
 INFO: [Synth 8-802] inferred FSM for state register 'state_reg' in module 'MemControl'
+WARNING: [Synth 8-327] inferring latch for variable 'StoreData_reg' [/home/09-comp-arch-m/Desktop/riscv_single.sv:248]
+WARNING: [Synth 8-327] inferring latch for variable 'LoadData_reg' [/home/09-comp-arch-m/Desktop/riscv_single.sv:216]
 ---------------------------------------------------------------------------------------------------
                    State |                     New Encoding |                Previous Encoding 
 ---------------------------------------------------------------------------------------------------
@@ -123,29 +161,35 @@ INFO: [Synth 8-802] inferred FSM for state register 'state_reg' in module 'MemCo
 ---------------------------------------------------------------------------------------------------
 INFO: [Synth 8-3354] encoded FSM with state register 'state_reg' using encoding 'sequential' in module 'MemControl'
 ---------------------------------------------------------------------------------
-Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:04 ; elapsed = 00:00:04 . Memory (MB): peak = 2497.773 ; gain = 111.773 ; free physical = 33924 ; free virtual = 48285
+Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:06 ; elapsed = 00:00:06 . Memory (MB): peak = 2286.629 ; gain = 641.344 ; free physical = 3951 ; free virtual = 10259
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start RTL Component Statistics 
 ---------------------------------------------------------------------------------
 Detailed RTL Component Info : 
 +---Adders : 
-	   2 Input   32 Bit       Adders := 2     
+	   2 Input   32 Bit       Adders := 3     
 	   3 Input   32 Bit       Adders := 1     
 +---XORs : 
-	   2 Input     32 Bit         XORs := 1     
-	   2 Input      1 Bit         XORs := 2     
-	   3 Input      1 Bit         XORs := 1     
+	   2 Input     32 Bit         XORs := 2     
+	   2 Input      1 Bit         XORs := 3     
 +---Registers : 
 	               32 Bit    Registers := 1     
 +---Muxes : 
-	   2 Input   32 Bit        Muxes := 7     
-	   4 Input   32 Bit        Muxes := 1     
-	  12 Input   32 Bit        Muxes := 1     
-	   7 Input   12 Bit        Muxes := 1     
-	   2 Input    3 Bit        Muxes := 6     
-	   5 Input    3 Bit        Muxes := 1     
+	   2 Input   32 Bit        Muxes := 9     
+	   4 Input   32 Bit        Muxes := 3     
+	   3 Input   32 Bit        Muxes := 3     
+	  65 Input   32 Bit        Muxes := 1     
+	  10 Input   12 Bit        Muxes := 1     
+	   4 Input    8 Bit        Muxes := 1     
+	   2 Input    4 Bit        Muxes := 2     
+	   8 Input    4 Bit        Muxes := 1     
+	   2 Input    3 Bit        Muxes := 5     
 	   7 Input    3 Bit        Muxes := 2     
+	   2 Input    2 Bit        Muxes := 1     
+	   4 Input    2 Bit        Muxes := 1     
+	   2 Input    1 Bit        Muxes := 3     
+	   8 Input    1 Bit        Muxes := 1     
 ---------------------------------------------------------------------------------
 Finished RTL Component Statistics 
 ---------------------------------------------------------------------------------
@@ -161,55 +205,131 @@ Finished Part Resource Summary
 ---------------------------------------------------------------------------------
 Start Cross Boundary and Area Optimization
 ---------------------------------------------------------------------------------
+WARNING: [Synth 8-7080] Parallel synthesis criteria is not met
+WARNING: [Synth 8-7129] Port a[31] in module imem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port a[30] in module imem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port a[29] in module imem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port a[28] in module imem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port a[27] in module imem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port a[26] in module imem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port a[25] in module imem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port a[24] in module imem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port a[23] in module imem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port a[22] in module imem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port a[21] in module imem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port a[20] in module imem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port a[19] in module imem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port a[18] in module imem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port a[17] in module imem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port a[16] in module imem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port a[15] in module imem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port a[14] in module imem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port a[13] in module imem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port a[12] in module imem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port a[11] in module imem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port a[10] in module imem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port a[9] in module imem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port a[8] in module imem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port a[1] in module imem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port a[0] in module imem is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Instr[6] in module datapath is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Instr[5] in module datapath is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Instr[4] in module datapath is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Instr[3] in module datapath is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Instr[2] in module datapath is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Instr[1] in module datapath is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Instr[0] in module datapath is either unconnected or has no load
+WARNING: [Synth 8-7129] Port MemStrobe in module riscvsingle is either unconnected or has no load
+WARNING: [Synth 8-7129] Port PCReady in module riscvsingle is either unconnected or has no load
+WARNING: [Synth 8-7257] Removed RAM (dp/rf/rf_reg) due to inactive write enable.
+WARNING: [Synth 8-6014] Unused sequential element dp/rf/rf_reg was removed. 
+WARNING: [Synth 8-3332] Sequential element (dp/StoreData_reg[31]) is unused and will be removed from module riscvsingle.
+WARNING: [Synth 8-3332] Sequential element (dp/StoreData_reg[30]) is unused and will be removed from module riscvsingle.
+WARNING: [Synth 8-3332] Sequential element (dp/StoreData_reg[29]) is unused and will be removed from module riscvsingle.
+WARNING: [Synth 8-3332] Sequential element (dp/StoreData_reg[28]) is unused and will be removed from module riscvsingle.
+WARNING: [Synth 8-3332] Sequential element (dp/StoreData_reg[27]) is unused and will be removed from module riscvsingle.
+WARNING: [Synth 8-3332] Sequential element (dp/StoreData_reg[26]) is unused and will be removed from module riscvsingle.
+WARNING: [Synth 8-3332] Sequential element (dp/StoreData_reg[25]) is unused and will be removed from module riscvsingle.
+WARNING: [Synth 8-3332] Sequential element (dp/StoreData_reg[24]) is unused and will be removed from module riscvsingle.
+WARNING: [Synth 8-3332] Sequential element (dp/StoreData_reg[23]) is unused and will be removed from module riscvsingle.
+WARNING: [Synth 8-3332] Sequential element (dp/StoreData_reg[22]) is unused and will be removed from module riscvsingle.
+WARNING: [Synth 8-3332] Sequential element (dp/StoreData_reg[21]) is unused and will be removed from module riscvsingle.
+WARNING: [Synth 8-3332] Sequential element (dp/StoreData_reg[20]) is unused and will be removed from module riscvsingle.
+WARNING: [Synth 8-3332] Sequential element (dp/StoreData_reg[19]) is unused and will be removed from module riscvsingle.
+WARNING: [Synth 8-3332] Sequential element (dp/StoreData_reg[18]) is unused and will be removed from module riscvsingle.
+WARNING: [Synth 8-3332] Sequential element (dp/StoreData_reg[17]) is unused and will be removed from module riscvsingle.
+WARNING: [Synth 8-3332] Sequential element (dp/StoreData_reg[16]) is unused and will be removed from module riscvsingle.
+WARNING: [Synth 8-3332] Sequential element (dp/StoreData_reg[15]) is unused and will be removed from module riscvsingle.
+WARNING: [Synth 8-3332] Sequential element (dp/StoreData_reg[14]) is unused and will be removed from module riscvsingle.
+WARNING: [Synth 8-3332] Sequential element (dp/StoreData_reg[13]) is unused and will be removed from module riscvsingle.
+WARNING: [Synth 8-3332] Sequential element (dp/StoreData_reg[12]) is unused and will be removed from module riscvsingle.
+WARNING: [Synth 8-3332] Sequential element (dp/StoreData_reg[11]) is unused and will be removed from module riscvsingle.
+WARNING: [Synth 8-3332] Sequential element (dp/StoreData_reg[10]) is unused and will be removed from module riscvsingle.
+WARNING: [Synth 8-3332] Sequential element (dp/StoreData_reg[9]) is unused and will be removed from module riscvsingle.
+WARNING: [Synth 8-3332] Sequential element (dp/StoreData_reg[8]) is unused and will be removed from module riscvsingle.
+WARNING: [Synth 8-3332] Sequential element (dp/StoreData_reg[7]) is unused and will be removed from module riscvsingle.
+WARNING: [Synth 8-3332] Sequential element (dp/StoreData_reg[6]) is unused and will be removed from module riscvsingle.
+WARNING: [Synth 8-3332] Sequential element (dp/StoreData_reg[5]) is unused and will be removed from module riscvsingle.
+WARNING: [Synth 8-3332] Sequential element (dp/StoreData_reg[4]) is unused and will be removed from module riscvsingle.
+WARNING: [Synth 8-3332] Sequential element (dp/StoreData_reg[3]) is unused and will be removed from module riscvsingle.
+WARNING: [Synth 8-3332] Sequential element (dp/StoreData_reg[2]) is unused and will be removed from module riscvsingle.
+WARNING: [Synth 8-3332] Sequential element (dp/StoreData_reg[1]) is unused and will be removed from module riscvsingle.
+WARNING: [Synth 8-3332] Sequential element (dp/StoreData_reg[0]) is unused and will be removed from module riscvsingle.
+WARNING: [Synth 8-3332] Sequential element (dp/LoadData_reg[31]) is unused and will be removed from module riscvsingle.
+WARNING: [Synth 8-3332] Sequential element (dp/LoadData_reg[30]) is unused and will be removed from module riscvsingle.
+WARNING: [Synth 8-3332] Sequential element (dp/LoadData_reg[29]) is unused and will be removed from module riscvsingle.
+WARNING: [Synth 8-3332] Sequential element (dp/LoadData_reg[28]) is unused and will be removed from module riscvsingle.
+WARNING: [Synth 8-3332] Sequential element (dp/LoadData_reg[27]) is unused and will be removed from module riscvsingle.
+WARNING: [Synth 8-3332] Sequential element (dp/LoadData_reg[26]) is unused and will be removed from module riscvsingle.
+WARNING: [Synth 8-3332] Sequential element (dp/LoadData_reg[25]) is unused and will be removed from module riscvsingle.
+WARNING: [Synth 8-3332] Sequential element (dp/LoadData_reg[24]) is unused and will be removed from module riscvsingle.
+WARNING: [Synth 8-3332] Sequential element (dp/LoadData_reg[23]) is unused and will be removed from module riscvsingle.
+WARNING: [Synth 8-3332] Sequential element (dp/LoadData_reg[22]) is unused and will be removed from module riscvsingle.
+WARNING: [Synth 8-3332] Sequential element (dp/LoadData_reg[21]) is unused and will be removed from module riscvsingle.
+WARNING: [Synth 8-3332] Sequential element (dp/LoadData_reg[20]) is unused and will be removed from module riscvsingle.
+WARNING: [Synth 8-3332] Sequential element (dp/LoadData_reg[19]) is unused and will be removed from module riscvsingle.
+WARNING: [Synth 8-3332] Sequential element (dp/LoadData_reg[18]) is unused and will be removed from module riscvsingle.
+WARNING: [Synth 8-3332] Sequential element (dp/LoadData_reg[17]) is unused and will be removed from module riscvsingle.
+WARNING: [Synth 8-3332] Sequential element (dp/LoadData_reg[16]) is unused and will be removed from module riscvsingle.
+WARNING: [Synth 8-3332] Sequential element (dp/LoadData_reg[15]) is unused and will be removed from module riscvsingle.
+WARNING: [Synth 8-3332] Sequential element (dp/LoadData_reg[14]) is unused and will be removed from module riscvsingle.
+WARNING: [Synth 8-3332] Sequential element (dp/LoadData_reg[13]) is unused and will be removed from module riscvsingle.
+WARNING: [Synth 8-3332] Sequential element (dp/LoadData_reg[12]) is unused and will be removed from module riscvsingle.
+WARNING: [Synth 8-3332] Sequential element (dp/LoadData_reg[11]) is unused and will be removed from module riscvsingle.
+WARNING: [Synth 8-3332] Sequential element (dp/LoadData_reg[10]) is unused and will be removed from module riscvsingle.
+WARNING: [Synth 8-3332] Sequential element (dp/LoadData_reg[9]) is unused and will be removed from module riscvsingle.
+WARNING: [Synth 8-3332] Sequential element (dp/LoadData_reg[8]) is unused and will be removed from module riscvsingle.
+WARNING: [Synth 8-3332] Sequential element (dp/LoadData_reg[7]) is unused and will be removed from module riscvsingle.
+WARNING: [Synth 8-3332] Sequential element (dp/LoadData_reg[6]) is unused and will be removed from module riscvsingle.
+WARNING: [Synth 8-3332] Sequential element (dp/LoadData_reg[5]) is unused and will be removed from module riscvsingle.
+WARNING: [Synth 8-3332] Sequential element (dp/LoadData_reg[4]) is unused and will be removed from module riscvsingle.
+WARNING: [Synth 8-3332] Sequential element (dp/LoadData_reg[3]) is unused and will be removed from module riscvsingle.
+WARNING: [Synth 8-3332] Sequential element (dp/LoadData_reg[2]) is unused and will be removed from module riscvsingle.
+WARNING: [Synth 8-3332] Sequential element (dp/LoadData_reg[1]) is unused and will be removed from module riscvsingle.
+WARNING: [Synth 8-3332] Sequential element (dp/LoadData_reg[0]) is unused and will be removed from module riscvsingle.
+WARNING: [Synth 8-3332] Sequential element (FSM_sequential_state_reg[2]) is unused and will be removed from module MemControl.
 ---------------------------------------------------------------------------------
-Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:05 ; elapsed = 00:00:05 . Memory (MB): peak = 2497.773 ; gain = 111.773 ; free physical = 33898 ; free virtual = 48262
----------------------------------------------------------------------------------
----------------------------------------------------------------------------------
-Start ROM, RAM, DSP, Shift Register and Retiming Reporting
----------------------------------------------------------------------------------
-
-Distributed RAM: Preliminary Mapping	Report (see note below)
-+-----------------+--------------+-----------+----------------------+--------------+
-|Module Name      | RTL Object   | Inference | Size (Depth x Width) | Primitives   | 
-+-----------------+--------------+-----------+----------------------+--------------+
-|inst/riscvsingle | dp/rf/rf_reg | Implied   | 32 x 32              | RAM32M x 12	 | 
-+-----------------+--------------+-----------+----------------------+--------------+
-
-Note: The table above is a preliminary report that shows the Distributed RAMs at the current stage of the synthesis flow. Some Distributed RAMs may be reimplemented as non Distributed RAM primitives later in the synthesis flow. Multiple instantiated RAMs are reported only once.
----------------------------------------------------------------------------------
-Finished ROM, RAM, DSP, Shift Register and Retiming Reporting
+Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:06 ; elapsed = 00:00:06 . Memory (MB): peak = 2286.629 ; gain = 641.344 ; free physical = 3921 ; free virtual = 10229
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Applying XDC Timing Constraints
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:07 ; elapsed = 00:00:07 . Memory (MB): peak = 2497.773 ; gain = 111.773 ; free physical = 33778 ; free virtual = 48142
+Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:08 ; elapsed = 00:00:08 . Memory (MB): peak = 2286.629 ; gain = 641.344 ; free physical = 3924 ; free virtual = 10232
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Timing Optimization
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Timing Optimization : Time (s): cpu = 00:00:07 ; elapsed = 00:00:07 . Memory (MB): peak = 2497.773 ; gain = 111.773 ; free physical = 33778 ; free virtual = 48142
----------------------------------------------------------------------------------
----------------------------------------------------------------------------------
-Start ROM, RAM, DSP, Shift Register and Retiming Reporting
----------------------------------------------------------------------------------
-
-Distributed RAM: Final Mapping	Report
-+-----------------+--------------+-----------+----------------------+--------------+
-|Module Name      | RTL Object   | Inference | Size (Depth x Width) | Primitives   | 
-+-----------------+--------------+-----------+----------------------+--------------+
-|inst/riscvsingle | dp/rf/rf_reg | Implied   | 32 x 32              | RAM32M x 12	 | 
-+-----------------+--------------+-----------+----------------------+--------------+
-
----------------------------------------------------------------------------------
-Finished ROM, RAM, DSP, Shift Register and Retiming Reporting
+Finished Timing Optimization : Time (s): cpu = 00:00:08 ; elapsed = 00:00:08 . Memory (MB): peak = 2286.629 ; gain = 641.344 ; free physical = 3924 ; free virtual = 10232
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Technology Mapping
 ---------------------------------------------------------------------------------
+WARNING: [Synth 8-3332] Sequential element (FSM_sequential_state_reg[1]) is unused and will be removed from module MemControl.
+WARNING: [Synth 8-3332] Sequential element (FSM_sequential_state_reg[0]) is unused and will be removed from module MemControl.
 ---------------------------------------------------------------------------------
-Finished Technology Mapping : Time (s): cpu = 00:00:07 ; elapsed = 00:00:08 . Memory (MB): peak = 2497.773 ; gain = 111.773 ; free physical = 33773 ; free virtual = 48137
+Finished Technology Mapping : Time (s): cpu = 00:00:08 ; elapsed = 00:00:09 . Memory (MB): peak = 2286.629 ; gain = 641.344 ; free physical = 3924 ; free virtual = 10233
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start IO Insertion
@@ -227,37 +347,37 @@ Start Final Netlist Cleanup
 Finished Final Netlist Cleanup
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished IO Insertion : Time (s): cpu = 00:00:08 ; elapsed = 00:00:09 . Memory (MB): peak = 2497.773 ; gain = 111.773 ; free physical = 33773 ; free virtual = 48137
+Finished IO Insertion : Time (s): cpu = 00:00:10 ; elapsed = 00:00:10 . Memory (MB): peak = 2286.629 ; gain = 641.344 ; free physical = 3926 ; free virtual = 10234
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Instances
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Instances : Time (s): cpu = 00:00:08 ; elapsed = 00:00:09 . Memory (MB): peak = 2497.773 ; gain = 111.773 ; free physical = 33773 ; free virtual = 48137
+Finished Renaming Generated Instances : Time (s): cpu = 00:00:10 ; elapsed = 00:00:10 . Memory (MB): peak = 2286.629 ; gain = 641.344 ; free physical = 3926 ; free virtual = 10234
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Rebuilding User Hierarchy
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:08 ; elapsed = 00:00:09 . Memory (MB): peak = 2497.773 ; gain = 111.773 ; free physical = 33773 ; free virtual = 48137
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:10 ; elapsed = 00:00:10 . Memory (MB): peak = 2286.629 ; gain = 641.344 ; free physical = 3926 ; free virtual = 10234
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Ports
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Ports : Time (s): cpu = 00:00:08 ; elapsed = 00:00:09 . Memory (MB): peak = 2497.773 ; gain = 111.773 ; free physical = 33773 ; free virtual = 48137
+Finished Renaming Generated Ports : Time (s): cpu = 00:00:10 ; elapsed = 00:00:10 . Memory (MB): peak = 2286.629 ; gain = 641.344 ; free physical = 3926 ; free virtual = 10234
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Handling Custom Attributes
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Handling Custom Attributes : Time (s): cpu = 00:00:08 ; elapsed = 00:00:09 . Memory (MB): peak = 2497.773 ; gain = 111.773 ; free physical = 33773 ; free virtual = 48137
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:10 ; elapsed = 00:00:10 . Memory (MB): peak = 2286.629 ; gain = 641.344 ; free physical = 3926 ; free virtual = 10234
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Nets
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Nets : Time (s): cpu = 00:00:08 ; elapsed = 00:00:09 . Memory (MB): peak = 2497.773 ; gain = 111.773 ; free physical = 33773 ; free virtual = 48137
+Finished Renaming Generated Nets : Time (s): cpu = 00:00:10 ; elapsed = 00:00:10 . Memory (MB): peak = 2286.629 ; gain = 641.344 ; free physical = 3926 ; free virtual = 10234
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Writing Synthesis Report
@@ -273,40 +393,42 @@ Report Cell Usage:
 +------+-------+------+
 |      |Cell   |Count |
 +------+-------+------+
-|1     |CARRY4 |    32|
-|2     |LUT1   |     4|
-|3     |LUT2   |    25|
-|4     |LUT3   |    43|
-|5     |LUT4   |    37|
-|6     |LUT5   |    15|
-|7     |LUT6   |   187|
-|8     |RAM32M |    12|
-|9     |FDCE   |    32|
+|1     |CARRY4 |    12|
+|2     |LUT1   |    64|
+|3     |LUT2   |     5|
+|4     |LUT3   |    37|
+|5     |LUT4   |    14|
+|6     |LUT5   |    31|
+|7     |LUT6   |    70|
 +------+-------+------+
 ---------------------------------------------------------------------------------
-Finished Writing Synthesis Report : Time (s): cpu = 00:00:08 ; elapsed = 00:00:09 . Memory (MB): peak = 2497.773 ; gain = 111.773 ; free physical = 33773 ; free virtual = 48137
+Finished Writing Synthesis Report : Time (s): cpu = 00:00:10 ; elapsed = 00:00:10 . Memory (MB): peak = 2286.629 ; gain = 641.344 ; free physical = 3926 ; free virtual = 10234
 ---------------------------------------------------------------------------------
-Synthesis finished with 0 errors, 0 critical warnings and 0 warnings.
-Synthesis Optimization Runtime : Time (s): cpu = 00:00:07 ; elapsed = 00:00:08 . Memory (MB): peak = 2497.773 ; gain = 0.000 ; free physical = 33832 ; free virtual = 48196
-Synthesis Optimization Complete : Time (s): cpu = 00:00:08 ; elapsed = 00:00:09 . Memory (MB): peak = 2497.773 ; gain = 111.773 ; free physical = 33832 ; free virtual = 48196
+Synthesis finished with 0 errors, 0 critical warnings and 107 warnings.
+Synthesis Optimization Runtime : Time (s): cpu = 00:00:09 ; elapsed = 00:00:09 . Memory (MB): peak = 2286.629 ; gain = 497.559 ; free physical = 3925 ; free virtual = 10234
+Synthesis Optimization Complete : Time (s): cpu = 00:00:10 ; elapsed = 00:00:10 . Memory (MB): peak = 2286.629 ; gain = 641.344 ; free physical = 3925 ; free virtual = 10234
 INFO: [Project 1-571] Translating synthesized netlist
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2497.773 ; gain = 0.000 ; free physical = 33920 ; free virtual = 48284
-INFO: [Netlist 29-17] Analyzing 44 Unisim elements for replacement
-INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2286.629 ; gain = 0.000 ; free physical = 4118 ; free virtual = 10426
+INFO: [Netlist 29-17] Analyzing 12 Unisim elements for replacement
+INFO: [Netlist 29-28] Unisim Transformation completed in 1 CPU seconds
 INFO: [Project 1-570] Preparing netlist for logic optimization
 INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2500.742 ; gain = 0.000 ; free physical = 33860 ; free virtual = 48224
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2286.629 ; gain = 0.000 ; free physical = 4205 ; free virtual = 10514
 INFO: [Project 1-111] Unisim Transformation Summary:
-  A total of 12 instances were transformed.
-  RAM32M => RAM32M (RAMD32(x6), RAMS32(x2)): 12 instances
+No Unisim elements were transformed.
 
+Synth Design complete | Checksum: 781efb13
 INFO: [Common 17-83] Releasing license: Synthesis
-56 Infos, 4 Warnings, 0 Critical Warnings and 0 Errors encountered.
+69 Infos, 132 Warnings, 0 Critical Warnings and 0 Errors encountered.
 synth_design completed successfully
-synth_design: Time (s): cpu = 00:00:12 ; elapsed = 00:00:17 . Memory (MB): peak = 2500.742 ; gain = 114.836 ; free physical = 34005 ; free virtual = 48369
-INFO: [Common 17-1381] The checkpoint '/home/ross/repos/ELVIS/lab2/lab2.runs/design_1_top_0_0_synth_1/design_1_top_0_0.dcp' has been generated.
-WARNING: [Common 17-576] 'use_project_ipc' is deprecated. This option is deprecated and no longer used.
-INFO: [Coretcl 2-1174] Renamed 9 cell refs.
-INFO: [Common 17-1381] The checkpoint '/home/ross/repos/ELVIS/lab2/lab2.runs/design_1_top_0_0_synth_1/design_1_top_0_0.dcp' has been generated.
+synth_design: Time (s): cpu = 00:00:13 ; elapsed = 00:00:12 . Memory (MB): peak = 2286.629 ; gain = 952.844 ; free physical = 4205 ; free virtual = 10514
+INFO: [Common 17-2834] synth_design peak Physical Memory [PSS] (MB): overall = 1864.349; main = 1532.203; forked = 381.115
+INFO: [Common 17-2834] synth_design peak Virtual Memory [VSS] (MB): overall = 3271.027; main = 2286.598; forked = 1016.445
+Write ShapeDB Complete: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2310.605 ; gain = 0.000 ; free physical = 4205 ; free virtual = 10514
+INFO: [Common 17-1381] The checkpoint '/home/09-comp-arch-m/ecen4243S25/lab2/lab2/lab2.runs/design_1_top_0_0_synth_1/design_1_top_0_0.dcp' has been generated.
+INFO: [Coretcl 2-1648] Added synthesis output to IP cache for IP design_1_top_0_0, cache-ID = f9fedfe242f5d05a
+INFO: [Coretcl 2-1174] Renamed 5 cell refs.
+Write ShapeDB Complete: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2310.605 ; gain = 0.000 ; free physical = 4165 ; free virtual = 10474
+INFO: [Common 17-1381] The checkpoint '/home/09-comp-arch-m/ecen4243S25/lab2/lab2/lab2.runs/design_1_top_0_0_synth_1/design_1_top_0_0.dcp' has been generated.
 INFO: [runtcl-4] Executing : report_utilization -file design_1_top_0_0_utilization_synth.rpt -pb design_1_top_0_0_utilization_synth.pb
-INFO: [Common 17-206] Exiting Vivado at Wed Mar  1 15:49:02 2023...
+INFO: [Common 17-206] Exiting Vivado at Mon Mar 24 15:27:47 2025...

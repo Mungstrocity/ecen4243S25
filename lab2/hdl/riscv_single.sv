@@ -15,9 +15,9 @@
 //   sub          0110011   000       0100000
 //   and          0110011   111       0000000
 //   or           0110011   110       0000000
-//   slt          0110011   010       0000000
+//   slt          0110011   010 800002f4      0000000
 //   addi         0010011   000       immediate
-//   andi         0010011   111       immediate
+//   andi         0010011   111 800002f4      immediate
 //   ori          0010011   110       immediate
 //   slti         0010011   010       immediate
 //   beq          1100011   000       immediate
@@ -48,10 +48,10 @@ top dut(clk, reset, WriteData, DataAdr, StoreData, MemWrite, Instr, PC);
 initial
   begin
 string memfilename;
-     memfilename = {"../riscvtest/test_hw2.memfile"};//riscvtest folder
-     //memfilename = {"../testing/bltu.memfile"}; //testing folder
+    //  memfilename = {"../riscvtest/test_hw2.memfile"};//riscvtest folder
+     memfilename = {"../testing/lbu.memfile"}; //testing folder
      $readmemh(memfilename, dut.imem.RAM);
-     $readmemh(memfilename, dut.dmem.RAM);
+     $readmemh(memfilename, dut.dmem.RAM); //initializes dmem for static values import
   end
 
 
@@ -80,11 +80,11 @@ always @(negedge clk)
       //            $stop;
       //         end
       // end
-    $display("TB PC = %h", PC);
-    $display("TB Instr = %h", Instr);
+    // $display("TB PC = %h", PC);
+    // $display("TB Instr = %h", Instr);
     if (Instr == 32'h00000073) begin // ecall catch
       #5 // wait for final write
-      if (PC == 32'h00000274) begin
+      if (PC == 32'h000002F4) begin
         $display("Simulation succeeded");
         $stop;
       end else begin
@@ -189,7 +189,7 @@ always_comb
     default: controls = 13'bx_xxx_x_x_x_xx_x_xx_x; // ???
   endcase // case (op)
 
-endmodule // maindec
+endmodule // maindeinstructionc
 
 module aludec (input  logic       opb5,
       input  logic [2:0] funct3,
@@ -271,10 +271,10 @@ alu  alu (SrcAIn, SrcBIn, ALUControl, ALUResult, Zero, Less, Carryout);
   always_comb begin
     case (funct3)
       3'b000: case(LoadOffset) // lb
-        2'b00: LoadData = {{24{ReadData[7]}}, ReadData[7:0]}; //bit 1
-        2'b01: LoadData = {{24{ReadData[15]}}, ReadData[15:8]}; //bit 2
-        2'b10: LoadData = {{24{ReadData[23]}}, ReadData[23:16]}; //bit 3
-        2'b11: LoadData = {{24{ReadData[31]}}, ReadData[31:24]}; //bit 4
+        2'b00: LoadData = {{24{ReadData[7]}}, ReadData[7:0]};     //byte 0
+        2'b01: LoadData = {{24{ReadData[15]}}, ReadData[15:8]};   //byte 1
+        2'b10: LoadData = {{24{ReadData[23]}}, ReadData[23:16]};  //byte 2
+        2'b11: LoadData = {{24{ReadData[31]}}, ReadData[31:24]};  //byte 3
         default: LoadData = 32'bx;
       endcase
       3'b001: case(LoadOffset) // lh
@@ -290,7 +290,7 @@ alu  alu (SrcAIn, SrcBIn, ALUControl, ALUResult, Zero, Less, Carryout);
         2'b11: LoadData = {24'b0, ReadData[31:24]}; 
         default: LoadData = 32'bx;
       endcase
-      3'b101: case(LoadOffset)
+      3'b101: case(LoadOffset)//lhu
         2'b00: LoadData = {16'b0, ReadData[15:0]};     
         2'b10: LoadData = {16'b0, ReadData[31:16]};
       endcase              // lhu

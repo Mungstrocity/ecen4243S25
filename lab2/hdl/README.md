@@ -64,6 +64,8 @@ opcode   RegWrite   ImmSrc  ALUSrc  MemWrite    ResultSrc   Branch  ALUOp   Jump
 
 # 3.23.2025 - LB passed
 ## Implemented case statements in datapath to handle load logic based on funct3 then offset bit from ALUResult
+# 3.23.2025 -3.23.2025 - LB passed
+## Implemented case statements in datapath to handle load logic based on funct3 then offset bit from ALUResult
 # 3.23.2025 - LBU passed
 ## Expanded case statement to cover LBU same as LB but with no sign extension
 # 3.23.2025 - LH passed
@@ -71,6 +73,21 @@ opcode   RegWrite   ImmSrc  ALUSrc  MemWrite    ResultSrc   Branch  ALUOp   Jump
 # 3.23.2025 - LHU passed, same update applied to logic
 
 # 3.23.2025 SB passed
+## created case statement to retain current memory data and only overwite the byte indicated by the control bits a[1:0]
+# 3.23.2025 SH passed
+## applied same logic to with 16 bit shifts for half word
+
+# 3.23.2025 BGE passed
+## Created case for each type of branch
+## Added Arithmetic logic for less and carryout signals
+## Passed signals to controller for comparisons
+# 3.23.2025 BGEU passed, no additional changes
+# 3.23.2025 BLT passed, no additional changes
+# 3.23.2025 BLTU passed, no additional changes
+
+# 3.23.2025 riscvtest passed
+# 3.23.2025 test_hw passed
+# 3.23.2025 test_hw2 passedB passed
 ## created case statement to retain current memory data and only overwite the byte indicated by the control bits a[1:0]
 # 3.23.2025 SH passed
 ## applied same logic to with 16 bit shifts for half word
