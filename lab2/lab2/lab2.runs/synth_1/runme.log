@@ -21,24 +21,24 @@ INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xc7z020
 INFO: [Device 21-403] Loading part xc7z020clg484-1
 INFO: [Synth 8-7079] Multithreading enabled for synth_design using a maximum of 4 processes.
 INFO: [Synth 8-7078] Launching helper process for spawning children vivado processes
-INFO: [Synth 8-7075] Helper process launched with PID 500796
+INFO: [Synth 8-7075] Helper process launched with PID 728500
 ---------------------------------------------------------------------------------
-Starting RTL Elaboration : Time (s): cpu = 00:00:02 ; elapsed = 00:00:02 . Memory (MB): peak = 2066.008 ; gain = 402.629 ; free physical = 3967 ; free virtual = 10305
+Starting RTL Elaboration : Time (s): cpu = 00:00:02 ; elapsed = 00:00:02 . Memory (MB): peak = 2066.098 ; gain = 402.660 ; free physical = 1286 ; free virtual = 6908
 ---------------------------------------------------------------------------------
 INFO: [Synth 8-6157] synthesizing module 'design_1_wrapper' [/home/09-comp-arch-m/ecen4243S25/lab2/lab2/lab2.gen/sources_1/bd/design_1/hdl/design_1_wrapper.v:13]
 INFO: [Synth 8-6157] synthesizing module 'design_1' [/home/09-comp-arch-m/ecen4243S25/lab2/lab2/lab2.gen/sources_1/bd/design_1/synth/design_1.v:13]
-INFO: [Synth 8-6157] synthesizing module 'design_1_AXI_Converter_0_0' [/home/09-comp-arch-m/ecen4243S25/lab2/lab2/lab2.runs/synth_1/.Xil/Vivado-500725-CEAT-ENDV350-09L/realtime/design_1_AXI_Converter_0_0_stub.v:5]
-INFO: [Synth 8-6155] done synthesizing module 'design_1_AXI_Converter_0_0' (0#1) [/home/09-comp-arch-m/ecen4243S25/lab2/lab2/lab2.runs/synth_1/.Xil/Vivado-500725-CEAT-ENDV350-09L/realtime/design_1_AXI_Converter_0_0_stub.v:5]
+INFO: [Synth 8-6157] synthesizing module 'design_1_AXI_Converter_0_0' [/home/09-comp-arch-m/ecen4243S25/lab2/lab2/lab2.runs/synth_1/.Xil/Vivado-728476-CEAT-ENDV350-09L/realtime/design_1_AXI_Converter_0_0_stub.v:5]
+INFO: [Synth 8-6155] done synthesizing module 'design_1_AXI_Converter_0_0' (0#1) [/home/09-comp-arch-m/ecen4243S25/lab2/lab2/lab2.runs/synth_1/.Xil/Vivado-728476-CEAT-ENDV350-09L/realtime/design_1_AXI_Converter_0_0_stub.v:5]
 WARNING: [Synth 8-7071] port 'txn_pulse_passthrough' of module 'design_1_AXI_Converter_0_0' is unconnected for instance 'AXI_Converter_0' [/home/09-comp-arch-m/ecen4243S25/lab2/lab2/lab2.gen/sources_1/bd/design_1/synth/design_1.v:168]
 WARNING: [Synth 8-7071] port 'error' of module 'design_1_AXI_Converter_0_0' is unconnected for instance 'AXI_Converter_0' [/home/09-comp-arch-m/ecen4243S25/lab2/lab2/lab2.gen/sources_1/bd/design_1/synth/design_1.v:168]
 WARNING: [Synth 8-7023] instance 'AXI_Converter_0' of module 'design_1_AXI_Converter_0_0' has 52 connections declared, but only 50 given [/home/09-comp-arch-m/ecen4243S25/lab2/lab2/lab2.gen/sources_1/bd/design_1/synth/design_1.v:168]
-INFO: [Synth 8-6157] synthesizing module 'design_1_axi_smc_0' [/home/09-comp-arch-m/ecen4243S25/lab2/lab2/lab2.runs/synth_1/.Xil/Vivado-500725-CEAT-ENDV350-09L/realtime/design_1_axi_smc_0_stub.v:6]
-INFO: [Synth 8-6155] done synthesizing module 'design_1_axi_smc_0' (0#1) [/home/09-comp-arch-m/ecen4243S25/lab2/lab2/lab2.runs/synth_1/.Xil/Vivado-500725-CEAT-ENDV350-09L/realtime/design_1_axi_smc_0_stub.v:6]
+INFO: [Synth 8-6157] synthesizing module 'design_1_axi_smc_0' [/home/09-comp-arch-m/ecen4243S25/lab2/lab2/lab2.runs/synth_1/.Xil/Vivado-728476-CEAT-ENDV350-09L/realtime/design_1_axi_smc_0_stub.v:6]
+INFO: [Synth 8-6155] done synthesizing module 'design_1_axi_smc_0' (0#1) [/home/09-comp-arch-m/ecen4243S25/lab2/lab2/lab2.runs/synth_1/.Xil/Vivado-728476-CEAT-ENDV350-09L/realtime/design_1_axi_smc_0_stub.v:6]
 WARNING: [Synth 8-7071] port 'M00_AXI_awuser' of module 'design_1_axi_smc_0' is unconnected for instance 'axi_smc' [/home/09-comp-arch-m/ecen4243S25/lab2/lab2/lab2.gen/sources_1/bd/design_1/synth/design_1.v:219]
 WARNING: [Synth 8-7071] port 'M00_AXI_aruser' of module 'design_1_axi_smc_0' is unconnected for instance 'axi_smc' [/home/09-comp-arch-m/ecen4243S25/lab2/lab2/lab2.gen/sources_1/bd/design_1/synth/design_1.v:219]
 WARNING: [Synth 8-7023] instance 'axi_smc' of module 'design_1_axi_smc_0' has 80 connections declared, but only 78 given [/home/09-comp-arch-m/ecen4243S25/lab2/lab2/lab2.gen/sources_1/bd/design_1/synth/design_1.v:219]
-INFO: [Synth 8-6157] synthesizing module 'design_1_processing_system7_0_0' [/home/09-comp-arch-m/ecen4243S25/lab2/lab2/lab2.runs/synth_1/.Xil/Vivado-500725-CEAT-ENDV350-09L/realtime/design_1_processing_system7_0_0_stub.v:5]
-INFO: [Synth 8-6155] done synthesizing module 'design_1_processing_system7_0_0' (0#1) [/home/09-comp-arch-m/ecen4243S25/lab2/lab2/lab2.runs/synth_1/.Xil/Vivado-500725-CEAT-ENDV350-09L/realtime/design_1_processing_system7_0_0_stub.v:5]
+INFO: [Synth 8-6157] synthesizing module 'design_1_processing_system7_0_0' [/home/09-comp-arch-m/ecen4243S25/lab2/lab2/lab2.runs/synth_1/.Xil/Vivado-728476-CEAT-ENDV350-09L/realtime/design_1_processing_system7_0_0_stub.v:5]
+INFO: [Synth 8-6155] done synthesizing module 'design_1_processing_system7_0_0' (0#1) [/home/09-comp-arch-m/ecen4243S25/lab2/lab2/lab2.runs/synth_1/.Xil/Vivado-728476-CEAT-ENDV350-09L/realtime/design_1_processing_system7_0_0_stub.v:5]
 WARNING: [Synth 8-7071] port 'I2C0_SDA_O' of module 'design_1_processing_system7_0_0' is unconnected for instance 'processing_system7_0' [/home/09-comp-arch-m/ecen4243S25/lab2/lab2/lab2.gen/sources_1/bd/design_1/synth/design_1.v:298]
 WARNING: [Synth 8-7071] port 'I2C0_SDA_T' of module 'design_1_processing_system7_0_0' is unconnected for instance 'processing_system7_0' [/home/09-comp-arch-m/ecen4243S25/lab2/lab2/lab2.gen/sources_1/bd/design_1/synth/design_1.v:298]
 WARNING: [Synth 8-7071] port 'I2C0_SCL_O' of module 'design_1_processing_system7_0_0' is unconnected for instance 'processing_system7_0' [/home/09-comp-arch-m/ecen4243S25/lab2/lab2/lab2.gen/sources_1/bd/design_1/synth/design_1.v:298]
@@ -51,30 +51,30 @@ WARNING: [Synth 8-7071] port 'S_AXI_HP0_WCOUNT' of module 'design_1_processing_s
 WARNING: [Synth 8-7071] port 'S_AXI_HP0_RACOUNT' of module 'design_1_processing_system7_0_0' is unconnected for instance 'processing_system7_0' [/home/09-comp-arch-m/ecen4243S25/lab2/lab2/lab2.gen/sources_1/bd/design_1/synth/design_1.v:298]
 WARNING: [Synth 8-7071] port 'S_AXI_HP0_WACOUNT' of module 'design_1_processing_system7_0_0' is unconnected for instance 'processing_system7_0' [/home/09-comp-arch-m/ecen4243S25/lab2/lab2/lab2.gen/sources_1/bd/design_1/synth/design_1.v:298]
 WARNING: [Synth 8-7023] instance 'processing_system7_0' of module 'design_1_processing_system7_0_0' has 76 connections declared, but only 65 given [/home/09-comp-arch-m/ecen4243S25/lab2/lab2/lab2.gen/sources_1/bd/design_1/synth/design_1.v:298]
-INFO: [Synth 8-6157] synthesizing module 'design_1_rst_ps7_0_50M_0' [/home/09-comp-arch-m/ecen4243S25/lab2/lab2/lab2.runs/synth_1/.Xil/Vivado-500725-CEAT-ENDV350-09L/realtime/design_1_rst_ps7_0_50M_0_stub.v:6]
-INFO: [Synth 8-6155] done synthesizing module 'design_1_rst_ps7_0_50M_0' (0#1) [/home/09-comp-arch-m/ecen4243S25/lab2/lab2/lab2.runs/synth_1/.Xil/Vivado-500725-CEAT-ENDV350-09L/realtime/design_1_rst_ps7_0_50M_0_stub.v:6]
+INFO: [Synth 8-6157] synthesizing module 'design_1_rst_ps7_0_50M_0' [/home/09-comp-arch-m/ecen4243S25/lab2/lab2/lab2.runs/synth_1/.Xil/Vivado-728476-CEAT-ENDV350-09L/realtime/design_1_rst_ps7_0_50M_0_stub.v:6]
+INFO: [Synth 8-6155] done synthesizing module 'design_1_rst_ps7_0_50M_0' (0#1) [/home/09-comp-arch-m/ecen4243S25/lab2/lab2/lab2.runs/synth_1/.Xil/Vivado-728476-CEAT-ENDV350-09L/realtime/design_1_rst_ps7_0_50M_0_stub.v:6]
 WARNING: [Synth 8-7071] port 'mb_reset' of module 'design_1_rst_ps7_0_50M_0' is unconnected for instance 'rst_ps7_0_50M' [/home/09-comp-arch-m/ecen4243S25/lab2/lab2/lab2.gen/sources_1/bd/design_1/synth/design_1.v:364]
 WARNING: [Synth 8-7071] port 'bus_struct_reset' of module 'design_1_rst_ps7_0_50M_0' is unconnected for instance 'rst_ps7_0_50M' [/home/09-comp-arch-m/ecen4243S25/lab2/lab2/lab2.gen/sources_1/bd/design_1/synth/design_1.v:364]
 WARNING: [Synth 8-7071] port 'peripheral_reset' of module 'design_1_rst_ps7_0_50M_0' is unconnected for instance 'rst_ps7_0_50M' [/home/09-comp-arch-m/ecen4243S25/lab2/lab2/lab2.gen/sources_1/bd/design_1/synth/design_1.v:364]
 WARNING: [Synth 8-7071] port 'interconnect_aresetn' of module 'design_1_rst_ps7_0_50M_0' is unconnected for instance 'rst_ps7_0_50M' [/home/09-comp-arch-m/ecen4243S25/lab2/lab2/lab2.gen/sources_1/bd/design_1/synth/design_1.v:364]
 WARNING: [Synth 8-7023] instance 'rst_ps7_0_50M' of module 'design_1_rst_ps7_0_50M_0' has 10 connections declared, but only 6 given [/home/09-comp-arch-m/ecen4243S25/lab2/lab2/lab2.gen/sources_1/bd/design_1/synth/design_1.v:364]
-INFO: [Synth 8-6157] synthesizing module 'design_1_top_0_0' [/home/09-comp-arch-m/ecen4243S25/lab2/lab2/lab2.runs/synth_1/.Xil/Vivado-500725-CEAT-ENDV350-09L/realtime/design_1_top_0_0_stub.v:6]
-INFO: [Synth 8-6155] done synthesizing module 'design_1_top_0_0' (0#1) [/home/09-comp-arch-m/ecen4243S25/lab2/lab2/lab2.runs/synth_1/.Xil/Vivado-500725-CEAT-ENDV350-09L/realtime/design_1_top_0_0_stub.v:6]
+INFO: [Synth 8-6157] synthesizing module 'design_1_top_0_0' [/home/09-comp-arch-m/ecen4243S25/lab2/lab2/lab2.runs/synth_1/.Xil/Vivado-728476-CEAT-ENDV350-09L/realtime/design_1_top_0_0_stub.v:6]
+INFO: [Synth 8-6155] done synthesizing module 'design_1_top_0_0' (0#1) [/home/09-comp-arch-m/ecen4243S25/lab2/lab2/lab2.runs/synth_1/.Xil/Vivado-728476-CEAT-ENDV350-09L/realtime/design_1_top_0_0_stub.v:6]
 INFO: [Synth 8-6155] done synthesizing module 'design_1' (0#1) [/home/09-comp-arch-m/ecen4243S25/lab2/lab2/lab2.gen/sources_1/bd/design_1/synth/design_1.v:13]
 INFO: [Synth 8-6155] done synthesizing module 'design_1_wrapper' (0#1) [/home/09-comp-arch-m/ecen4243S25/lab2/lab2/lab2.gen/sources_1/bd/design_1/hdl/design_1_wrapper.v:13]
 ---------------------------------------------------------------------------------
-Finished RTL Elaboration : Time (s): cpu = 00:00:02 ; elapsed = 00:00:03 . Memory (MB): peak = 2146.945 ; gain = 483.566 ; free physical = 3899 ; free virtual = 10208
+Finished RTL Elaboration : Time (s): cpu = 00:00:02 ; elapsed = 00:00:03 . Memory (MB): peak = 2146.066 ; gain = 482.629 ; free physical = 1182 ; free virtual = 6805
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Handling Custom Attributes
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Handling Custom Attributes : Time (s): cpu = 00:00:02 ; elapsed = 00:00:03 . Memory (MB): peak = 2161.789 ; gain = 498.410 ; free physical = 3899 ; free virtual = 10208
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:03 ; elapsed = 00:00:03 . Memory (MB): peak = 2160.910 ; gain = 497.473 ; free physical = 1182 ; free virtual = 6805
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:02 ; elapsed = 00:00:03 . Memory (MB): peak = 2161.789 ; gain = 498.410 ; free physical = 3899 ; free virtual = 10208
+Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:03 ; elapsed = 00:00:03 . Memory (MB): peak = 2160.910 ; gain = 497.473 ; free physical = 1182 ; free virtual = 6805
 ---------------------------------------------------------------------------------
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2161.789 ; gain = 0.000 ; free physical = 3899 ; free virtual = 10208
+Netlist sorting complete. Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00 . Memory (MB): peak = 2160.910 ; gain = 0.000 ; free physical = 1182 ; free virtual = 6805
 INFO: [Project 1-570] Preparing netlist for logic optimization
 
 Processing XDC Constraints
@@ -97,20 +97,20 @@ Parsing XDC File [/home/09-comp-arch-m/ecen4243S25/lab2/lab2/lab2.runs/synth_1/d
 Finished Parsing XDC File [/home/09-comp-arch-m/ecen4243S25/lab2/lab2/lab2.runs/synth_1/dont_touch.xdc]
 Completed Processing XDC Constraints
 
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2234.727 ; gain = 0.000 ; free physical = 3892 ; free virtual = 10201
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2233.848 ; gain = 0.000 ; free physical = 1168 ; free virtual = 6790
 INFO: [Project 1-111] Unisim Transformation Summary:
 No Unisim elements were transformed.
 
-Constraint Validation Runtime : Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00 . Memory (MB): peak = 2234.762 ; gain = 0.000 ; free physical = 3893 ; free virtual = 10202
+Constraint Validation Runtime : Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2233.883 ; gain = 0.000 ; free physical = 1168 ; free virtual = 6790
 ---------------------------------------------------------------------------------
-Finished Constraint Validation : Time (s): cpu = 00:00:05 ; elapsed = 00:00:06 . Memory (MB): peak = 2234.762 ; gain = 571.383 ; free physical = 3907 ; free virtual = 10217
+Finished Constraint Validation : Time (s): cpu = 00:00:06 ; elapsed = 00:00:06 . Memory (MB): peak = 2233.883 ; gain = 570.445 ; free physical = 1169 ; free virtual = 6792
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Loading Part and Timing Information
 ---------------------------------------------------------------------------------
 Loading part: xc7z020clg484-1
 ---------------------------------------------------------------------------------
-Finished Loading Part and Timing Information : Time (s): cpu = 00:00:05 ; elapsed = 00:00:06 . Memory (MB): peak = 2234.762 ; gain = 571.383 ; free physical = 3907 ; free virtual = 10217
+Finished Loading Part and Timing Information : Time (s): cpu = 00:00:06 ; elapsed = 00:00:06 . Memory (MB): peak = 2233.883 ; gain = 570.445 ; free physical = 1169 ; free virtual = 6792
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Applying 'set_property' XDC Constraints
@@ -382,10 +382,10 @@ Applied set_property KEEP_HIERARCHY = SOFT for design_1_i/rst_ps7_0_50M. (constr
 Applied set_property KEEP_HIERARCHY = SOFT for design_1_i/axi_smc. (constraint file  auto generated constraint).
 Applied set_property KEEP_HIERARCHY = SOFT for design_1_i/top_0. (constraint file  auto generated constraint).
 ---------------------------------------------------------------------------------
-Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:06 ; elapsed = 00:00:06 . Memory (MB): peak = 2234.762 ; gain = 571.383 ; free physical = 3907 ; free virtual = 10217
+Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:06 ; elapsed = 00:00:06 . Memory (MB): peak = 2233.883 ; gain = 570.445 ; free physical = 1169 ; free virtual = 6792
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:06 ; elapsed = 00:00:06 . Memory (MB): peak = 2234.762 ; gain = 571.383 ; free physical = 3905 ; free virtual = 10217
+Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:06 ; elapsed = 00:00:06 . Memory (MB): peak = 2233.883 ; gain = 570.445 ; free physical = 1167 ; free virtual = 6791
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start RTL Component Statistics 
@@ -408,25 +408,25 @@ Start Cross Boundary and Area Optimization
 ---------------------------------------------------------------------------------
 WARNING: [Synth 8-7080] Parallel synthesis criteria is not met
 ---------------------------------------------------------------------------------
-Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:06 ; elapsed = 00:00:06 . Memory (MB): peak = 2234.762 ; gain = 571.383 ; free physical = 3907 ; free virtual = 10222
+Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:06 ; elapsed = 00:00:06 . Memory (MB): peak = 2233.883 ; gain = 570.445 ; free physical = 1165 ; free virtual = 6793
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Applying XDC Timing Constraints
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:08 ; elapsed = 00:00:08 . Memory (MB): peak = 2234.762 ; gain = 571.383 ; free physical = 3920 ; free virtual = 10234
+Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:08 ; elapsed = 00:00:09 . Memory (MB): peak = 2233.883 ; gain = 570.445 ; free physical = 1171 ; free virtual = 6798
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Timing Optimization
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Timing Optimization : Time (s): cpu = 00:00:08 ; elapsed = 00:00:08 . Memory (MB): peak = 2234.762 ; gain = 571.383 ; free physical = 3920 ; free virtual = 10234
+Finished Timing Optimization : Time (s): cpu = 00:00:08 ; elapsed = 00:00:09 . Memory (MB): peak = 2233.883 ; gain = 570.445 ; free physical = 1171 ; free virtual = 6798
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Technology Mapping
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Technology Mapping : Time (s): cpu = 00:00:08 ; elapsed = 00:00:08 . Memory (MB): peak = 2234.762 ; gain = 571.383 ; free physical = 3920 ; free virtual = 10234
+Finished Technology Mapping : Time (s): cpu = 00:00:08 ; elapsed = 00:00:09 . Memory (MB): peak = 2233.883 ; gain = 570.445 ; free physical = 1171 ; free virtual = 6798
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start IO Insertion
@@ -438,19 +438,19 @@ Start Final Netlist Cleanup
 Finished Final Netlist Cleanup
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished IO Insertion : Time (s): cpu = 00:00:10 ; elapsed = 00:00:10 . Memory (MB): peak = 2234.762 ; gain = 571.383 ; free physical = 3932 ; free virtual = 10245
+Finished IO Insertion : Time (s): cpu = 00:00:10 ; elapsed = 00:00:10 . Memory (MB): peak = 2233.883 ; gain = 570.445 ; free physical = 1176 ; free virtual = 6804
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Instances
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Instances : Time (s): cpu = 00:00:10 ; elapsed = 00:00:10 . Memory (MB): peak = 2234.762 ; gain = 571.383 ; free physical = 3932 ; free virtual = 10245
+Finished Renaming Generated Instances : Time (s): cpu = 00:00:10 ; elapsed = 00:00:10 . Memory (MB): peak = 2233.883 ; gain = 570.445 ; free physical = 1176 ; free virtual = 6804
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Handling Custom Attributes
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Handling Custom Attributes : Time (s): cpu = 00:00:10 ; elapsed = 00:00:10 . Memory (MB): peak = 2234.762 ; gain = 571.383 ; free physical = 3933 ; free virtual = 10247
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:10 ; elapsed = 00:00:10 . Memory (MB): peak = 2233.883 ; gain = 570.445 ; free physical = 1176 ; free virtual = 6804
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Writing Synthesis Report
@@ -479,16 +479,16 @@ Report Cell Usage:
 |6     |IBUF                          |     1|
 +------+------------------------------+------+
 ---------------------------------------------------------------------------------
-Finished Writing Synthesis Report : Time (s): cpu = 00:00:10 ; elapsed = 00:00:10 . Memory (MB): peak = 2234.762 ; gain = 571.383 ; free physical = 3933 ; free virtual = 10247
+Finished Writing Synthesis Report : Time (s): cpu = 00:00:10 ; elapsed = 00:00:10 . Memory (MB): peak = 2233.883 ; gain = 570.445 ; free physical = 1176 ; free virtual = 6804
 ---------------------------------------------------------------------------------
 Synthesis finished with 0 errors, 0 critical warnings and 1 warnings.
-Synthesis Optimization Runtime : Time (s): cpu = 00:00:09 ; elapsed = 00:00:09 . Memory (MB): peak = 2234.762 ; gain = 498.410 ; free physical = 3936 ; free virtual = 10249
-Synthesis Optimization Complete : Time (s): cpu = 00:00:10 ; elapsed = 00:00:10 . Memory (MB): peak = 2234.762 ; gain = 571.383 ; free physical = 3936 ; free virtual = 10249
+Synthesis Optimization Runtime : Time (s): cpu = 00:00:09 ; elapsed = 00:00:09 . Memory (MB): peak = 2233.883 ; gain = 497.473 ; free physical = 1176 ; free virtual = 6804
+Synthesis Optimization Complete : Time (s): cpu = 00:00:10 ; elapsed = 00:00:10 . Memory (MB): peak = 2233.883 ; gain = 570.445 ; free physical = 1176 ; free virtual = 6804
 INFO: [Project 1-571] Translating synthesized netlist
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2234.762 ; gain = 0.000 ; free physical = 4148 ; free virtual = 10461
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2233.883 ; gain = 0.000 ; free physical = 1412 ; free virtual = 7039
 INFO: [Project 1-570] Preparing netlist for logic optimization
 INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2234.762 ; gain = 0.000 ; free physical = 4219 ; free virtual = 10533
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2233.883 ; gain = 0.000 ; free physical = 1451 ; free virtual = 7078
 INFO: [Project 1-111] Unisim Transformation Summary:
 No Unisim elements were transformed.
 
@@ -496,10 +496,10 @@ Synth Design complete | Checksum: 3bbe7581
 INFO: [Common 17-83] Releasing license: Synthesis
 30 Infos, 24 Warnings, 0 Critical Warnings and 0 Errors encountered.
 synth_design completed successfully
-synth_design: Time (s): cpu = 00:00:13 ; elapsed = 00:00:12 . Memory (MB): peak = 2234.762 ; gain = 900.914 ; free physical = 4221 ; free virtual = 10534
-INFO: [Common 17-2834] synth_design peak Physical Memory [PSS] (MB): overall = 1521.352; main = 1521.352; forked = 0.000
-INFO: [Common 17-2834] synth_design peak Virtual Memory [VSS] (MB): overall = 2202.715; main = 2202.715; forked = 0.000
-Write ShapeDB Complete: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2234.762 ; gain = 0.000 ; free physical = 4221 ; free virtual = 10534
+synth_design: Time (s): cpu = 00:00:13 ; elapsed = 00:00:12 . Memory (MB): peak = 2233.883 ; gain = 899.977 ; free physical = 1451 ; free virtual = 7078
+INFO: [Common 17-2834] synth_design peak Physical Memory [PSS] (MB): overall = 1826.564; main = 1493.131; forked = 375.936
+INFO: [Common 17-2834] synth_design peak Virtual Memory [VSS] (MB): overall = 3194.062; main = 2201.836; forked = 992.227
+Write ShapeDB Complete: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2233.883 ; gain = 0.000 ; free physical = 1451 ; free virtual = 7078
 INFO: [Common 17-1381] The checkpoint '/home/09-comp-arch-m/ecen4243S25/lab2/lab2/lab2.runs/synth_1/design_1_wrapper.dcp' has been generated.
 INFO: [runtcl-4] Executing : report_utilization -file design_1_wrapper_utilization_synth.rpt -pb design_1_wrapper_utilization_synth.pb
-INFO: [Common 17-206] Exiting Vivado at Mon Mar 24 15:28:07 2025...
+INFO: [Common 17-206] Exiting Vivado at Mon Mar 24 16:26:49 2025...

@@ -49,7 +49,7 @@ initial
   begin
 string memfilename;
     //  memfilename = {"../riscvtest/test_hw2.memfile"};//riscvtest folder
-     memfilename = {"../testing/lbu.memfile"}; //testing folder
+     memfilename = {"../testing/sb.memfile"}; //testing folder
      $readmemh(memfilename, dut.imem.RAM);
      $readmemh(memfilename, dut.dmem.RAM); //initializes dmem for static values import
   end

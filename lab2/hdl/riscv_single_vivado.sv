@@ -5,7 +5,7 @@
 // 27 April 2020
 // David_Harris@hmc.edu 
 // Sarah.Harris@unlv.edu
-
+sim:/testbench/#ALWAYS#71
 // run 210
 // Expect simulator to print "Simulation succeeded"
 // when the value 25 (0x19) is written to address 100 (0x64)
@@ -39,7 +39,7 @@ module riscvsingle (input  logic        clk, reset,
      output logic [31:0] ALUResult, WriteData, StoreData,
      input  logic [31:0] ReadData,
      output logic MemStrobe,
-     output logic PCReady);
+     input logic PCReady);
 
 logic 				ALUSrcA, ALUSrcB, RegWrite, Jump, Zero;
 logic [1:0] 				ResultSrc, PCSrc; 
@@ -57,7 +57,7 @@ controller c (Instr[6:0], Instr[14:12], Instr[30],
 datapath dp (clk, reset, funct3, ResultSrc, PCSrc, ALUSrcA,
   ALUSrcB, RegWrite, ImmSrc, ALUControl,
   Zero, Less, Carryout, PC, Instr,
-  ALUResult, WriteData, StoreData, ReadData);
+  ALUResult, WriteData, StoreData, ReadData, PCReady);
 
 endmodule // riscvsingle
 
@@ -177,9 +177,10 @@ module datapath (input  logic        clk, reset,
   output logic [31:0] PC,
   input  logic [31:0] Instr,
   output logic [31:0] ALUResult, WriteData, StoreData,
-  input  logic [31:0] ReadData);
+  input  logic [31:0] ReadData,
+  input  logic        PCReady);//PCReady Added
 
-logic [31:0] 		     PCNext, PCReady, PCPlus4, PCTarget; //PCReady Added
+logic [31:0] 		     PCNext, PCPlus4, PCTarget; 
 logic [31:0] 		     ImmExt;
 logic [31:0] 		     SrcA, SrcB, SrcAIn, SrcBIn;
 logic [31:0] 		     Result;
