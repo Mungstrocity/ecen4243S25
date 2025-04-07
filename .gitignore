@@ -1,0 +1,10 @@
+work/
+*.wlf
+*.dbg
+*.qdb
+*.qpg
+*.qtl
+_dbcontainer/
+@_opt/
+_info
+_vmake
