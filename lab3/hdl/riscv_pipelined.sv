@@ -151,7 +151,7 @@ module riscv(input  logic        clk, reset,
    logic [2:0] 			 ImmSrcD;
    logic 			 ZeroE;
    logic 		 PCSrcE;
-   logic [2:0] 			 ALUControlE;
+   logic [3:0] 			 ALUControlE;
    logic 			 ALUSrcBE;
    logic 			 ALUSrcAE;
    logic 			 ResultSrcEb0;
@@ -195,7 +195,7 @@ module controller(input  logic		 clk, reset,
                   input logic 	     ZeroE,LessE, CarryoutE, 
                   // output logic [6:0] opE,
                   output logic	     PCSrcE, // for datapath and Hazard Unit
-                  output logic [2:0] ALUControlE,
+                  output logic [3:0] ALUControlE,
                   output logic 	     ALUSrcAE, 
                   output logic 	     ALUSrcBE,
                   output logic 	     ResultSrcEb0, // for Hazard Unit
@@ -225,7 +225,7 @@ module controller(input  logic		 clk, reset,
    
    // Execute stage pipeline control register and logic
    floprc #(15) controlregE(clk, reset, FlushE,
-                            {RegWriteD, ResultSrcD, MemWriteD, JumpD, BranchD, ALUControlD, ALUSrcAD, ALUSrcBD, funct3D},
+                            {RegWriteD, ResultSrcD, MemWriteD, JumpD, BranchD, ALUControlD[3:0], ALUSrcAD, ALUSrcBD, funct3D},
                             {RegWriteE, ResultSrcE, MemWriteE, JumpE, BranchE, ALUControlE, ALUSrcAE, ALUSrcBE, funct3E});
 
    //assign PCSrcE = (BranchE & ZeroE ^ funct3E[0]) | JumpE;
@@ -305,6 +305,7 @@ module aludec(input  logic       opb5,
                     ALUControl = 4'b0001; // sub
                   else          
                     ALUControl = 4'b0000; // add, addi
+                  3'b001:    ALUControl = 4'b1000; // sll
                   3'b010:    ALUControl = 4'b0101; // slt, slti
                   3'b110:    ALUControl = 4'b0011; // or, ori
                   3'b111:    ALUControl = 4'b0010; // and, andi
@@ -328,7 +329,7 @@ module datapath(input logic clk, reset,
                 input logic 	    FlushE,
                 input logic [1:0]   ForwardAE, ForwardBE,
                 input logic 	    PCSrcE,
-                input logic [2:0]   ALUControlE,
+                input logic [3:0]   ALUControlE,  // Changed from [2:0] to [3:0]
                 input logic 	    ALUSrcAE,
                 input logic 	    ALUSrcBE,
                 output logic 	    ZeroE, LessE, CarryoutE,

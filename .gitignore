@@ -8,3 +8,6 @@ _dbcontainer/
 @_opt/
 _info
 _vmake
+vsim.dbg
+transcript
+vsim.wlf
