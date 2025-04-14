@@ -94,7 +94,7 @@ initial
   begin
  string memfilename;
      // memfilename = {"../riscvtest/pipe-test.memfile"};
-     memfilename = {"../testing/auipc.memfile"};
+     memfilename = {"../testing/lw.memfile"};
  $readmemh(memfilename, dut.imem.RAM);
   end
 
