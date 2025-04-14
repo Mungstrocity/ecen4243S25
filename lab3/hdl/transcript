@@ -1,6 +1,6 @@
 # do riscv_pipelined.do
 # QuestaSim-64 vlog 2024.3_2 Compiler 2024.11 Nov 25 2024
-# Start time: 18:10:15 on Apr 14,2025
+# Start time: 18:11:29 on Apr 14,2025
 # vlog riscv_pipelined.sv 
 # -- Compiling module testbench
 # -- Compiling module top
@@ -25,10 +25,10 @@
 # 
 # Top level modules:
 # 	testbench
-# End time: 18:10:15 on Apr 14,2025, Elapsed time: 0:00:00
+# End time: 18:11:29 on Apr 14,2025, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vsim -debugdb -voptargs="+acc" work.testbench 
-# Start time: 18:10:15 on Apr 14,2025
+# Start time: 18:11:29 on Apr 14,2025
 # ** Note: (vsim-3812) Design is being optimized...
 # ** Note: (vsim-8611) Generating debug db.
 # ** Warning: (vopt-10587) Some optimizations are turned off because the +acc switch is in effect. This will cause your simulation to run slowly. Please use -access/-debug to maintain needed visibility. The +acc switch would be deprecated in a future release.
@@ -83,9 +83,7 @@
 # configure wave not supported in batch mode
 # Simulation succeeded
 # ** Note: $stop    : riscv_pipelined.sv(119)
-#    Time: 4775 ns  Iteration: 1  Instance: /testbench
+#    Time: 295 ns  Iteration: 1  Instance: /testbench
 # Break in Module testbench at riscv_pipelined.sv line 119
 # Stopped at riscv_pipelined.sv line 119
 # add schematic not supported in batch mode
-# End time: 18:10:43 on Apr 14,2025, Elapsed time: 0:00:28
-# Errors: 0, Warnings: 1
