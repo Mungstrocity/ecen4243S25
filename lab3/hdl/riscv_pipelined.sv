@@ -94,7 +94,7 @@ initial
   begin
  string memfilename;
      // memfilename = {"../riscvtest/pipe-test.memfile"};
-     memfilename = {"../testing/srl.memfile"};
+     memfilename = {"../testing/sltu.memfile"};
  $readmemh(memfilename, dut.imem.RAM);
   end
 
@@ -276,7 +276,7 @@ always_comb
     7'b1100011: controls = 13'b0_010_0_0_0_00_1_01_0; // beq, bne
     7'b0010011: controls = 13'b1_000_0_1_0_00_0_10_0; // I-type ALU
     7'b1101111: controls = 13'b1_011_0_0_0_10_0_00_1; // jal
-    7'b0110111: controls = 13'b1_100_0_1_0_11_0_00_0; // lui
+    7'b0110111: controls = 13'b1_100_1_1_0_00_0_00_0; // lui
     7'b0000000: controls = 13'b0_000_0_0_0_00_0_00_0; // need valid values at reset
     default:    controls = 13'bx_xxx_x_x_x_xx_x_xx_x; // non-implemented instruction
   endcase
@@ -299,7 +299,7 @@ always_comb
                3'b000:    ALUControl = RtypeSub ? 4'b0001 : 4'b0000;
                3'b001:    ALUControl = 4'b1000; // sll
                3'b010:    ALUControl = 4'b0101; // slt, slti
-               3'b101:    ALUControl = 4'b0111; //srl, srli
+               3'b101:    ALUControl = ~funct7b5 ?  4'b0111 : 4'b0110; //srl : sra
                3'b100:    ALUControl = 4'b0100; // xor
                3'b110:    ALUControl = 4'b0011; // or, ori
                3'b111:    ALUControl = 4'b0010; // and, andi
