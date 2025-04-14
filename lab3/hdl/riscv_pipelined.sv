@@ -92,8 +92,8 @@ module testbench();
    initial
      begin
 	string memfilename;
-        memfilename = {"../riscvtest/pipe-test.memfile"};
-        // memfilename = {"../testing/lui.memfile"};
+        // memfilename = {"../riscvtest/pipe-test.memfile"};
+        memfilename = {"../testing/bge.memfile"};
 	$readmemh(memfilename, dut.imem.RAM);
      end
    
@@ -247,7 +247,7 @@ module controller(input  logic		 clk, reset,
         case (funct3E)
           3'b000: PCSrcE = (BranchE & ZeroE);      // beq
           3'b001: PCSrcE = (BranchE & ~ZeroE)  ;    // bne
-          3'b100: PCSrcE = (BranchE & LessE) ;    // bge
+          3'b100: PCSrcE = (BranchE & ~LessE) ;    // bge
           3'b110: PCSrcE = (BranchE & CarryoutE) ; // bltu
           3'b111: PCSrcE = (BranchE & ~CarryoutE) ; // bgeu
           default: PCSrcE = 1'b0;
@@ -307,12 +307,26 @@ module aludec(input  logic       opb5,
                     ALUControl = 4'b0000; // add, addi
                   3'b001:    ALUControl = 4'b1000; // sll
                   3'b010:    ALUControl = 4'b0101; // slt, slti
+                  3'b101:    ALUControl = 4'b0111; //srl, srli
+                  3'b100:    ALUControl = 4'b0100; // xor
                   3'b110:    ALUControl = 4'b0011; // or, ori
                   3'b111:    ALUControl = 4'b0010; // and, andi
+      
                   default:   ALUControl = 4'bxxxx; // ???
 		endcase
      endcase
 endmodule
+
+// 4'b0000:  result = sum;                    // add
+//     4'b0001:  result = sum;                    // subtract
+//     4'b0010:  result = a & b;                  // and
+//     4'b0011:  result = a | b;                  // or
+//     4'b0101:  result = sum[31] ^ v;            // slt, slti
+//     4'b1010:  result = a < b;                  // sltu, sltui
+//     4'b0100:  result = a ^ b;                  // xor
+//     4'b0110:  result = $signed(a) >>> b[4:0];  // sra, srai, includes type cast on a as 'signed' to ensure sign is maintained
+//     4'b0111:  result = a >> b[4:0];            // srl, srli
+//     4'b1000:  result = a << b[4:0];            // sll, slli - Do not include signed type cast for logical
 
 module datapath(input logic clk, reset,
                 // Fetch stage signals
@@ -594,14 +608,16 @@ endmodule // dmem
 module alu(input  logic [31:0] a, b,
            input logic [3:0]   alucontrol,
            output logic [31:0] result,
-           output logic        zero, less, carryout);
+           output logic        zero, less, carryout, neg);
 
    logic [31:0] 	       condinvb, sum;
+   logic                 cout;
    logic 		       v;              // overflow
    logic 		       isAddSub;       // true when is add or sub
+   logic 		       N;              // negative
 
    assign condinvb = alucontrol[0] ? ~b : b;
-   assign sum = a + condinvb + alucontrol[0];
+   assign {cout, sum} = a + condinvb + alucontrol[0];
    assign isAddSub = ~alucontrol[2] & ~alucontrol[1] |
                      ~alucontrol[1] &  alucontrol[0];
 
@@ -625,6 +641,8 @@ module alu(input  logic [31:0] a, b,
 
    assign zero = (result == 32'b0);
    assign v = ~(alucontrol[0] ^ a[31] ^ b[31]) & (a[31] ^ sum[31]) & isAddSub;
+   assign N = sum[31]
+   assign C = cout;
    
 endmodule
 

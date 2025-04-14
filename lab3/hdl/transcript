@@ -14,7 +14,7 @@
 # //
 # do riscv_pipelined.do
 # QuestaSim-64 vlog 2024.3_2 Compiler 2024.11 Nov 25 2024
-# Start time: 10:39:42 on Apr 14,2025
+# Start time: 11:47:54 on Apr 14,2025
 # vlog -reportprogress 300 riscv_pipelined.sv 
 # -- Compiling module testbench
 # -- Compiling module top
@@ -39,14 +39,14 @@
 # 
 # Top level modules:
 # 	testbench
-# End time: 10:39:42 on Apr 14,2025, Elapsed time: 0:00:00
+# End time: 11:47:54 on Apr 14,2025, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vsim -debugdb -voptargs="+acc" work.testbench 
-# Start time: 10:39:42 on Apr 14,2025
+# Start time: 11:47:54 on Apr 14,2025
 # ** Note: (vsim-3812) Design is being optimized...
 # ** Note: (vsim-8611) Generating debug db.
 # ** Warning: (vopt-10587) Some optimizations are turned off because the +acc switch is in effect. This will cause your simulation to run slowly. Please use -access/-debug to maintain needed visibility. The +acc switch would be deprecated in a future release.
-# ** Note: (vopt-4301) Memory core inferred for signal 'RAM' width=32, depth=2048, type=RAM at location riscv_pipelined.sv:586
+# ** Note: (vopt-4301) Memory core inferred for signal 'RAM' width=32, depth=2048, type=RAM at location riscv_pipelined.sv:600
 # ** Note: (vsim-12126) Error and warning message counts have been restored: Errors=0, Warnings=1.
 # Loading sv_std.std
 # Loading work.testbench(fast)
@@ -73,3 +73,7 @@
 # Loading work.imem(fast)
 # Loading work.dmem(fast)
 # ** Note: (vsim-8900) Creating design debug database vsim.dbg.
+# Simulation failed
+# ** Note: $stop    : riscv_pipelined.sv(121)
+#    Time: 135 ns  Iteration: 1  Instance: /testbench
+# Break in Module testbench at riscv_pipelined.sv line 121
