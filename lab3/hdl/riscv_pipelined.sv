@@ -94,7 +94,7 @@ initial
   begin
  string memfilename;
      // memfilename = {"../riscvtest/pipe-test.memfile"};
-     memfilename = {"../testing/sltu.memfile"};
+     memfilename = {"../testing/srli.memfile"};
  $readmemh(memfilename, dut.imem.RAM);
   end
 
@@ -278,6 +278,7 @@ always_comb
     7'b1101111: controls = 13'b1_011_0_0_0_10_0_00_1; // jal
     7'b0110111: controls = 13'b1_100_1_1_0_00_0_00_0; // lui
     7'b0000000: controls = 13'b0_000_0_0_0_00_0_00_0; // need valid values at reset
+    7'b1100111: controls = 13'b1_000_0_1_0_10_0_00_0; // jalr
     default:    controls = 13'bx_xxx_x_x_x_xx_x_xx_x; // non-implemented instruction
   endcase
 endmodule
@@ -303,7 +304,7 @@ always_comb
                3'b100:    ALUControl = 4'b0100; // xor
                3'b110:    ALUControl = 4'b0011; // or, ori
                3'b111:    ALUControl = 4'b0010; // and, andi
-   
+               3'b011:    ALUControl = 4'b1010; // sltu, sltui
                default:   ALUControl = 4'bxxxx; // ???
      endcase
   endcase
