@@ -94,7 +94,7 @@ initial
   begin
  string memfilename;
      // memfilename = {"../riscvtest/pipe-test.memfile"};
-     memfilename = {"../testing/bge.memfile"};
+     memfilename = {"../testing/srl.memfile"};
  $readmemh(memfilename, dut.imem.RAM);
   end
 
@@ -241,22 +241,16 @@ flopr #(4) controlregM(clk, reset,
 flopr #(3) controlregW(clk, reset,
                        {RegWriteM, ResultSrcM},
                        {RegWriteW, ResultSrcW});     
-
 always_comb begin
- case (opD) //specifically catch branches
-   7'b1100011: //beq, bne
      case (funct3E)
-       3'b000: PCSrcE = (BranchE & ZeroE);      // beq
-       3'b001: PCSrcE = (BranchE & ~ZeroE)  ;    // bne
-       3'b100: PCSrcE = (BranchE & ~LessE) ;    // bge
-       3'b110: PCSrcE = (BranchE & CarryoutE) ; // bltu
-       3'b111: PCSrcE = (BranchE & ~CarryoutE) ; // bgeu
+       3'b000: PCSrcE = (BranchE & ZeroE) | JumpE;      // beq
+       3'b001: PCSrcE = (BranchE & ~ZeroE)  | JumpE;    // bne
+       3'b100: PCSrcE = (BranchE & LessE) | JumpE;    // blt
+       3'b101: PCSrcE = (BranchE & ~LessE) | JumpE;    // bge
+       3'b110: PCSrcE = (BranchE & CarryoutE) | JumpE; // bltu
+       3'b111: PCSrcE = (BranchE & ~CarryoutE) | JumpE; // bgeu
        default: PCSrcE = 1'b0;
      endcase
-   7'b1101111: PCSrcE = 1'b1; //jal
-   7'b1100111: PCSrcE = 1'b1; //jalr
-   default: PCSrcE = 1'b0;
- endcase // case (op)
 end
 endmodule
 
@@ -275,7 +269,7 @@ assign {RegWrite, ImmSrc, ALUSrcA, ALUSrcB, MemWrite,
 
 always_comb
   case(op)
-    // RegWrite_ImmSrc_ALUSrcA_ALUSrcB_MemWrite_ResultSrc_Branch_ALUOp_Jump
+    // RegWrite_ImmSrc_ALUSrcA_ALUSrcB_MemWrite_ResultSrc_Branch_ALUOp_Jump_PCTargetE
     7'b0000011: controls = 13'b1_000_0_1_0_01_0_00_0; // lw
     7'b0100011: controls = 13'b0_001_0_1_1_00_0_00_0; // sw
     7'b0110011: controls = 13'b1_0xx_0_0_0_00_0_10_0; // R-type 
@@ -302,10 +296,7 @@ always_comb
     2'b00:                ALUControl = 4'b0000; // addition
     2'b01:                ALUControl = 4'b0001; // subtraction
     default: case(funct3) // R-type or I-type ALU
-               3'b000:  if (RtypeSub) 
-                 ALUControl = 4'b0001; // sub
-               else          
-                 ALUControl = 4'b0000; // add, addi
+               3'b000:    ALUControl = RtypeSub ? 4'b0001 : 4'b0000;
                3'b001:    ALUControl = 4'b1000; // sll
                3'b010:    ALUControl = 4'b0101; // slt, slti
                3'b101:    ALUControl = 4'b0111; //srl, srli
