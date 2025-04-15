@@ -1,6 +1,6 @@
 # do riscv_pipelined.do
 # QuestaSim-64 vlog 2024.3_2 Compiler 2024.11 Nov 25 2024
-# Start time: 12:55:19 on Apr 15,2025
+# Start time: 13:43:20 on Apr 15,2025
 # vlog riscv_pipelined.sv 
 # -- Compiling module testbench
 # -- Compiling module top
@@ -23,19 +23,17 @@
 # -- Compiling module dmem
 # -- Compiling module alu
 # -- Compiling module load_logic
-# -- Compiling module store_logic
 # 
 # Top level modules:
 # 	testbench
-# 	store_logic
-# End time: 12:55:19 on Apr 15,2025, Elapsed time: 0:00:00
+# End time: 13:43:20 on Apr 15,2025, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vsim -debugdb -voptargs="+acc" work.testbench 
-# Start time: 12:55:19 on Apr 15,2025
+# Start time: 13:43:20 on Apr 15,2025
 # ** Note: (vsim-3812) Design is being optimized...
 # ** Note: (vsim-8611) Generating debug db.
 # ** Warning: (vopt-10587) Some optimizations are turned off because the +acc switch is in effect. This will cause your simulation to run slowly. Please use -access/-debug to maintain needed visibility. The +acc switch would be deprecated in a future release.
-# ** Note: (vopt-4301) Memory core inferred for signal 'RAM' width=32, depth=2048, type=RAM at location riscv_pipelined.sv:615
+# ** Note: (vopt-4301) Memory core inferred for signal 'RAM' width=32, depth=2048, type=RAM at location riscv_pipelined.sv:608
 # ** Note: (vsim-12126) Error and warning message counts have been restored: Errors=0, Warnings=1.
 # //  Questa Sim-64
 # //  Version 2024.3_2 linux_x86_64 Nov 25 2024
@@ -87,7 +85,7 @@
 # configure wave not supported in batch mode
 # Simulation succeeded
 # ** Note: $stop    : riscv_pipelined.sv(119)
-#    Time: 1265 ns  Iteration: 1  Instance: /testbench
+#    Time: 2775 ns  Iteration: 1  Instance: /testbench
 # Break in Module testbench at riscv_pipelined.sv line 119
 # Stopped at riscv_pipelined.sv line 119
 # add schematic not supported in batch mode

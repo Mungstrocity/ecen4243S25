@@ -94,7 +94,7 @@ initial
   begin
  string memfilename;
     //  memfilename = {"../riscvtest/riscvtest.memfile"};
-     memfilename = {"../testing/xori.memfile"};
+     memfilename = {"../testing/sb.memfile"};
  $readmemh(memfilename, dut.imem.RAM);
   end
 
@@ -421,15 +421,8 @@ flopr  #(104) regM(clk, reset,
                    {ALUResultM, WriteDataM, RdM, PCPlus4M, funct3M});
 
 // Add store handling for memory writes
-logic [31:0] StoreData;
-// store store_handler(
-//     .ALUResult(ALUResultM),
-//     .Result(WriteDataM),
-//     .Memwrite(MemWriteM),
-//     .funct3(funct3M),
-//     .ResultStore(StoreData)
-// );
-//assign WriteDataM = StoreData;
+// logic [31:0] StoreData;
+
 
 // Writeback stage pipeline register and logic
 flopr  #(104) regW(clk, reset, 
@@ -698,32 +691,3 @@ module load_logic (input logic [31:0] ALUResult, ReadData,
              
 endmodule
 
-module store_logic (input logic [31:0] ALUResult, Result,
-			        input logic Memwrite,
-              input logic [2:0] funct3,
-              output logic [31:0] ResultStore);
- 
-     logic [1:0]    byte_enc;
-
-     assign byte_enc = ALUResult[1:0];
- 
- if(Memwrite)
-     always_comb
-        case(funct3)
-         3'b000: case(byte_enc) // sb
-           2'b00: ResultStore = {{{Result[31:8]}}, Result[7:0]};
-           2'b01: ResultStore = {{{Result[31:16]}}, Result[7:0], Result[7:0]};
-           2'b10: ResultStore = {{{Result[31:24]}}, Result[7:0], Result[15:0]};
-           2'b11: ResultStore = {{{Result[7:0]}}, Result[23:0]};
-           default: ResultStore = 32'bx;
-           endcase
-         3'b001:  case(byte_enc[1]) // sh
-             1'b0:  ResultStore = {{{Result[31:16]}}, Result[15:0]};
-             1'b1:  ResultStore = {{{Result[31:16]}}, Result[15:0]};
-             default: ResultStore = 32'bx;
-             endcase
-         3'b010:  ResultStore = Result; // sw
-         default: ResultStore = 32'bx;
-         endcase
-             
-endmodule
