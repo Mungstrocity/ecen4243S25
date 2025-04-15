@@ -30,3 +30,5 @@ wait_on_run synth_1
 update_module_reference design_1_top_0_0
 source setup.tcl
 update_module_reference design_1_top_0_0
+setup.tcl
+source setup.tcl

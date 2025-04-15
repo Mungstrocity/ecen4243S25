@@ -27,6 +27,18 @@ sll test passed
 bne test passed
 srl retested
 
+## ALL TEST PASSED
+
+## Hardware Implementation
+top module removed
+tb removed
+imem removed
+dmem removed
+
+top.v updated from riscv_pipelined.sv
+
+synthesis error: module "riscv" not found
+
 
 
 
