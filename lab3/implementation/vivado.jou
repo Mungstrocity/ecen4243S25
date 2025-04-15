@@ -1,0 +1,32 @@
+#-----------------------------------------------------------
+# Vivado v2023.2 (64-bit)
+# SW Build 4029153 on Fri Oct 13 20:13:54 MDT 2023
+# IP Build 4028589 on Sat Oct 14 00:45:43 MDT 2023
+# SharedData Build 4025554 on Tue Oct 10 17:18:54 MDT 2023
+# Start of session at: Tue Apr 15 14:19:39 2025
+# Process ID: 403199
+# Current directory: /home/09-comp-arch-m/ecen4243S25/lab3/implementation
+# Command line: vivado
+# Log file: /home/09-comp-arch-m/ecen4243S25/lab3/implementation/vivado.log
+# Journal file: /home/09-comp-arch-m/ecen4243S25/lab3/implementation/vivado.jou
+# Running On: CEAT-ENDV350-09L, OS: Linux, CPU Frequency: 5092.535 MHz, CPU Physical cores: 14, Host memory: 16437 MB
+#-----------------------------------------------------------
+start_gui
+open_project /home/09-comp-arch-m/ecen4243S25/lab3/implementation/lab2.xpr
+update_compile_order -fileset sources_1
+pwd
+cd ../
+cd scripts
+ls
+source setup.tcl
+source setup.tcl
+source setup.tcl
+update_module_reference design_1_top_0_0
+source setup.tcl
+reset_run design_1_top_0_0_synth_1
+reset_run synth_1
+launch_runs synth_1 -jobs 10
+wait_on_run synth_1
+update_module_reference design_1_top_0_0
+source setup.tcl
+update_module_reference design_1_top_0_0
