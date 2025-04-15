@@ -93,8 +93,8 @@ top dut(clk, reset, WriteData, DataAdr, MemWrite);
 initial
   begin
  string memfilename;
-     // memfilename = {"../riscvtest/pipe-test.memfile"};
-     memfilename = {"../testing/lw.memfile"};
+    //  memfilename = {"../riscvtest/riscvtest.memfile"};
+     memfilename = {"../testing/xori.memfile"};
  $readmemh(memfilename, dut.imem.RAM);
   end
 
@@ -218,6 +218,8 @@ logic [3:0] 			     ALUControlD;
 logic 			     ALUSrcAD;
 logic 			     ALUSrcBD;
 logic [2:0]     funct3E;
+logic [2:0]     funct3M;
+logic [2:0]     funct3W;
 
 // Decode stage logic
 maindec md(opD, ResultSrcD, MemWriteD, BranchD,
@@ -225,15 +227,15 @@ maindec md(opD, ResultSrcD, MemWriteD, BranchD,
 aludec  ad(opD[5], funct3D, funct7b5D, ALUOpD, ALUControlD);
 
 // Execute stage pipeline control register and logic
-floprc #(15) controlregE(clk, reset, FlushE,
-                         {RegWriteD, ResultSrcD, MemWriteD, JumpD, BranchD, ALUControlD[3:0], ALUSrcAD, ALUSrcBD, funct3D},
-                         {RegWriteE, ResultSrcE, MemWriteE, JumpE, BranchE, ALUControlE, ALUSrcAE, ALUSrcBE, funct3E});
+floprc #(12) controlregE(clk, reset, FlushE,
+                         {RegWriteD, ResultSrcD, MemWriteD, JumpD, BranchD, ALUControlD[3:0], ALUSrcAD, ALUSrcBD},
+                         {RegWriteE, ResultSrcE, MemWriteE, JumpE, BranchE, ALUControlE, ALUSrcAE, ALUSrcBE});
 
 //assign PCSrcE = (BranchE & ZeroE ^ funct3E[0]) | JumpE;
 assign ResultSrcEb0 = ResultSrcE[0];
 
 // Memory stage pipeline control register
-flopr #(4) controlregM(clk, reset,
+flopr #(4) controlregM(clk, reset, // Updated WIDTH to 4
                        {RegWriteE, ResultSrcE, MemWriteE},
                        {RegWriteM, ResultSrcM, MemWriteM});
 
@@ -270,7 +272,7 @@ assign {RegWrite, ImmSrc, ALUSrcA, ALUSrcB, MemWrite,
 always_comb
   case(op)
     // RegWrite_ImmSrc_ALUSrcA_ALUSrcB_MemWrite_ResultSrc_Branch_ALUOp_Jump_PCTargetE
-    7'b0000011: controls = 13'b1_000_0_1_0_01_0_00_0; // lw
+    7'b0000011: controls = 13'b1_000_0_1_0_01_0_00_0; // all loads (lw, lh, lb)
     7'b0100011: controls = 13'b0_001_0_1_1_00_0_00_0; // sw
     7'b0110011: controls = 13'b1_0xx_0_0_0_00_0_10_0; // R-type 
     7'b1100011: controls = 13'b0_010_0_0_0_00_1_01_0; // beq, bne
@@ -368,13 +370,19 @@ logic [31:0] 		    WriteDataE;
 logic [31:0]         SrcAEforward;    //Output
 logic [31:0] 		    PCPlus4E;
 logic [31:0] 		    PCTargetE;
+logic [2:0]           funct3E;      // Add with other Execute stage signals
 // Memory stage signals
 logic [31:0] 		    PCPlus4M;
+logic [2:0]           funct3M;      // Add with other Memory stage signals
 // Writeback stage signals
 logic [31:0] 		    ALUResultW;
 logic [31:0] 		    ReadDataW;
 logic [31:0] 		    PCPlus4W;
 logic [31:0] 		    ResultW;
+logic [2:0]           funct3W;  // Add this with other writeback stage signals
+logic [31:0]          LoadResult;
+logic [1:0]           LoadOffset;
+logic [31:0]          LoadData;
 
 // Fetch stage pipeline register and logic
 mux2    #(32) pcmux(PCPlus4F, PCTargetE, PCSrcE, PCNextF);
@@ -382,23 +390,23 @@ flopenr #(32) pcreg(clk, reset, ~StallF, PCNextF, PCF);
 adder         pcadd(PCF, 32'h4, PCPlus4F);
 
 // Decode stage pipeline register and logic
-flopenrc #(96) regD(clk, reset, FlushD, ~StallD, 
-                    {InstrF, PCF, PCPlus4F},
-                    {InstrD, PCD, PCPlus4D});
+flopenrc #(99) regD(clk, reset, FlushD, ~StallD, 
+                    {InstrF, PCF, PCPlus4F, InstrF[14:12]}, // add funct3D
+                    {InstrD, PCD, PCPlus4D, funct3D});
 assign opD       = InstrD[6:0];
-assign funct3D   = InstrD[14:12];
+// funct3D is assigned via regD pipeline register output above
 assign funct7b5D = InstrD[30];
 assign Rs1D      = InstrD[19:15];
 assign Rs2D      = InstrD[24:20];
 assign RdD       = InstrD[11:7];
 
-regfile        rf(clk, RegWriteW, Rs1D, Rs2D, RdW, ResultW, RD1D, RD2D);
+regfile        rf(clk, RegWriteW, Rs1D, Rs2D, RdW, ResultW, RD1D, RD2D); // RdW and ResultW come from regW pipeline register
 extend         ext(InstrD[31:7], ImmSrcD, ImmExtD);
 
 // Execute stage pipeline register and logic
-floprc #(175) regE(clk, reset, FlushE, 
-                   {RD1D, RD2D, PCD, Rs1D, Rs2D, RdD, ImmExtD, PCPlus4D}, 
-                   {RD1E, RD2E, PCE, Rs1E, Rs2E, RdE, ImmExtE, PCPlus4E});
+floprc #(178) regE(clk, reset, FlushE, 
+                   {RD1D, RD2D, PCD, Rs1D, Rs2D, RdD, ImmExtD, PCPlus4D, funct3D}, 
+                   {RD1E, RD2E, PCE, Rs1E, Rs2E, RdE, ImmExtE, PCPlus4E, funct3E});
 
 mux3   #(32)  faemux(RD1E, ResultW, ALUResultM, ForwardAE, SrcAEforward);
 mux3   #(32)  fbemux(RD2E, ResultW, ALUResultM, ForwardBE, WriteDataE);
@@ -407,35 +415,49 @@ mux2   #(32)  srcbmux(WriteDataE, ImmExtE, ALUSrcBE, SrcBE);
 alu           alu(SrcAE, SrcBE, ALUControlE, ALUResultE, ZeroE, LessE, CarryoutE);
 adder         branchadd(ImmExtE, PCE, PCTargetE);
 
-
-
-
-
-// module mux2 #(parameter WIDTH = 8)
-//    (input  logic [WIDTH-1:0] d0, d1, 
-//     input logic 	     s, 
-//     output logic [WIDTH-1:0] y);
-
-//    assign y = s ? d1 : d0; 
-// endmodule
-
-
-
-
-
 // Memory stage pipeline register
-flopr  #(101) regM(clk, reset, 
-                   {ALUResultE, WriteDataE, RdE, PCPlus4E},
-                   {ALUResultM, WriteDataM, RdM, PCPlus4M});
+flopr  #(104) regM(clk, reset, 
+                   {ALUResultE, WriteDataE, RdE, PCPlus4E, funct3E},
+                   {ALUResultM, WriteDataM, RdM, PCPlus4M, funct3M});
+
+// Add store handling for memory writes
+logic [31:0] StoreData;
+// store store_handler(
+//     .ALUResult(ALUResultM),
+//     .Result(WriteDataM),
+//     .Memwrite(MemWriteM),
+//     .funct3(funct3M),
+//     .ResultStore(StoreData)
+// );
+//assign WriteDataM = StoreData;
 
 // Writeback stage pipeline register and logic
-flopr  #(101) regW(clk, reset, 
-                   {ALUResultM, ReadDataM, RdM, PCPlus4M},
-                   {ALUResultW, ReadDataW, RdW, PCPlus4W});
-mux3   #(32)  resultmux(ALUResultW, ReadDataW, PCPlus4W, ResultSrcW, ResultW);	
+flopr  #(104) regW(clk, reset, 
+                   {ALUResultM, ReadDataM, RdM, PCPlus4M, funct3M},
+                   {ALUResultW, ReadDataW, RdW, PCPlus4W, funct3W});
+
+
+
+load_logic load_handler(
+    // dot notation to avoid errors due to ordering
+    .ALUResult(ALUResultW),
+    .ReadData(ReadDataW),
+    .funct3(funct3W),
+    .LoadData(LoadData)
+);
+mux3   #(32)  resultmux(ALUResultW, LoadData, PCPlus4W, ResultSrcW, ResultW);	
+
+// Debug output for load-use hazard and writeback
+// always_ff @(posedge clk) begin
+//     if (!reset) begin
+//         $display("PCF=%h InstrF=%h InstrD=%h opD=%b funct3D=%b Rs1D=%d Rs2D=%d RdD=%d", PCF, InstrF, InstrD, opD, funct3D, Rs1D, Rs2D, RdD);
+//         $display("RegWriteW=%b RdW=%d ResultW=%h", RegWriteW, RdW, ResultW);
+//         $display("ALUResultM=%h ReadDataM=%h ResultSrcW=%b", ALUResultM, ReadDataM, ResultSrcW);
+//         $display("StallF=%b StallD=%b FlushD=%b FlushE=%b", StallF, StallD, FlushD, FlushE);
+//     end
+// end
+
 endmodule
-
-
 
 //DONT TOUCH
 // Hazard Unit: forward, stall, and flush
@@ -635,3 +657,73 @@ assign v = ~(alucontrol[0] ^ a[31] ^ b[31]) & (a[31] ^ sum[31]) & isAddSub;
 
 endmodule
 
+
+module load_logic (input logic [31:0] ALUResult, ReadData,
+                     input logic [2:0] funct3,
+                     output logic [31:0] LoadData);
+ 
+     logic [1:0]    byte_enc;
+
+     assign byte_enc = ALUResult[1:0];
+ 
+     always_comb
+        case(funct3)
+         3'b000: case(byte_enc) // lb
+           2'b00: LoadData = {{24{ReadData[7]}}, ReadData[7:0]};
+           2'b01: LoadData = {{24{ReadData[15]}}, ReadData[15:8]};
+           2'b10: LoadData = {{24{ReadData[23]}}, ReadData[23:16]};
+           2'b11: LoadData = {{24{ReadData[31]}}, ReadData[31:24]};
+           default: LoadData = 32'bx;
+           endcase
+         3'b001:  case(byte_enc[1]) // lh
+             1'b0:  LoadData = {{16{ReadData[15]}}, ReadData[15:0]};
+             1'b1:  LoadData = {{16{ReadData[31]}}, ReadData[31:16]};
+             default: LoadData = 32'bx;
+             endcase
+         3'b010:  LoadData = ReadData; // lw
+         3'b100: case(byte_enc) // lbu
+           2'b00: LoadData = {{24{1'b0}}, ReadData[7:0]};
+           2'b01: LoadData = {{24{1'b0}}, ReadData[15:8]};
+           2'b10: LoadData = {{24{1'b0}}, ReadData[23:16]};
+           2'b11: LoadData = {{24{1'b0}}, ReadData[31:24]};
+           default: LoadData = 32'bx;
+           endcase
+         3'b101:  case(byte_enc[1]) // lhu
+             1'b0:  LoadData = {{16{1'b0}}, ReadData[15:0]};
+             1'b1:  LoadData = {{16{1'b0}}, ReadData[31:16]};
+             default: LoadData = 32'bx;
+             endcase
+         default: LoadData = 32'bx;
+         endcase
+             
+endmodule
+
+module store_logic (input logic [31:0] ALUResult, Result,
+			        input logic Memwrite,
+              input logic [2:0] funct3,
+              output logic [31:0] ResultStore);
+ 
+     logic [1:0]    byte_enc;
+
+     assign byte_enc = ALUResult[1:0];
+ 
+ if(Memwrite)
+     always_comb
+        case(funct3)
+         3'b000: case(byte_enc) // sb
+           2'b00: ResultStore = {{{Result[31:8]}}, Result[7:0]};
+           2'b01: ResultStore = {{{Result[31:16]}}, Result[7:0], Result[7:0]};
+           2'b10: ResultStore = {{{Result[31:24]}}, Result[7:0], Result[15:0]};
+           2'b11: ResultStore = {{{Result[7:0]}}, Result[23:0]};
+           default: ResultStore = 32'bx;
+           endcase
+         3'b001:  case(byte_enc[1]) // sh
+             1'b0:  ResultStore = {{{Result[31:16]}}, Result[15:0]};
+             1'b1:  ResultStore = {{{Result[31:16]}}, Result[15:0]};
+             default: ResultStore = 32'bx;
+             endcase
+         3'b010:  ResultStore = Result; // sw
+         default: ResultStore = 32'bx;
+         endcase
+             
+endmodule
